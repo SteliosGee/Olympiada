@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { MapPin } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import L from 'leaflet';
+import L, { LatLngTuple } from 'leaflet';
 import { 
   FaCocktail,
   FaUtensils,
@@ -67,38 +67,44 @@ export default function OlympiadaMap() {
     setIsMounted(true);
   }, []);
 
-  const attractions = [
+  const attractions: {
+    name: string;
+    position: LatLngTuple; // This ensures it's always [number, number]
+    type: string;
+    description: string;
+    image: string;
+  }[] = [
     { 
       name: "Main Beach", 
-      position: [40.5912, 23.7971], 
+      position: [40.5912, 23.7971] as LatLngTuple,
       type: "nature",
       description: "Beautiful sandy beach with crystal clear waters",
       image: "/assets/gallery/image1.jpg" 
     },
     { 
       name: "Ancient Stagira", 
-      position: [40.5953, 23.7969], 
+      position: [40.5953, 23.7969] as LatLngTuple,
       type: "historical",
       description: "Birthplace of Aristotle with well-preserved ruins",
       image: "/assets/gallery/image2.jpg" 
     },
     { 
       name: "Perroquet", 
-      position: [40.59294305187765, 23.783197991770713], 
+      position: [40.59294305187765, 23.783197991770713] as LatLngTuple,
       type: "beachbar",
       description: "Beach bar with amazing cocktails and sunset views",
       image: "/assets/dining/perroquet/primer.jpg" 
     },
     { 
       name: "Molos", 
-      position: [40.5925, 23.7980], 
+      position: [40.5925, 23.7980] as LatLngTuple,
       type: "dining",
       description: "Pizza and pasta restaurant with sea views",
       image: "/assets/dining/molos/primer.jpg" 
     },
     { 
       name: "Akroyali", 
-      position: [40.59068547068111, 23.786222506316822], 
+      position: [40.59068547068111, 23.786222506316822] as LatLngTuple,
       type: "dining",
       description: "Traditional Greek taverna with fresh seafood",
       image: "/assets/dining/akroyali/primer.jpg" 
@@ -159,17 +165,21 @@ export default function OlympiadaMap() {
             </div>
           )}
         </div>
-        <div className="mt-8 flex justify-center gap-8">
+        <div className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-3 px-4">
           <div className="flex items-center gap-2">
             <FaUmbrellaBeach className="text-blue-500 text-lg" />
             <span className="text-sm">Beaches</span>
           </div>
           <div className="flex items-center gap-2">
-            <FaUtensils className="text-amber-500 text-lg" />
+            <FaMapMarkerAlt className="text-amber-500 text-lg" />
             <span className="text-sm">Historical Sites</span>
           </div>
           <div className="flex items-center gap-2">
-            <FaCocktail className="text-green-500 text-lg" />
+            <FaUtensils className="text-green-500 text-lg" />
+            <span className="text-sm">Restaurants</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <FaCocktail className="text-blue-500 text-lg" />
             <span className="text-sm">Beach Bars</span>
           </div>
         </div>

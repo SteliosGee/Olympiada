@@ -114,17 +114,19 @@ function MenuModal({
         
         <div className="mt-6">
           <Tabs defaultValue={categories[0]} value={activeCategory} onValueChange={setActiveCategory}>
-            <TabsList className="w-full flex justify-between mb-4">
-              {categories.map(category => (
-                <TabsTrigger
-                  key={category}
-                  value={category}
-                  className="flex-1 text-sm"
-                >
-                  {category}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+            <div className="overflow-x-auto pb-2">
+              <TabsList className="w-full flex justify-between mb-4 min-w-[400px]">
+                {categories.map(category => (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    className="flex-1 text-xs md:text-sm whitespace-nowrap"
+                  >
+                    {category}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
             
             {categories.map(category => (
               <TabsContent key={category} value={category} className="px-1">

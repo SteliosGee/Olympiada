@@ -34,27 +34,27 @@ export default function Home() {
       {/* Lightbox */}
       {lightboxImage && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-2 sm:p-4"
           onClick={() => setLightboxImage(null)}
         >
-          <div className="relative max-h-[90vh] max-w-[90vw]">
+          <div className="relative max-h-[95vh] max-w-[95vw] sm:max-h-[90vh] sm:max-w-[90vw]">
             <div className="relative h-auto w-auto">
               <Image
                 src={lightboxImage}
                 alt="Gallery image"
                 width={800}
                 height={600}
-                className="max-h-[80vh] rounded-md object-contain"
+                className="max-h-[85vh] rounded-md object-contain"
               />
             </div>
             <button
-              className="absolute -right-4 -top-4 rounded-full bg-white p-2 shadow-lg"
+              className="absolute -right-2 -top-2 sm:-right-4 sm:-top-4 rounded-full bg-white p-1 sm:p-2 shadow-lg"
               onClick={(e) => {
                 e.stopPropagation();
                 setLightboxImage(null);
               }}
             >
-              <X className="h-6 w-6" />
+              <X className="h-4 w-4 sm:h-6 sm:w-6" />
               <span className="sr-only">Close</span>
             </button>
           </div>
@@ -62,15 +62,15 @@ export default function Home() {
       )}
 
       <header className="sticky top-0 z-50 bg-white shadow-sm w-full bg-opacity-80">
-        <div className="flex py-4">
+        <div className="container mx-auto flex items-center justify-between py-4 px-4 md:px-8">
           <Link
             href="/"
-            className="flex items-center gap-2 text-xl font-bold ml-20"
+            className="flex items-center gap-2 text-xl font-bold"
           >
             <Anchor className="h-6 w-6" />
             <span>Olympiada</span>
           </Link>
-          <nav className="hidden md:flex gap-4 ml-auto mr-20">
+          <nav className="hidden md:flex gap-4">
             <Link
               href="#about"
               className="text-sm font-medium hover:underline underline-offset-4"
@@ -111,38 +111,120 @@ export default function Home() {
           </nav>
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button variant="ghost" size="icon" className="md:hidden mr-4">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
+            <SheetContent side="right" className="w-[75%] sm:w-[350px]">
+              <div className="flex flex-col gap-6 pt-10">
+                <Link
+                  href="#about"
+                  className="text-lg font-medium hover:text-blue-600 transition-colors"
+                  onClick={() =>
+                    document
+                      .querySelector('[data-state="open"]')
+                      ?.dispatchEvent(new Event("close", { bubbles: true }))
+                  }
+                >
+                  About
+                </Link>
+                <Link
+                  href="#history"
+                  className="text-lg font-medium hover:text-blue-600 transition-colors"
+                  onClick={() =>
+                    document
+                      .querySelector('[data-state="open"]')
+                      ?.dispatchEvent(new Event("close", { bubbles: true }))
+                  }
+                >
+                  History
+                </Link>
+                <Link
+                  href="#activities"
+                  className="text-lg font-medium hover:text-blue-600 transition-colors"
+                  onClick={() =>
+                    document
+                      .querySelector('[data-state="open"]')
+                      ?.dispatchEvent(new Event("close", { bubbles: true }))
+                  }
+                >
+                  Activities
+                </Link>
+                <Link
+                  href="#accommodations"
+                  className="text-lg font-medium hover:text-blue-600 transition-colors"
+                  onClick={() =>
+                    document
+                      .querySelector('[data-state="open"]')
+                      ?.dispatchEvent(new Event("close", { bubbles: true }))
+                  }
+                >
+                  Stay
+                </Link>
+                <Link
+                  href="#gallery"
+                  className="text-lg font-medium hover:text-blue-600 transition-colors"
+                  onClick={() =>
+                    document
+                      .querySelector('[data-state="open"]')
+                      ?.dispatchEvent(new Event("close", { bubbles: true }))
+                  }
+                >
+                  Gallery
+                </Link>
+                <Link
+                  href="#dining"
+                  className="text-lg font-medium hover:text-blue-600 transition-colors"
+                  onClick={() =>
+                    document
+                      .querySelector('[data-state="open"]')
+                      ?.dispatchEvent(new Event("close", { bubbles: true }))
+                  }
+                >
+                  Dining
+                </Link>
+                <Link
+                  href="#map"
+                  className="text-lg font-medium hover:text-blue-600 transition-colors"
+                  onClick={() =>
+                    document
+                      .querySelector('[data-state="open"]')
+                      ?.dispatchEvent(new Event("close", { bubbles: true }))
+                  }
+                >
+                  Map
+                </Link>
+              </div>
+            </SheetContent>
           </Sheet>
         </div>
       </header>
       <main className="flex-1 w-full">
         {/* Hero Section */}
-        <section className="relative w-screen h-[80vh]">
+        <section className="relative w-full h-[80vh]">
           <Image
             src="/assets/banner.jpg"
             alt="Olympiada Village"
-            layout="fill"
-            className="object-cover"
+            fill
             priority
+            sizes="100vw"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-black/40" />
-          <div className="relative z-10 flex h-full flex-col items-center justify-center text-center text-white px-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+          <div className="absolute inset-0 flex h-full flex-col items-center justify-center text-center text-white px-4 sm:px-8">
+            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl max-w-[90%] sm:max-w-3xl">
               Welcome to Olympiada
             </h1>
-            <p className="mt-4 max-w-2xl text-lg sm:text-xl">
+            <p className="mt-4 max-w-xs sm:max-w-sm md:max-w-2xl text-base sm:text-lg">
               Discover the hidden gem of the Mediterranean coast, where history
               meets natural beauty
             </p>
-            <div className="mt-8 flex gap-4">
+            <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-4">
               <Button
                 asChild
                 size="lg"
-                className="bg-blue-600 hover:bg-blue-700"
+                className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
               >
                 <Link href="#accommodations">Book Your Stay</Link>
               </Button>
@@ -150,7 +232,7 @@ export default function Home() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="bg-white/10 text-white hover:bg-white/20"
+                className="bg-white/10 text-white hover:bg-white/20 w-full sm:w-auto"
               >
                 <Link href="#about">Explore</Link>
               </Button>
@@ -521,16 +603,14 @@ export default function Home() {
           </div>
         </section>
 
-
-
         {/* Dining Section */}
         <DiningSection />
 
         {/* Map Section */}
         <OlympiadaMap />
 
-                {/* Gallery Section */}
-                <section id="gallery" className="py-16 md:py-24">
+        {/* Gallery Section */}
+        <section id="gallery" className="py-16 md:py-24">
           <div className="container mx-auto">
             <div className="mx-auto max-w-3xl text-center">
               <Camera className="mx-auto h-10 w-10 text-blue-600" />
@@ -541,7 +621,7 @@ export default function Home() {
                 Explore the beauty of Olympiada through our photo gallery
               </p>
             </div>
-            <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+            <div className="mt-10 md:mt-12 grid grid-cols-2 gap-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
               {galleryImages.map((image, index) => (
                 <div
                   key={index}
@@ -552,7 +632,7 @@ export default function Home() {
                     src={image}
                     alt={`Gallery Image ${index + 1}`}
                     fill
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
                   />
                 </div>
