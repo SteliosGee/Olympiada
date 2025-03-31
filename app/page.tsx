@@ -18,6 +18,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
 import DiningSection from "@/components/DiningSection";
 import OlympiadaMap from "@/components/Map";
+import AccommodationsSection from  "@/components/AccommodationsSection";
 
 export default function Home() {
   const galleryImages = [
@@ -31,25 +32,27 @@ export default function Home() {
   // Define all accommodations
   const accommodations = [
     {
-      title: "Traditional Guesthouse",
+      title: "Liotopi",
       description: "Experience authentic Greek hospitality in our traditional stone guesthouse.",
-      image: "/assets/accommodations/guesthouse.jpg",
-      price: "€80",
-      amenities: ["Free WiFi", "Breakfast included", "Sea view"],
+      image: "/assets/accommodations/liotopi/primer.jpg",
+      price: "146€",
+      amenities: ["Free WiFi", "Breakfast included", "Beachfront", "Airport shuttle", "Room service", "Non-smoking rooms",
+        "Restaurant", "Family rooms", "Bar"
+      ],
     },
     {
-      title: "Beachfront Villa",
+      title: "Evelyn Rooms",
       description: "Luxury villa with direct access to the beach and stunning sea views.",
-      image: "/assets/accommodations/villa.jpg",
-      price: "€180",
-      amenities: ["Private pool", "Air conditioning", "Fully equipped kitchen"],
+      image: "/assets/accommodations/evelyn/primer.jpg",
+      price: "77€",
+      amenities: ["Free parking", "Free WiFi"],
     },
     {
-      title: "Modern Apartment",
+      title: "Villa Yanna",
       description: "Comfortable apartment with all modern amenities in the center of Olympiada.",
-      image: "/assets/accommodations/apartment.jpg",
-      price: "€65",
-      amenities: ["Free parking", "Air conditioning", "Washing machine"],
+      image: "/assets/accommodations/yanna/primer.jpg",
+      price: "€62",
+      amenities: ["Free parking", "Free WiFi", "None-smoking rooms", "Room service"],
     },
     {
       title: "Seaside Bungalow",
@@ -500,85 +503,8 @@ export default function Home() {
           </div>
         </section>
 
-      {/* In your accommodations section: */}
-      <section id="accommodations" className="bg-slate-50 py-16 md:py-24 w-full">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl text-center mb-12">
-            <Calendar className="mx-auto h-10 w-10 text-blue-600" />
-            <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Where to Stay
-            </h2>
-            <p className="mt-4 text-muted-foreground">
-              From traditional guesthouses to beachfront villas, find your perfect accommodation
-            </p>
-          </div>
-          
-          <div className="grid gap-6 md:grid-cols-3">
-            {/* Initial accommodations */}
-            {initialAccommodations.map((accommodation, index) => (
-              <div key={`accommodation-${index}`} className="rounded-lg border bg-white overflow-hidden">
-                <div className="relative h-48">
-                  <Image
-                    src={accommodation.image}
-                    alt={accommodation.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold">{accommodation.title}</h3>
-                  <p className="mt-2 text-muted-foreground">{accommodation.description}</p>
-                  <div className="mt-4 flex items-center justify-between">
-                    <p className="font-bold">From {accommodation.price} / night</p>
-                    <Button asChild variant="outline">
-                      <Link href="#">Details</Link>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {/* Additional accommodations when "View More" is clicked */}
-          {showMoreAccommodations && (
-            <div className="grid gap-6 md:grid-cols-3 mt-6">
-              {additionalAccommodations.map((accommodation, index) => (
-                <div key={`more-accommodation-${index}`} className="rounded-lg border bg-white overflow-hidden">
-                  <div className="relative h-48">
-                    <Image
-                      src={accommodation.image}
-                      alt={accommodation.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold">{accommodation.title}</h3>
-                    <p className="mt-2 text-muted-foreground">{accommodation.description}</p>
-                    <div className="mt-4 flex items-center justify-between">
-                      <p className="font-bold">From {accommodation.price} / night</p>
-                      <Button asChild variant="outline">
-                        <Link href="#">Details</Link>
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          
-          {/* View More button */}
-          <div className="mt-8 text-center">
-            <Button 
-              onClick={() => setShowMoreAccommodations(!showMoreAccommodations)}
-              variant="outline"
-              className="mx-auto"
-            >
-              {showMoreAccommodations ? "Show Less" : "View More Accommodations"}
-            </Button>
-          </div>
-        </div>
-      </section>
+        {/* Accommodations Section */}
+        <AccommodationsSection/>
 
         {/* Dining Section */}
         <DiningSection />
