@@ -97,7 +97,7 @@ export default function OlympiadaMap() {
     },
     { 
       name: "Molos", 
-      position: [40.5925, 23.7980] as LatLngTuple,
+      position: [40.59141872158969, 23.784645615961026] as LatLngTuple,
       type: "dining",
       description: "Pizza and pasta restaurant with sea views",
       image: "/assets/dining/molos/primer.jpg" 
@@ -109,6 +109,69 @@ export default function OlympiadaMap() {
       description: "Traditional Greek taverna with fresh seafood",
       image: "/assets/dining/akroyali/primer.jpg" 
     },
+    {
+      name: "Apoplous", 
+      position: [40.59379218400287, 23.782113176882884] as LatLngTuple,
+      type: "beachbar",
+      description: "Beach bar with cocktails and snacks",
+      image: "/assets/dining/apoplous/primer.jpg"
+    },
+    {
+      name: "Vertigo", 
+      position: [40.5922604326194, 23.783617495633123] as LatLngTuple,
+      type: "beachbar",
+      description: "Beach bar with cocktails and snacks",
+      image: "/assets/dining/vertigo/primer.png"
+    },
+    {
+      name: "Kuzina", 
+      position: [40.59201695098855, 23.783835493051846] as LatLngTuple,
+      type: "dining",
+      description: "Mediterranean restaurant with a modern twist",
+      image: "/assets/dining/kuzina/primer.png"
+    },
+    {
+      name: "Passepartout", 
+      position: [40.59162953826354, 23.78433944768181] as LatLngTuple,
+      type: "beachbar",
+      description: "Beach bar with cocktails and snacks",
+      image: "/assets/dining/passepartout/primer.png"
+    },
+    {
+      name: "Karavopetra", 
+      position: [40.59154482305826, 23.784478123340524] as LatLngTuple,
+      type: "dining",
+      description: "Traditional Greek taverna with fresh seafood",
+      image: "/assets/dining/karavopetra/primer.jpg"
+    },
+    {
+      name: "Kapetan Manolis", 
+      position: [40.591157322104884, 23.78479545336988] as LatLngTuple,
+      type: "dining",
+      description: "Traditional Greek taverna with fresh seafood",
+      image: "/assets/dining/kapetanmanolis/primer.jpg"
+    },
+    {
+      name: "Liberty", 
+      position: [40.59089815814047, 23.78533789496009] as LatLngTuple,
+      type: "dining",
+      description: "Fresh coffee and pastries with sea views",
+      image: "/assets/dining/liberty/primer.png"
+    },
+    {
+      name: "Olympic", 
+      position: [40.590723963482766, 23.786023063131626] as LatLngTuple,
+      type: "dining",
+      description: "Traditional Greek taverna with fresh seafood",
+      image: "/assets/dining/olympic/primer.jpg"
+    },
+    {
+      name: "Yiasemi", 
+      position: [40.591202821951015, 23.784550397548916] as LatLngTuple,
+      type: "dining",
+      description: "Patissery with fresh coffee and pastries",
+      image: "/assets/dining/yiasemi/primer.png"
+    }
   ];
   
   return (

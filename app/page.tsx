@@ -26,8 +26,60 @@ export default function Home() {
     "/assets/gallery/image3.jpg",
     "/assets/gallery/image4.jpg",
   ];
+  const [showMoreAccommodations, setShowMoreAccommodations] = useState(false);
+  
+  // Define all accommodations
+  const accommodations = [
+    {
+      title: "Traditional Guesthouse",
+      description: "Experience authentic Greek hospitality in our traditional stone guesthouse.",
+      image: "/assets/accommodations/guesthouse.jpg",
+      price: "€80",
+      amenities: ["Free WiFi", "Breakfast included", "Sea view"],
+    },
+    {
+      title: "Beachfront Villa",
+      description: "Luxury villa with direct access to the beach and stunning sea views.",
+      image: "/assets/accommodations/villa.jpg",
+      price: "€180",
+      amenities: ["Private pool", "Air conditioning", "Fully equipped kitchen"],
+    },
+    {
+      title: "Modern Apartment",
+      description: "Comfortable apartment with all modern amenities in the center of Olympiada.",
+      image: "/assets/accommodations/apartment.jpg",
+      price: "€65",
+      amenities: ["Free parking", "Air conditioning", "Washing machine"],
+    },
+    {
+      title: "Seaside Bungalow",
+      description: "Cozy bungalow just steps from the shoreline with panoramic views.",
+      image: "/assets/accommodations/bungalow.jpg",
+      price: "€95",
+      amenities: ["Beach access", "Kitchenette", "Terrace"],
+    },
+    {
+      title: "Family Suite",
+      description: "Spacious suite perfect for families, with separate bedrooms and living area.",
+      image: "/assets/accommodations/family.jpg",
+      price: "€120",
+      amenities: ["Two bedrooms", "Children's play area", "Large balcony"],
+    },
+    {
+      title: "Budget Studio",
+      description: "Affordable studio apartment with all the essentials for a comfortable stay.",
+      image: "/assets/accommodations/studio.jpg",
+      price: "€45",
+      amenities: ["Kitchenette", "Free WiFi", "Air conditioning"],
+    },
+  ];
 
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+    // Initial accommodations to show
+    const initialAccommodations = accommodations.slice(0, 3);
+    // Additional accommodations to show when "View More" is clicked
+    const additionalAccommodations = accommodations.slice(3, 6);
+  
 
   return (
     <div className="flex min-h-screen flex-col items-center">
@@ -448,160 +500,85 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Accommodations Section */}
-        <section id="accommodations" className="bg-slate-50 py-16 md:py-24">
-          <div className="container mx-auto">
-            <div className="mx-auto max-w-3xl text-center">
-              <Calendar className="mx-auto h-10 w-10 text-blue-600" />
-              <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Where to Stay
-              </h2>
-              <p className="mt-4 text-muted-foreground">
-                From cozy family-run guesthouses to modern apartments, find your
-                perfect accommodation in Olympiada
-              </p>
-            </div>
-            <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <div className="rounded-lg border bg-card shadow-sm">
-                <div className="relative h-48 overflow-hidden rounded-t-lg">
-                  <Image
-                    src="/assets/stay/liotopi/primer.jpg"
-                    alt="Liotopi Hotel"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold">Hotel Liotopi</h3>
-                  <p className="mt-2 text-muted-foreground">
-                    Contemporary apartments with all amenities, just a short
-                    walk from the beach
-                  </p>
-                  <ul className="mt-4 space-y-2">
-                    <li className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-blue-600" />
-                      <span>Family Rooms</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-blue-600" />
-                      <span>Excellent breakfast</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-blue-600" />
-                      <span>Transfer from/to the airport</span>
-                    </li>
-                  </ul>
-                  <div className="mt-6">
-                    <Button
-                      className="w-full"
-                      onClick={() =>
-                        window.open(
-                          "https://www.booking.com/hotel/gr/liotopi.en-gb.html",
-                          "_blank"
-                        )
-                      }
-                    >
-                      Book Now
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              <div className="rounded-lg border bg-card shadow-sm">
-                <div className="relative h-48 overflow-hidden rounded-t-lg">
-                  <Image
-                    src="/assets/stay/yanna/primer.jpg"
-                    alt="Traditional Guesthouse"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold">Villa Yanna</h3>
-                  <p className="mt-2 text-muted-foreground">
-                    Charming rooms in a family-run guesthouse with authentic
-                    Greek hospitality
-                  </p>
-                  <ul className="mt-4 space-y-2">
-                    <li className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-blue-600" />
-                      <span>Free Parking</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-blue-600" />
-                      <span>Room Service</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-blue-600" />
-                      <span>Free WiFi</span>
-                    </li>
-                  </ul>
-                  <div className="mt-6">
-                    <Button
-                      className="w-full"
-                      onClick={() =>
-                        window.open(
-                          "https://www.booking.com/hotel/gr/villa-yanna.en-gb.html",
-                          "_blank"
-                        )
-                      }
-                    >
-                      Book Now
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              <div className="rounded-lg border bg-card shadow-sm">
-                <div className="relative h-48 overflow-hidden rounded-t-lg">
-                  <Image
-                    src="/assets/stay/evelyn/primer.jpg"
-                    alt="Modern Apartments"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold">Evelyn Rooms</h3>
-                  <p className="mt-2 text-muted-foreground">
-                    Beautiful rooms with sea views, located just steps from the
-                    beach
-                  </p>
-                  <ul className="mt-4 space-y-2">
-                    <li className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-blue-600" />
-                      <span>Free WiFi</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-blue-600" />
-                      <span>Free Parking</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-blue-600" />
-                      <span>Sea view balconies</span>
-                    </li>
-                  </ul>
-                  <div className="mt-6">
-                    <Button
-                      className="w-full"
-                      onClick={() =>
-                        window.open(
-                          "https://www.booking.com/hotel/gr/evelyn-studios.en-gb.html",
-                          "_blank"
-                        )
-                      }
-                    >
-                      Book Now
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-8 text-center">
-              <Button asChild variant="outline">
-                <Link href="#accommodations">View All Accommodations</Link>
-              </Button>
-            </div>
+      {/* In your accommodations section: */}
+      <section id="accommodations" className="bg-slate-50 py-16 md:py-24 w-full">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-3xl text-center mb-12">
+            <Calendar className="mx-auto h-10 w-10 text-blue-600" />
+            <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+              Where to Stay
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              From traditional guesthouses to beachfront villas, find your perfect accommodation
+            </p>
           </div>
-        </section>
+          
+          <div className="grid gap-6 md:grid-cols-3">
+            {/* Initial accommodations */}
+            {initialAccommodations.map((accommodation, index) => (
+              <div key={`accommodation-${index}`} className="rounded-lg border bg-white overflow-hidden">
+                <div className="relative h-48">
+                  <Image
+                    src={accommodation.image}
+                    alt={accommodation.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold">{accommodation.title}</h3>
+                  <p className="mt-2 text-muted-foreground">{accommodation.description}</p>
+                  <div className="mt-4 flex items-center justify-between">
+                    <p className="font-bold">From {accommodation.price} / night</p>
+                    <Button asChild variant="outline">
+                      <Link href="#">Details</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Additional accommodations when "View More" is clicked */}
+          {showMoreAccommodations && (
+            <div className="grid gap-6 md:grid-cols-3 mt-6">
+              {additionalAccommodations.map((accommodation, index) => (
+                <div key={`more-accommodation-${index}`} className="rounded-lg border bg-white overflow-hidden">
+                  <div className="relative h-48">
+                    <Image
+                      src={accommodation.image}
+                      alt={accommodation.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold">{accommodation.title}</h3>
+                    <p className="mt-2 text-muted-foreground">{accommodation.description}</p>
+                    <div className="mt-4 flex items-center justify-between">
+                      <p className="font-bold">From {accommodation.price} / night</p>
+                      <Button asChild variant="outline">
+                        <Link href="#">Details</Link>
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          {/* View More button */}
+          <div className="mt-8 text-center">
+            <Button 
+              onClick={() => setShowMoreAccommodations(!showMoreAccommodations)}
+              variant="outline"
+              className="mx-auto"
+            >
+              {showMoreAccommodations ? "Show Less" : "View More Accommodations"}
+            </Button>
+          </div>
+        </div>
+      </section>
 
         {/* Dining Section */}
         <DiningSection />
