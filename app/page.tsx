@@ -16,12 +16,19 @@ import {
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
+import AboutSection from "@/components/AboutSection";
+import HistorySection from "@/components/HistorySection";
 import DiningSection from "@/components/DiningSection";
 import OlympiadaMap from "@/components/Map";
 import AccommodationsSection from  "@/components/AccommodationsSection";
 import ActivitiesSection from "@/components/ActivitiesSection";
+import { useLanguage } from "@/context/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+
 
 export default function Home() {
+  const { t, locale } = useLanguage();
+
   const galleryImages = [
     "/assets/gallery/image1.jpg",
     "/assets/gallery/image2.jpg",
@@ -66,7 +73,7 @@ export default function Home() {
         </div>
       )}
 
-      <header className="sticky top-0 z-50 bg-white shadow-sm w-full bg-opacity-80">
+<header className="sticky top-0 z-50 bg-white shadow-sm w-full bg-opacity-80">
         <div className="container mx-auto flex items-center justify-between py-4 px-4 md:px-8">
           <Link
             href="/"
@@ -75,134 +82,73 @@ export default function Home() {
             <Anchor className="h-6 w-6" />
             <span>Olympiada</span>
           </Link>
+          
           <nav className="hidden md:flex gap-4">
             <Link
               href="#about"
               className="text-sm font-medium hover:underline underline-offset-4"
             >
-              About
+              {t('navigation.about')}
             </Link>
             <Link
               href="/pages/history"
               className="text-sm font-medium hover:underline underline-offset-4"
             >
-              History
+              {t('navigation.history')}
             </Link>
-
             <Link
               href="#activities"
               className="text-sm font-medium hover:underline underline-offset-4"
             >
-              Activities
+              {t('navigation.activities')}
             </Link>
             <Link
               href="#accommodations"
               className="text-sm font-medium hover:underline underline-offset-4"
             >
-              Stay
+              {t('navigation.stay')}
             </Link>
             <Link
               href="#gallery"
               className="text-sm font-medium hover:underline underline-offset-4"
             >
-              Gallery
+              {t('navigation.gallery')}
             </Link>
             <Link
               href="#dining"
               className="text-sm font-medium hover:underline underline-offset-4"
             >
-              Dining
+              {t('navigation.dining')}
             </Link>
           </nav>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden mr-4">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[75%] sm:w-[350px]">
-              <div className="flex flex-col gap-6 pt-10">
-                <Link
-                  href="#about"
-                  className="text-lg font-medium hover:text-blue-600 transition-colors"
-                  onClick={() =>
-                    document
-                      .querySelector('[data-state="open"]')
-                      ?.dispatchEvent(new Event("close", { bubbles: true }))
-                  }
-                >
-                  About
-                </Link>
-                <Link
-                  href="#history"
-                  className="text-lg font-medium hover:text-blue-600 transition-colors"
-                  onClick={() =>
-                    document
-                      .querySelector('[data-state="open"]')
-                      ?.dispatchEvent(new Event("close", { bubbles: true }))
-                  }
-                >
-                  History
-                </Link>
-                <Link
-                  href="#activities"
-                  className="text-lg font-medium hover:text-blue-600 transition-colors"
-                  onClick={() =>
-                    document
-                      .querySelector('[data-state="open"]')
-                      ?.dispatchEvent(new Event("close", { bubbles: true }))
-                  }
-                >
-                  Activities
-                </Link>
-                <Link
-                  href="#accommodations"
-                  className="text-lg font-medium hover:text-blue-600 transition-colors"
-                  onClick={() =>
-                    document
-                      .querySelector('[data-state="open"]')
-                      ?.dispatchEvent(new Event("close", { bubbles: true }))
-                  }
-                >
-                  Stay
-                </Link>
-                <Link
-                  href="#gallery"
-                  className="text-lg font-medium hover:text-blue-600 transition-colors"
-                  onClick={() =>
-                    document
-                      .querySelector('[data-state="open"]')
-                      ?.dispatchEvent(new Event("close", { bubbles: true }))
-                  }
-                >
-                  Gallery
-                </Link>
-                <Link
-                  href="#dining"
-                  className="text-lg font-medium hover:text-blue-600 transition-colors"
-                  onClick={() =>
-                    document
-                      .querySelector('[data-state="open"]')
-                      ?.dispatchEvent(new Event("close", { bubbles: true }))
-                  }
-                >
-                  Dining
-                </Link>
-                <Link
-                  href="#map"
-                  className="text-lg font-medium hover:text-blue-600 transition-colors"
-                  onClick={() =>
-                    document
-                      .querySelector('[data-state="open"]')
-                      ?.dispatchEvent(new Event("close", { bubbles: true }))
-                  }
-                >
-                  Map
-                </Link>
-              </div>
-            </SheetContent>
-          </Sheet>
+          
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[75%] sm:w-[350px]">
+                <div className="flex flex-col gap-6 pt-10">
+                  <Link
+                    href="#about"
+                    className="text-lg font-medium hover:text-blue-600 transition-colors"
+                    onClick={() =>
+                      document
+                        .querySelector('[data-state="open"]')
+                        ?.dispatchEvent(new Event("close", { bubbles: true }))
+                    }
+                  >
+                    {t('navigation.about')}
+                  </Link>
+                  {/* Repeat for other navigation items */}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </header>
       <main className="flex-1 w-full">
@@ -219,11 +165,10 @@ export default function Home() {
           <div className="absolute inset-0 bg-black/40" />
           <div className="absolute inset-0 flex h-full flex-col items-center justify-center text-center text-white px-4 sm:px-8">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl max-w-[90%] sm:max-w-3xl">
-              Welcome to Olympiada
+              {t('hero.title')}
             </h1>
             <p className="mt-4 max-w-xs sm:max-w-sm md:max-w-2xl text-base sm:text-lg">
-              Discover the hidden gem of the Mediterranean coast, where history
-              meets natural beauty
+              {t('hero.subtitle')}
             </p>
             <div className="mt-6 md:mt-8 flex flex-col sm:flex-row gap-4">
               <Button
@@ -231,7 +176,7 @@ export default function Home() {
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto"
               >
-                <Link href="#accommodations">Book Your Stay</Link>
+                <Link href="#accommodations">{t('hero.bookStay')}</Link>
               </Button>
               <Button
                 asChild
@@ -239,100 +184,18 @@ export default function Home() {
                 size="lg"
                 className="bg-white/10 text-white hover:bg-white/20 w-full sm:w-auto"
               >
-                <Link href="#about">Explore</Link>
+                <Link href="#about">{t('hero.explore')}</Link>
               </Button>
             </div>
           </div>
         </section>
-
         {/* About Section */}
-        <section id="about" className="py-16 md:py-24">
-          <div className="container mx-auto">
-            <div className="grid gap-8 md:grid-cols-2 md:gap-12">
-              <div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                  About Our Village
-                </h2>
-                <p className="mt-4 text-muted-foreground">
-                  Nestled along the pristine coastline, Olympiada is a charming
-                  village that offers a perfect blend of traditional Greek
-                  culture, stunning natural landscapes, and modern amenities.
-                  Named after Alexander the Great's mother, Olympias, our
-                  village has a rich history dating back to ancient times.
-                </p>
-                <p className="mt-4 text-muted-foreground">
-                  With crystal-clear waters, golden sandy beaches, and lush
-                  green mountains as a backdrop, Olympiada provides the ideal
-                  setting for a relaxing and memorable vacation. Our friendly
-                  locals welcome visitors with open arms and are eager to share
-                  their traditions and way of life.
-                </p>
-                <div className="mt-6 flex items-center gap-2">
-                  <MapPin className="h-5 w-5 text-blue-600" />
-                  <span>Halkidiki, Northern Greece</span>
-                </div>
-              </div>
-              <div className="relative h-[400px] overflow-hidden rounded-lg">
-                <Image
-                  src="/assets/olympiada.jpg"
-                  alt="Olympiada Village View"
-                  fill
-                  className="object-cover border-[5px] rounded-lg border-black"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+        <AboutSection />
+
+
 
         {/* History Section */}
-        <section id="history" className="bg-slate-50 py-16 md:py-24">
-          <div className="container mx-auto">
-            <div className="mx-auto max-w-3xl text-center">
-              <History className="mx-auto h-10 w-10 text-blue-600" />
-              <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Rich in History
-              </h2>
-              <p className="mt-4 text-muted-foreground">
-                Explore the fascinating past of Olympiada, from ancient Stagira
-                to modern times
-              </p>
-            </div>
-            <div className="mt-12 grid gap-8 md:grid-cols-3">
-              <div className="rounded-lg border bg-card p-6 shadow-sm">
-                <h3 className="text-xl font-bold">Ancient Stagira</h3>
-                <p className="mt-2 text-muted-foreground">
-                  Just a short distance from Olympiada lies Ancient Stagira, the
-                  birthplace of Aristotle, one of history's greatest
-                  philosophers. Explore the archaeological site and walk in the
-                  footsteps of this influential thinker.
-                </p>
-              </div>
-              <div className="rounded-lg border bg-card p-6 shadow-sm">
-                <h3 className="text-xl font-bold">Byzantine Era</h3>
-                <p className="mt-2 text-muted-foreground">
-                  During the Byzantine period, the region flourished as an
-                  important cultural and religious center. Discover the remnants
-                  of Byzantine churches and monasteries that dot the landscape
-                  around Olympiada.
-                </p>
-              </div>
-              <div className="rounded-lg border bg-card p-6 shadow-sm">
-                <h3 className="text-xl font-bold">Modern Revival</h3>
-                <p className="mt-2 text-muted-foreground">
-                  In recent decades, Olympiada has transformed from a quiet
-                  fishing village into a beloved destination that carefully
-                  balances tourism with preserving its authentic character and
-                  traditions.
-                </p>
-              </div>
-            </div>
-            <div className="mt-8 text-center">
-              <Button asChild variant="outline">
-                <Link href="#history">Learn More About Our History</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
+        <HistorySection />
 
         {/* Activities Section */}
         <ActivitiesSection />

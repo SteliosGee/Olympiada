@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { MapPin } from 'lucide-react';
 import dynamic from 'next/dynamic';
-import L, { LatLngTuple } from 'leaflet';
+import type { LatLngTuple } from 'leaflet';
 import { 
   FaCocktail,
   FaUtensils,
@@ -35,36 +35,41 @@ export default function OlympiadaMap() {
   const [icons, setIcons] = useState<{[key: string]: any}>({});
 
   useEffect(() => {
-    // Import leaflet CSS on client-side only
-    import('leaflet/dist/leaflet.css');
-    
-    // Create custom icons using React Icons
-    const createCustomIcon = (IconComponent: any, color: string) => {
-      const iconHtml = renderToString(
-        <div style={{ color, fontSize: '32px' }}>
-          <IconComponent />
-        </div>
-      );
+    // Import leaflet and its CSS on client-side only
+    Promise.all([
+      import('leaflet'),
+      import('leaflet/dist/leaflet.css')
+    ]).then(([L]) => {
+      const leaflet = L.default;
       
-      return L.divIcon({
-        html: iconHtml,
-        className: 'custom-div-icon',
-        iconSize: [32, 32],
-        iconAnchor: [16, 32],
-        popupAnchor: [0, -32]
-      });
-    };
-    
-    const customIcons = {
-      nature: createCustomIcon(FaUmbrellaBeach, '#3b82f6'), // blue
-      beachbar: createCustomIcon(FaCocktail, '#3b82f6'), // blue
-      historical: createCustomIcon(FaMapMarkerAlt, '#f59e0b'), // amber
-      dining: createCustomIcon(FaUtensils, '#22c55e'), // green
-      default: createCustomIcon(FaMapMarkerAlt, '#ef4444') // red
-    };
-    
-    setIcons(customIcons);
-    setIsMounted(true);
+      // Create custom icons using React Icons
+      const createCustomIcon = (IconComponent: any, color: string) => {
+        const iconHtml = renderToString(
+          <div style={{ color, fontSize: '32px' }}>
+            <IconComponent />
+          </div>
+        );
+        
+        return leaflet.divIcon({
+          html: iconHtml,
+          className: 'custom-div-icon',
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+          popupAnchor: [0, -32]
+        });
+      };
+      
+      const customIcons = {
+        nature: createCustomIcon(FaUmbrellaBeach, '#3b82f6'), // blue
+        beachbar: createCustomIcon(FaCocktail, '#3b82f6'), // blue
+        historical: createCustomIcon(FaMapMarkerAlt, '#f59e0b'), // amber
+        dining: createCustomIcon(FaUtensils, '#22c55e'), // green
+        default: createCustomIcon(FaMapMarkerAlt, '#ef4444') // red
+      };
+      
+      setIcons(customIcons);
+      setIsMounted(true);
+    });
   }, []);
 
   const attractions: {
