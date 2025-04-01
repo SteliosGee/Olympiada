@@ -19,6 +19,7 @@ import { useState } from "react";
 import DiningSection from "@/components/DiningSection";
 import OlympiadaMap from "@/components/Map";
 import AccommodationsSection from  "@/components/AccommodationsSection";
+import ActivitiesSection from "@/components/ActivitiesSection";
 
 export default function Home() {
   const galleryImages = [
@@ -27,61 +28,10 @@ export default function Home() {
     "/assets/gallery/image3.jpg",
     "/assets/gallery/image4.jpg",
   ];
-  const [showMoreAccommodations, setShowMoreAccommodations] = useState(false);
-  
-  // Define all accommodations
-  const accommodations = [
-    {
-      title: "Liotopi",
-      description: "Experience authentic Greek hospitality in our traditional stone guesthouse.",
-      image: "/assets/accommodations/liotopi/primer.jpg",
-      price: "146€",
-      amenities: ["Free WiFi", "Breakfast included", "Beachfront", "Airport shuttle", "Room service", "Non-smoking rooms",
-        "Restaurant", "Family rooms", "Bar"
-      ],
-    },
-    {
-      title: "Evelyn Rooms",
-      description: "Luxury villa with direct access to the beach and stunning sea views.",
-      image: "/assets/accommodations/evelyn/primer.jpg",
-      price: "77€",
-      amenities: ["Free parking", "Free WiFi"],
-    },
-    {
-      title: "Villa Yanna",
-      description: "Comfortable apartment with all modern amenities in the center of Olympiada.",
-      image: "/assets/accommodations/yanna/primer.jpg",
-      price: "€62",
-      amenities: ["Free parking", "Free WiFi", "None-smoking rooms", "Room service"],
-    },
-    {
-      title: "Seaside Bungalow",
-      description: "Cozy bungalow just steps from the shoreline with panoramic views.",
-      image: "/assets/accommodations/bungalow.jpg",
-      price: "€95",
-      amenities: ["Beach access", "Kitchenette", "Terrace"],
-    },
-    {
-      title: "Family Suite",
-      description: "Spacious suite perfect for families, with separate bedrooms and living area.",
-      image: "/assets/accommodations/family.jpg",
-      price: "€120",
-      amenities: ["Two bedrooms", "Children's play area", "Large balcony"],
-    },
-    {
-      title: "Budget Studio",
-      description: "Affordable studio apartment with all the essentials for a comfortable stay.",
-      image: "/assets/accommodations/studio.jpg",
-      price: "€45",
-      amenities: ["Kitchenette", "Free WiFi", "Air conditioning"],
-    },
-  ];
+
 
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
-    // Initial accommodations to show
-    const initialAccommodations = accommodations.slice(0, 3);
-    // Additional accommodations to show when "View More" is clicked
-    const additionalAccommodations = accommodations.slice(3, 6);
+
   
 
   return (
@@ -385,123 +335,9 @@ export default function Home() {
         </section>
 
         {/* Activities Section */}
-        <section id="activities" className="py-16 md:py-24">
-          <div className="container mx-auto">
-            <div className="mx-auto max-w-3xl text-center">
-              <Boat className="mx-auto h-10 w-10 text-blue-600" />
-              <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Summer Activities
-              </h2>
-              <p className="mt-4 text-muted-foreground">
-                From relaxing on pristine beaches to exploring ancient ruins,
-                Olympiada offers activities for everyone
-              </p>
-            </div>
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="group relative overflow-hidden rounded-lg">
-                <Image
-                  src="/assets/whatsupguys/primer.jpg"
-                  alt="Water Sports"
-                  width={600}
-                  height={400}
-                  className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-0 p-4 text-white">
-                  <h3 className="text-xl font-bold">Water Sports</h3>
-                  <p className="mt-2">
-                    Try paddleboarding, kayaking, canoeing and more
-                  </p>
-                </div>
-              </div>
-              <div className="group relative overflow-hidden rounded-lg">
-                <Image
-                  src="/assets/hiking/primer.jpg"
-                  alt="Hiking"
-                  width={600}
-                  height={400}
-                  className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-0 p-4 text-white">
-                  <h3 className="text-xl font-bold">Hiking & Nature Walks</h3>
-                  <p className="mt-2">
-                    Explore scenic trails through olive groves and coastal paths
-                  </p>
-                </div>
-              </div>
-              <div className="group relative overflow-hidden rounded-lg">
-                <Image
-                  src="/assets/kafkanas/primer.jpg"
-                  alt="Island Visit"
-                  width={600}
-                  height={400}
-                  className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-0 p-4 text-white">
-                  <h3 className="text-xl font-bold">Island Visit</h3>
-                  <p className="mt-2">
-                    Hop on a boat and explore the nearby island "Kafkanas"
-                  </p>
-                </div>
-              </div>
-              <div className="group relative overflow-hidden rounded-lg">
-                <Image
-                  src="/assets/ancientstageira/primer.jpg"
-                  alt="Archaeological Tours"
-                  width={600}
-                  height={400}
-                  className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-0 p-4 text-white">
-                  <h3 className="text-xl font-bold">Archaeological Tours</h3>
-                  <p className="mt-2">
-                    Visit Ancient Stagira and other historical sites nearby
-                  </p>
-                </div>
-              </div>
-              <div className="group relative overflow-hidden rounded-lg">
-                <Image
-                  src="/assets/rentalboats/primer.jpg"
-                  alt="Boat Tours"
-                  width={600}
-                  height={400}
-                  className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-0 p-4 text-white">
-                  <h3 className="text-xl font-bold">Rental Boats</h3>
-                  <p className="mt-2">
-                    Discover hidden coves and beaches along the coastline
-                  </p>
-                </div>
-              </div>
-              <div className="group relative overflow-hidden rounded-lg">
-                <Image
-                  src="/assets/festival/primer.jpg"
-                  alt="Local Festivals"
-                  width={600}
-                  height={400}
-                  className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-0 p-4 text-white">
-                  <h3 className="text-xl font-bold">Local Festivals</h3>
-                  <p className="mt-2">
-                    Experience traditional Greek celebrations and music
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-8 text-center">
-              <Button asChild>
-                <Link href="#activities">View All Activities</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
+        <ActivitiesSection />
+
+        {/* Map Section */}
 
         {/* Accommodations Section */}
         <AccommodationsSection/>

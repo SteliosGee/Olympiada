@@ -7,6 +7,7 @@ import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { link } from "fs";
 
 // Define the accommodation type
 type Accommodation = {
@@ -15,6 +16,7 @@ type Accommodation = {
   image: string;
   price: string;
   amenities: string[];
+  link: string;
 };
 
 export default function AccommodationsSection() {
@@ -31,6 +33,7 @@ export default function AccommodationsSection() {
       amenities: ["Free WiFi", "Breakfast included", "Beachfront", "Airport shuttle", "Room service", "Non-smoking rooms",
         "Restaurant", "Family rooms", "Bar"
       ],
+      link: "https://www.booking.com/hotel/gr/liotopi.en-gb.html"
     },
     {
       title: "Evelyn Rooms",
@@ -38,6 +41,7 @@ export default function AccommodationsSection() {
       image: "/assets/accommodations/evelyn/primer.jpg",
       price: "77€",
       amenities: ["Free parking", "Free WiFi"],
+      link: "https://www.booking.com/hotel/gr/evelyn-studios.en-gb.html"
     },
     {
       title: "Villa Yanna",
@@ -45,6 +49,7 @@ export default function AccommodationsSection() {
       image: "/assets/accommodations/yanna/primer.jpg",
       price: "€62",
       amenities: ["Free parking", "Free WiFi", "Non-smoking rooms", "Room service"],
+      link: "https://www.booking.com/hotel/gr/villa-yanna.en-gb.html"
     },
     {
       title: "Seaside Bungalow",
@@ -52,6 +57,7 @@ export default function AccommodationsSection() {
       image: "/assets/accommodations/bungalow.jpg",
       price: "€95",
       amenities: ["Beach access", "Kitchenette", "Terrace"],
+      link: "https://www.booking.com/hotel/gr/seaside-bungalow.en-gb.html"
     },
     {
       title: "Family Suite",
@@ -59,6 +65,7 @@ export default function AccommodationsSection() {
       image: "/assets/accommodations/family.jpg",
       price: "€120",
       amenities: ["Two bedrooms", "Children's play area", "Large balcony"],
+      link: ""
     },
     {
       title: "Budget Studio",
@@ -66,6 +73,7 @@ export default function AccommodationsSection() {
       image: "/assets/accommodations/studio.jpg",
       price: "€45",
       amenities: ["Kitchenette", "Free WiFi", "Air conditioning"],
+      link: ""
     },
   ];
 
@@ -94,38 +102,48 @@ export default function AccommodationsSection() {
         
         <div className="grid gap-6 md:grid-cols-3">
           {/* Initial accommodations */}
-          {initialAccommodations.map((accommodation, index) => (
-            <div key={`accommodation-${index}`} className="rounded-lg border bg-white overflow-hidden">
-              <div className="relative h-48">
-                <Image
-                  src={accommodation.image}
-                  alt={accommodation.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold">{accommodation.title}</h3>
-                <p className="mt-2 text-muted-foreground">{accommodation.description}</p>
-                <div className="mt-4 flex items-center justify-between">
-                  <p className="font-bold">From {accommodation.price} / night</p>
-                  <Button 
-                    variant="outline"
-                    onClick={() => openAccommodationDetails(accommodation)}
-                  >
-                    Details
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ))}
+{initialAccommodations.map((accommodation, index) => (
+  <div key={`accommodation-${index}`} className="rounded-lg border bg-white overflow-hidden">
+    <div className="relative h-48">
+      <Image
+        src={accommodation.image}
+        alt={accommodation.title}
+        fill
+        className="object-cover"
+      />
+    </div>
+    <div className="p-6">
+      <h3 className="text-xl font-bold">{accommodation.title}</h3>
+      <p className="mt-2 text-muted-foreground">{accommodation.description}</p>
+      <div className="mt-4 flex items-center justify-between">
+        <p className="font-bold">From {accommodation.price} / night</p>
+        <div className="flex gap-2">
+        <Button 
+            variant="outline"
+            onClick={() => openAccommodationDetails(accommodation)}
+          >
+            Details
+          </Button>
+          {accommodation.link && (
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white" variant="default">
+              <a href={accommodation.link} target="_blank" rel="noopener noreferrer">
+                Book Now
+              </a>
+            </Button>
+          )}
+
+        </div>
+      </div>
+    </div>
+  </div>
+))}
         </div>
         
         {/* Additional accommodations when "View More" is clicked */}
         {showMoreAccommodations && (
-          <div className="grid gap-6 md:grid-cols-3 mt-6">
+          <div className="grid gap-6 md:grid-cols-3 mt-8">
             {additionalAccommodations.map((accommodation, index) => (
-              <div key={`more-accommodation-${index}`} className="rounded-lg border bg-white overflow-hidden">
+              <div key={`accommodation-${index + 3}`} className="rounded-lg border bg-white overflow-hidden">
                 <div className="relative h-48">
                   <Image
                     src={accommodation.image}
@@ -139,12 +157,21 @@ export default function AccommodationsSection() {
                   <p className="mt-2 text-muted-foreground">{accommodation.description}</p>
                   <div className="mt-4 flex items-center justify-between">
                     <p className="font-bold">From {accommodation.price} / night</p>
-                    <Button 
-                      variant="outline"
-                      onClick={() => openAccommodationDetails(accommodation)}
-                    >
-                      Details
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="outline"
+                        onClick={() => openAccommodationDetails(accommodation)}
+                      >
+                        Details
+                      </Button>
+                      {accommodation.link && (
+                        <Button className="bg-blue-600 hover:bg-blue-700 text-white" variant="default">
+                          <a href={accommodation.link} target="_blank" rel="noopener noreferrer">
+                            Book Now
+                          </a>
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -186,7 +213,7 @@ export default function AccommodationsSection() {
             
             <div className="space-y-4">
               <div>
-                <h4 className="font-medium text-lg">Price</h4>
+                <h4 className="font-medium text-lg">Starting from</h4>
                 <p className="text-xl font-bold">{selectedAccommodation.price} / night</p>
               </div>
               
@@ -200,23 +227,12 @@ export default function AccommodationsSection() {
                   ))}
                 </div>
               </div>
-              
-              <div>
-                <h4 className="font-medium text-lg">Booking Information</h4>
-                <p className="text-muted-foreground">
-                  For reservations, please contact us at:
-                  <br />
-                  <a href="tel:+306912345678" className="text-blue-600 hover:underline">+30 691 234 5678</a>
-                  <br />
-                  <a href="mailto:info@olympiada.example.com" className="text-blue-600 hover:underline">info@olympiada.example.com</a>
-                </p>
-              </div>
             </div>
             
             <DialogFooter>
               <Button onClick={() => setSelectedAccommodation(null)}>Close</Button>
               <Button variant="default" className="bg-blue-600 hover:bg-blue-700">
-                <a href={`mailto:info@olympiada.example.com?subject=Booking inquiry: ${selectedAccommodation.title}`}>
+                <a href={selectedAccommodation.link} target="_blank" rel="noopener noreferrer">
                   Book Now
                 </a>
               </Button>
