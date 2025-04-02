@@ -10,7 +10,7 @@ export default function AboutSection() {
     useEffect(() => {
         const savedLocale = localStorage.getItem('locale');
         if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
-        changeLanguage(savedLocale);
+        changeLanguage(savedLocale);  
         }
     }, [changeLanguage]);
 
