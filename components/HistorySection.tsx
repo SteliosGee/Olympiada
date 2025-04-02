@@ -20,6 +20,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 // History section content type
 type HistoricalPeriod = {
@@ -36,6 +37,10 @@ export default function HistorySection() {
   const { locale, changeLanguage } = useLanguage() as { locale: 'en' | 'el'; changeLanguage: (lang: 'en' | 'el') => void };
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  // Add state to track section open/closed state
+const [openSections, setOpenSections] = useState<{ timeline: boolean }>({
+  timeline: false,
+});
 
   useEffect(() => {
     const savedLocale = localStorage.getItem('locale');
@@ -157,6 +162,65 @@ export default function HistorySection() {
               ))}
             </Accordion>
           </div>
+
+
+<div className="mt-6 border-t pt-6">
+  <div className="rounded-md border overflow-hidden">
+    <button
+      onClick={() =>
+        setOpenSections({
+          ...openSections,
+          timeline: !openSections.timeline,
+        })
+      }
+      className="w-full p-4 flex justify-between items-center text-left bg-gray-50 hover:bg-gray-100"
+    >
+      <h3 className="text-lg font-medium">{translations[locale].history.timeline.title}</h3>
+      {openSections.timeline ? (
+        <ChevronUp className="h-5 w-5 flex-shrink-0" />
+      ) : (
+        <ChevronDown className="h-5 w-5 flex-shrink-0" />
+      )}
+    </button>
+
+    {openSections.timeline && (
+      <div className="p-4 border-t">
+        <div className="space-y-8 relative">
+          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-[2px] bg-blue-200 transform md:translate-x-[-1px]"></div>
+
+          {translations[locale].history.timeline.events.map((event, index) => (
+            <div key={index} className="flex flex-col md:flex-row">
+              {event.position === "left" ? (
+                <>
+                  <div className="md:w-1/2 md:pr-8 md:text-right mb-4 md:mb-0">
+                    <div className="font-bold">{event.year}</div>
+                    <p className="text-sm text-muted-foreground">
+                      {event.description}
+                    </p>
+                  </div>
+                  <div className="md:w-1/2 md:pl-8 relative">
+                    <div className="absolute left-[-9px] md:left-[-9px] top-0 h-4 w-4 rounded-full bg-blue-600 shadow"></div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="md:w-1/2 md:pr-8 hidden md:block"></div>
+                  <div className="md:w-1/2 md:pl-8 relative">
+                    <div className="absolute left-[-9px] md:left-[-9px] top-0 h-4 w-4 rounded-full bg-blue-600 shadow"></div>
+                    <div className="font-bold">{event.year}</div>
+                    <p className="text-sm text-muted-foreground">
+                      {event.description}
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</div>
           
           <div className="flex justify-end">
             <Button onClick={() => setIsDialogOpen(false)}>

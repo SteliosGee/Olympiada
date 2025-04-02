@@ -86,7 +86,154 @@ export const translations = {
               "Growing recognition as an ecotourism destination"
             ]
           }
+        },
+        timeline: {
+          title: "Historical Timeline",
+          events: [
+            {
+              year: "655 BC",
+              description: "Stageira founded on the North Hill of the Liotopi peninsula by colonists from Andros, later joined by settlers from Chalcis, Euboea.",
+              position: "left"
+            },
+            {
+              year: "6th century BC",
+              description: "Stageira mints its own coins. A number of substantial buildings added, including a large Archaic temple.",
+              position: "right"
+            },
+            {
+              year: "514 - 513 BC",
+              description: "Megabazos, a general of Persian king Darius I, conquers Thrace.",
+              position: "left"
+            },
+            {
+              year: "Around 500 BC",
+              description: "The city walls extended around the North Hill.",
+              position: "right"
+            },
+            {
+              year: "492 - 490 BC",
+              description: "The first Persian invasion of Greece. Mardonius, son-in-law of King Darius, reconquers Thrace and Halkidiki and subjugates Macedon.",
+              position: "left"
+            },
+            {
+              year: "490 BC",
+              description: "Darius' second attack on Greece is repulsed at the Battle of Marathon.",
+              position: "right"
+            },
+            {
+              year: "483 - 479 BC",
+              description: "The second Persian invasion of Greece. Xerxes builds a canal across the isthmus between Halkidiki and the Athos peninsula.",
+              position: "left"
+            },
+            {
+              year: "480 BC",
+              description: "Xerxes I arrives in Halkidiki with his invasion army, marching past Stageira. The Persians are defeated at the naval Battle of Salamis.",
+              position: "right"
+            },
+            {
+              year: "479 BC",
+              description: "Xerxes returns to Asia. Mardonius is defeated at the Battle of Plataea. The last Persian forces are driven out of Thrace.",
+              position: "left"
+            },
+            {
+              year: "Around 477 BC",
+              description: "Stageira becomes a member of the Delian League, an anti-Persian alliance headed by Athens.",
+              position: "right"
+            },
+            {
+              year: "Around 430 BC",
+              description: "The Halkidikian city of Olynthos forms the \"Chalcidian League\" in defiance of the Delian League. Stageira may have become a member.",
+              position: "left"
+            },
+            {
+              year: "424 BC",
+              description: "The Spartan general Brasidas persuades Stageira and other cities of Halkidiki to revolt against Athens and the Delian League.",
+              position: "right"
+            },
+            {
+              year: "384 BC",
+              description: "The philosopher Aristotle is born in Stageira.",
+              position: "left"
+            },
+            {
+              year: "348 BC",
+              description: "Philip II of Macedon conquers Halkidiki. He destroys Stageira and sells its inhabitants into slavery.",
+              position: "right"
+            },
+            {
+              year: "343 BC",
+              description: "Aristotle appointed by Philip II to be the tutor to his son Alexander (later Alexander the Great). Either Philip or Alexander rebuilds Stageira.",
+              position: "left"
+            },
+            {
+              year: "316 BC",
+              description: "According to legend, Olympias, the mother of Alexander the Great is imprisoned in Stageira or on the island of Kapros by Cassander.",
+              position: "right"
+            },
+            {
+              year: "Around 300 BC",
+              description: "The mines around Stageira have been dug as far as the ground water level, beyond which it becomes impossible to excavate ore.",
+              position: "left"
+            },
+            {
+              year: "168 BC",
+              description: "Macedonia is conquered by Rome.",
+              position: "right"
+            },
+            {
+              year: "Around 7 BC",
+              description: "The Greek geographer Strabo reports that Stageira is deserted.",
+              position: "left"
+            },
+            {
+              year: "10th-11th centuries AD",
+              description: "Middle Byzantine fortress built on the North Hill of Stageira, which by this time is known as Livasdias or Lipsada.",
+              position: "right"
+            },
+            {
+              year: "1430 AD",
+              description: "Ottoman Turks conquer Halkidiki. Gold and silver mining in the Stageira area continues through the Ottoman period.",
+              position: "left"
+            },
+            {
+              year: "1912",
+              description: "Macedonia gains independence from Ottoman Turkey and becomes part of the modern Greek state.",
+              position: "right"
+            },
+            {
+              year: "1923-1924",
+              description: "Greek refugees from Agia Kyriaki in Asia Minor settle in Olympiada.",
+              position: "left"
+            },
+            {
+              year: "1968",
+              description: "Following the chance find of a kouros statue, Dr. Fotios Petsas makes the first excavations at Ancient Stageira.",
+              position: "right"
+            },
+            {
+              year: "1990",
+              description: "Greek archaeologist Dr. Kostas Sismanidis leads the first systematic investigations at Stageira, confirming the site as the location of the ancient city.",
+              position: "left"
+            },
+            {
+              year: "1999",
+              description: "Dr. Kostas Sismanidis investigates the site of Stageira's ancient mines and discovers remains of ancient settlements.",
+              position: "right"
+            },
+            {
+              year: "2011",
+              description: "Following administrative reform, Stageira becomes part of the Halkidiki municipality of Aristotelis (formerly Stagira-Akanthos).",
+              position: "left"
+            },
+            {
+              year: "Present Day",
+              description: "Olympiada has developed into a small seaside resort. Archaeological investigations continue at the site of Ancient Stageira.",
+              position: "right"
+            }
+          ]
+        
         }
+      
       }
       // Add the rest of your English translations
     },
@@ -176,7 +323,152 @@ export const translations = {
               "Αναγνώριση ως προορισμός οικοτουρισμού"
             ]
           }
+        },
+        timeline: {
+          title: "Ιστορική Χρονολόγηση",
+          events: [
+            {
+              year: "655 π.Χ.",
+              description: "Η Στάγειρα ιδρύεται στο Βόρειο Λόφο της χερσονήσου Λιοτόπη από αποίκους της Άνδρου, μετέπειτα ενώνονται από εποίκους της Χαλκίδας, Εύβοιας.",
+              position: "left"
+            },
+            {
+              year: "6ος αιώνας π.Χ.",
+              description: "Η Στάγειρα χτυπά τα δικά της νομίσματα. Προστίθενται αρκετά σημαντικά κτίρια, συμπεριλαμβανομένου ενός μεγάλου Αρχαϊκού ναού.",
+              position: "right"
+            },
+            {
+              year: "514 - 513 π.Χ.",
+              description: "Ο Μεγαβάζος, στρατηγός του περσικού βασιλιά Δαρείου Α', κατακτά τη Θράκη.",
+              position: "left"
+            },
+            {
+              year: "Περί το 500 π.Χ.",
+              description: "Οι τείχος της πόλης επεκτείνονται γύρω από το Βόρειο Λόφο.",
+              position: "right"
+            },
+            {
+              year: "492 - 490 π.Χ.",
+              description: "Η πρώτη περσική εισβολή στην Ελλάδα. Ο Μαρδόνιος, γαμπρός του βασιλιά Δαρείου, ανακτά τη Θράκη και τη Χαλκιδική και υποτάσσει τη Μακεδονία.",
+              position: "left"
+            },
+            {
+              year: "490 π.Χ.",
+              description: "Η δεύτερη επίθεση του Δαρείου στην Ελλάδα αποτρέπεται στη Μάχη του Μαραθώνα.",
+              position: "right"
+            },
+            {
+              year: "483 - 479 π.Χ.",
+              description: "Η δεύτερη περσική εισβολή στην Ελλάδα. Ο Ξέρξης κατασκευάζει έναν κανάλι ανάμεσα στη Χαλκιδική και το ακρωτήριο του Αγίου Όρους.",
+              position: "left"
+            },
+            {
+              year: "480 π.Χ.",
+              description: "Ο Ξέρξης Α' φτάνει στη Χαλκιδική με τον στρατό της εισβολής του, περνώντας από τη Στάγειρα. Οι Πέρσες ηττώνται στη ναυμαχία του Σαλαμίνα.",
+              position: "right"
+            },
+            {
+              year: "479 π.Χ.",
+              description: "Ο Ξέρξης επιστρέφει στην Ασία. Ο Μαρδόνιος ηττάται στη Μάχη της Πλαταιών. Οι τελευταίες περσικές δυνάμεις εκδιώκονται από τη Θράκη.",
+              position: "left"
+            },
+            {
+              year: "Περί το 477 π.Χ.",
+              description: "Η Στάγειρα γίνεται μέλος της Δηλιακής Συμμαχίας, μιας αντιπερσικής συμμαχίας με επικεφαλής την Αθήνα.",
+              position: "right"
+            },
+            {
+              year: "Περί το 430 π.Χ.",
+              description: "Η χαλκιδική πόλη της Ολύνθου σχηματίζει την \"Χαλκιδική Συμμαχία\" παρά τη Δηλιακή Συμμαχία. Η Στάγειρα μπορεί να έγινε μέλος.",
+              position: "left"
+            },
+            {
+              year: "424 π.Χ.",
+              description: "Ο στρατηγός των Σπαρτιατών Βρασίδας πείθει τη Στάγειρα και άλλες πόλεις της Χαλκιδικής να επαναστατήσουν εναντίον των Αθηναίων και της Δηλιακής Συμμαχίας.",
+              position: "right"
+            },
+            {
+              year: "384 π.Χ.",
+              description: "Ο φιλόσοφος Αριστοτέλης γεννιέται στη Στάγειρα.",
+              position: "left"
+            },
+            {
+              year: "348 π.Χ.",
+              description: "Ο Φίλιππος Β΄ της Μακεδονίας κατακτά τη Χαλκιδική. Καταστρέφει τη Στάγειρα και πουλά τους κατοίκους της στη δουλεία.",
+              position: "right"
+            },
+            {
+              year: "343 π.Χ.",
+              description: "Ο Αριστοτέλης διορίζεται από τον Φίλιππο Β΄ ως δάσκαλος του γιου του Αλεξάνδρου (αργότερα Αλέξανδρος ο Μέγας). Ή ο Φίλιππος ή ο Αλέξανδρος ανακτά τη Στάγειρα.",
+              position: "left"
+            },
+            {
+              year: "316 π.Χ.",
+              description: "Σύμφωνα με τον μύθο, η Ολυμπιάς, μητέρα του Μεγάλου Αλεξάνδρου, φυλακίζεται στη Στάγειρα ή στο νησί του Κάπρου από τον Κάσσανδρο.",
+              position: "right"
+            },
+            {
+              year: "Περί το 300 π.Χ.",
+              description: "Οι ορυχεία γύρω από τη Στάγειρα έχουν σκαφτεί μέχρι το υδροφόρο ορίζοντα, πέρα από τον οποίο είναι αδύνατο να ανασκάφεται μέταλλο.",
+              position: "left"
+            },
+            {
+              year: "168 π.Χ.",
+              description: "Η Μακεδονία κατακτιέται από τη Ρώμη.",
+              position: "right"
+            },
+            {
+              year: "Περί το 7 μ.Χ.",
+              description: "Ο Έλληνας γεωγράφος Στράβων αναφέρει ότι η Στάγειρα είναι ερημωμένη.",
+              position: "left"
+            },
+            {
+              year: "10ος-11ος αιώνες μ.Χ.",
+              description: "Μεσοβυζαντινό φρούριο κτίζεται στο Βόρειο Λόφο της Στάγειρας, που από αυτή την εποχή ονομάζεται Λιβασδιάς ή Λιψάδια.",
+              position: "right"
+            },
+            {
+              year: "1430 μ.Χ.",
+              description: "Οι Οθωμανοί Τούρκοι κατακτούν τη Χαλκιδική. Η εξόριστη Ολυμπιάς συνεχίζει την εξόριστή της στην Αρχαία Στάγειρα.",
+              position: "left"
+            },
+            {
+              year: "1912",
+              description: "Η Μακεδονία απελευθερώνεται από την Οθωμανική Τουρκία και γίνεται μέρος του σύγχρονου ελληνικού κράτους.",
+              position: "right"
+            },
+            {
+              year: "1923-1924",
+              description: "Έλληνες πρόσφυγες από την Αγία Κυριακή της Μικράς Ασίας εγκαθίστανται στην Ολυμπιάδα.",
+              position: "left"
+            },
+            {
+              year: "1968",
+              description: "Μετά την τυχαία εύρεση ενός αγαλματιδίου κούρου, ο Δρ. Φώτιος Πέτσας πραγματοποιεί τις πρώτες ανασκαφές στην Αρχαία Στάγειρα.",
+              position: "right"
+            },
+            {
+              year: "1990",
+              description: "Ο Έλληνας αρχαιολόγος Δρ. Κώστας Σισμανίδης οδηγεί τις πρώτες συστηματικές έρευνες στη Στάγειρα, επιβεβαιώνοντας την τοποθεσία της αρχαίας πόλης.",
+              position: "left"
+            },
+            {
+              year: "1999",
+              description: "Ο Δρ. Κώστας Σισμανίδης ερευνά τον τόπο των αρχαίων ορυχείων της Στάγειρας και ανακαλύπτει κατάλοιπα αρχαίων οικισμών.",
+              position: "right"
+            },
+            {
+              year: "2011",
+              description: "Μετά την διοικητική μεταρρύθμιση, η Στάγειρα γίνεται μέρος του δήμου Αριστοτέλη (πρώην Στάγειρα-Ακάνθου).",
+              position: "left"
+            },
+            {
+              year: "Σήμερα",
+              description: "Η Ολυμπιάδα έχει εξελιχθεί σε ένα μικρό παραθαλάσσιο θέρετρο. Οι αρχαιολογικές έρευνες συνεχίζονται στην τοποθεσία της Αρχαίας Στάγειρας.",
+              position: "right"
+            }
+          ]
         }
-      }
-    }
-  };
+          }
+        }
+      };
