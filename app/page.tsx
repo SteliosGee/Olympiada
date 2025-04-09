@@ -80,7 +80,7 @@ export default function Home() {
             className="flex items-center gap-2 text-xl font-bold"
           >
             <Anchor className="h-6 w-6" />
-            <span>Olympiada</span>
+            <span>{t('navigation.olympiada')}</span>
           </Link>
           
           <nav className="hidden md:flex gap-4">

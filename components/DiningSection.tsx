@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,6 +11,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Utensils } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/context/translation";
 
 // Enhanced menu data with categories
 const menuData = {
@@ -180,9 +182,17 @@ function MenuModal({
 }
 
 export default function DiningSection() {
+  const { locale, changeLanguage } = useLanguage() as { locale: 'en' | 'el'; changeLanguage: (lang: 'en' | 'el') => void };
   const [selectedMenu, setSelectedMenu] = useState<
     null | keyof typeof menuData
   >(null);
+
+    useEffect(() => {
+      const savedLocale = localStorage.getItem('locale');
+      if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
+        changeLanguage(savedLocale as 'en' | 'el');
+      }
+    }, [changeLanguage]);
 
   const places = [
     "Perroquet",
@@ -196,11 +206,10 @@ export default function DiningSection() {
         <div className="mx-auto max-w-3xl text-center">
           <Utensils className="mx-auto h-10 w-10 text-blue-600" />
           <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Beach Bars & Restaurants
+            {translations[locale].places.title}
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Savor authentic Greek cuisine and refreshing drinks with stunning
-            sea views
+            {translations[locale].places.description}
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -232,7 +241,7 @@ export default function DiningSection() {
                       : place === "Molos"
                       ? "80"
                       : "380"}{" "}
-                    reviews)
+                    {translations[locale].common.reviews})
                   </span>
                 </div>
                 <div className="mt-4">
