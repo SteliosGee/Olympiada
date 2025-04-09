@@ -372,6 +372,9 @@ export const translations = {
     coffee: "Coffee",
 
   }
+  },
+  footer: {
+    author: "Created by SteliosGee",
   }
 },
   el: {
@@ -743,5 +746,8 @@ items: [
 commonItems: {
   coffee: "Καφές",
 }
+},
+footer: {
+  author: "Σχεδιάστηκε και αναπτύχθηκε από τον Στέλιο Τζι",
 }
   }}

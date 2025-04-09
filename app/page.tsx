@@ -11,11 +11,12 @@ import {
   History,
   MapPin,
   Menu,
-  Utensils,
   X,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInstagram, faFacebook, faGithub } from '@fortawesome/free-brands-svg-icons';
 import AboutSection from "@/components/AboutSection";
 import HistorySection from "@/components/HistorySection";
 import DiningSection from "@/components/DiningSection";
@@ -365,28 +366,29 @@ export default function Home() {
               </ul>
             </div>
             <div>
-              <h3 className="text-lg font-semibold">Follow Us</h3>
+              <h3 className="text-lg font-semibold">{t("footer.author")}</h3>
               <div className="mt-4 flex gap-4">
                 <Link
-                  href="#"
-                  className="rounded-full bg-slate-200 p-2 hover:bg-slate-300"
+                  href="https://www.facebook.com/steliosgee"
+                  className="rounded-full p-2 hover:bg-slate-300"
                 >
                   <span className="sr-only">Facebook</span>
-                  <span className="h-5 w-5">📱</span>
+                  <FontAwesomeIcon icon={faFacebook} className="h-5 w-5" />
                 </Link>
                 <Link
-                  href="#"
-                  className="rounded-full bg-slate-200 p-2 hover:bg-slate-300"
+                  href="https://www.instagram.com/_stelios.g_/"
+                  className="rounded-full p-2 hover:bg-slate-300"
                 >
                   <span className="sr-only">Instagram</span>
-                  <span className="h-5 w-5">📸</span>
+                  <FontAwesomeIcon icon={faInstagram} className="h-5 w-5" />
+        
                 </Link>
                 <Link
-                  href="#"
-                  className="rounded-full bg-slate-200 p-2 hover:bg-slate-300"
+                  href="https://github.com/SteliosGee"
+                  className="rounded-full p-2 hover:bg-slate-300"
                 >
-                  <span className="sr-only">Twitter</span>
-                  <span className="h-5 w-5">🐦</span>
+                  <span className="sr-only">Github</span>
+                  <FontAwesomeIcon icon={faGithub} className="h-5 w-5" />
                 </Link>
               </div>
               <div className="mt-4">
