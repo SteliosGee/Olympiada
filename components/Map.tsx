@@ -61,7 +61,7 @@ export default function OlympiadaMap() {
       
       const customIcons = {
         nature: createCustomIcon(FaUmbrellaBeach, '#3b82f6'), // blue
-        beachbar: createCustomIcon(FaCocktail, '#3b82f6'), // blue
+        beachbar: createCustomIcon(FaCocktail, '#bb0a1e'), // red
         historical: createCustomIcon(FaMapMarkerAlt, '#f59e0b'), // amber
         dining: createCustomIcon(FaUtensils, '#22c55e'), // green
         default: createCustomIcon(FaMapMarkerAlt, '#ef4444') // red
@@ -81,14 +81,28 @@ export default function OlympiadaMap() {
   }[] = [
     { 
       name: "Main Beach", 
-      position: [40.5912, 23.7971] as LatLngTuple,
+      position: [40.5930509848559, 23.7848929060503] as LatLngTuple,
       type: "nature",
       description: "Beautiful sandy beach with crystal clear waters",
       image: "/assets/gallery/image1.jpg" 
     },
+    {
+      name: "Sykia",
+      position: [40.59123942535739, 23.791080190208763] as LatLngTuple,
+      type: "nature",
+      description: "A hidden gem with stunning views and clear waters",
+      image: "/assets/gallery/image3.jpg"
+    },
+    {
+      name: "Kephalas",
+      position: [40.588371809849335, 23.794958834117228] as LatLngTuple,
+      type: "nature",
+      description: "A secluded beach with soft sand and clear waters",
+      image: "/assets/gallery/image4.jpg"
+    },
     { 
       name: "Ancient Stagira", 
-      position: [40.5953, 23.7969] as LatLngTuple,
+      position: [40.59203540368834, 23.795194865506105] as LatLngTuple,
       type: "historical",
       description: "Birthplace of Aristotle with well-preserved ruins",
       image: "/assets/gallery/image2.jpg" 
@@ -194,8 +208,8 @@ export default function OlympiadaMap() {
         <div className="h-[500px] w-full rounded-lg overflow-hidden shadow-lg">
           {isMounted && Object.keys(icons).length > 0 ? (
             <MapContainer 
-              center={[40.5912, 23.7971]} 
-              zoom={14} 
+              center={[40.591616637074594, 23.786827570191623]} 
+              zoom={16} 
               className="h-full w-full"
               scrollWheelZoom={false}
             >
@@ -247,7 +261,7 @@ export default function OlympiadaMap() {
             <span className="text-sm">Restaurants</span>
           </div>
           <div className="flex items-center gap-2">
-            <FaCocktail className="text-blue-500 text-lg" />
+            <FaCocktail className="text-red-500 text-lg" />
             <span className="text-sm">Beach Bars</span>
           </div>
         </div>
