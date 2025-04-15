@@ -14,92 +14,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/context/translation";
 
-// Enhanced menu data with categories
-const menuData = {
-  "Perroquet": {
-    "Cocktails": [
-      "Mojito - $8",
-      "Pina Colada - $9",
-      "Aperol Spritz - $10",
-      "Negroni - $10",
-    ],
-    "Coffees": [
-      "Espresso - $3",
-      "Cappuccino - $4",
-      "Freddo Espresso - $5",
-      "Greek Coffee - $3.50",
-    ],
-    "Juices": [
-      "Fresh Orange - $6",
-      "Watermelon - $5",
-      "Mixed Berries - $7",
-    ],
-    "Snacks": [
-      "Greek Salad - $7",
-      "Club Sandwich - $8",
-      "Bruschetta - $6",
-    ],
-  },
-  "Molos": {
-    "Pizza": [
-      "Margherita Pizza - $12",
-      "Pepperoni - $14",
-      "Greek Special - $15",
-      "Seafood - $16",
-    ],
-    "Pasta": [
-      "Spaghetti Carbonara - $14",
-      "Penne Arrabiata - $12",
-      "Seafood Linguine - $16",
-    ],
-    "Salads": [
-      "Caesar Salad - $10",
-      "Greek Salad - $9",
-      "Rocket & Parmesan - $8",
-    ],
-    "Desserts": [
-      "Tiramisu - $7",
-      "Panna Cotta - $6",
-      "Ice Cream - $5",
-    ],
-  },
-  "Akroyali": {
-    "Seafood": [
-      "Grilled Octopus - $16",
-      "Fried Calamari - $14",
-      "Fresh Fish (daily catch) - $18",
-      "Shrimp Saganaki - $15",
-    ],
-    "Main Dishes": [
-      "Moussaka - $14",
-      "Lamb Kleftiko - $16",
-      "Souvlaki Plate - $13",
-      "Beef Stifado - $15",
-    ],
-    "Appetizers": [
-      "Tzatziki - $5",
-      "Taramasalata - $5",
-      "Dolmades - $7",
-      "Grilled Halloumi - $8",
-    ],
-    "Desserts": [
-      "Baklava - $6",
-      "Galaktoboureko - $6",
-      "Greek Yogurt with Honey - $5",
-    ],
-  },
-};
-
 function MenuModal({
   name,
   isOpen,
   onClose,
 }: {
-  name: keyof typeof menuData;
+  name: keyof typeof translations["en"]["places"]["restaurants"];
   isOpen: boolean;
   onClose: () => void;
 }) {
-  const categories = Object.keys(menuData[name]);
+  const { locale } = useLanguage() as { locale: 'en' | 'el' };
+  const restaurantData = translations[locale].places.restaurants[name];
+  
+  if (!restaurantData) return null;
+  
+  const menuData: Record<string, string[]> = restaurantData.menu;
+  const categories = Object.keys(menuData);
   const [activeCategory, setActiveCategory] = useState(categories[0]);
   
   return (
@@ -137,7 +67,7 @@ function MenuModal({
                     {category}
                   </h3>
                   <ul className="space-y-3">
-                    {(menuData[name] as Record<string, string[]>)[category].map((item, index) => {
+                    {(menuData[category] as string[]).map((item, index) => {
                       const [itemName, price] = item.split(' - ');
                       return (
                         <li key={index} className="flex items-center justify-between pb-2 border-b border-slate-200 last:border-0">
@@ -153,17 +83,13 @@ function MenuModal({
           </Tabs>
           
           <div className="mt-4 text-sm text-muted-foreground text-center">
-            <p>* Full menu available at the restaurant</p>
+            <p>{translations[locale].places.menuNote}</p>
           </div>
         </div>
         
         <div className="flex items-center justify-between mt-4">
           <p className="text-sm text-muted-foreground italic">
-            {name === "Perroquet" 
-              ? "Known for amazing cocktails & sunsets" 
-              : name === "Molos" 
-              ? "Famous for authentic Italian cuisine"
-              : "Best seafood in Olympiada"}
+            {restaurantData.tagline}
           </p>
           <DialogClose asChild>
             <Button 
@@ -172,7 +98,7 @@ function MenuModal({
               className="border-blue-600 text-blue-600 hover:bg-blue-50"
               onClick={onClose}
             >
-              Close
+              {translations[locale].places.close}
             </Button>
           </DialogClose>
         </div>
@@ -183,22 +109,17 @@ function MenuModal({
 
 export default function DiningSection() {
   const { locale, changeLanguage } = useLanguage() as { locale: 'en' | 'el'; changeLanguage: (lang: 'en' | 'el') => void };
-  const [selectedMenu, setSelectedMenu] = useState<
-    null | keyof typeof menuData
-  >(null);
+  const [selectedMenu, setSelectedMenu] = useState<"Perroquet" | "Molos" | "Akroyali" | null>(null);
 
-    useEffect(() => {
-      const savedLocale = localStorage.getItem('locale');
-      if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
-        changeLanguage(savedLocale as 'en' | 'el');
-      }
-    }, [changeLanguage]);
+  useEffect(() => {
+    const savedLocale = localStorage.getItem('locale');
+    if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
+      changeLanguage(savedLocale as 'en' | 'el');
+    }
+  }, [changeLanguage]);
 
-  const places = [
-    "Perroquet",
-    "Molos",
-    "Akroyali",
-  ] as const;
+  // Get restaurant names from translations
+  const places = Object.keys(translations[locale].places.restaurants);
 
   return (
     <section id="dining" className="py-16 md:py-24">
@@ -213,53 +134,46 @@ export default function DiningSection() {
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-  {places.map((place) => (
-    <div key={place} className="rounded-lg border bg-card shadow-sm flex flex-col">
-      <div className="relative h-48 overflow-hidden rounded-t-lg">
-        <Image
-          src={`/assets/dining/${place.toLowerCase()}/primer.jpg`}
-          alt={place}
-          fill
-          className="object-cover"
-        />
-      </div>
-      <div className="p-6 flex flex-col flex-grow">
-        <h3 className="text-xl font-bold">{place}</h3>
-        <p className="mt-2 text-muted-foreground">
-          {place === "Perroquet"
-            ? "Cozy beach bar with a relaxed atmosphere and delicious cocktails"
-            : place === "Molos"
-            ? "Trendy pizza and pasta restaurant with a vibrant atmosphere"
-            : "Traditional Greek taverna serving fresh seafood and local specialties"}
-        </p>
-        <div className="mt-4 flex items-center gap-1">
-          <span className="text-yellow-500">★★★★★</span>
-          <span className="text-sm text-muted-foreground">
-            (
-            {place === "Perroquet"
-              ? "425"
-              : place === "Molos"
-              ? "80"
-              : "380"}{" "}
-            {translations[locale].common.reviews})
-          </span>
+          {places.map((place) => {
+            const restaurantData = translations[locale].places.restaurants[place as keyof typeof translations["en"]["places"]["restaurants"]];
+            return (
+              <div key={place} className="rounded-lg border bg-card shadow-sm flex flex-col h-full">
+                <div className="relative h-48 overflow-hidden rounded-t-lg">
+                  <Image
+                    src={`/assets/dining/${place.toLowerCase()}/primer.jpg`}
+                    alt={place}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-6 flex flex-col flex-grow">
+                  <h3 className="text-xl font-bold">{place}</h3>
+                  <p className="mt-2 text-muted-foreground">
+                    {restaurantData.description}
+                  </p>
+                  <div className="mt-4 flex items-center gap-1">
+                    <span className="text-yellow-500">★★★★★</span>
+                    <span className="text-sm text-muted-foreground">
+                      ({restaurantData.reviews} {translations[locale].common.reviews})
+                    </span>
+                  </div>
+                  <div className="mt-auto pt-4">
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => setSelectedMenu(place as "Perroquet" | "Molos" | "Akroyali")}
+                    >
+                      {translations[locale].places.viewMenu}
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <div className="mt-auto pt-4">
-          <Button
-            variant="outline"
-            className="w-full"
-            onClick={() => setSelectedMenu(place)}
-          >
-            View Menu
-          </Button>
-        </div>
-      </div>
-    </div>
-  ))}
-</div>
         <div className="mt-8 text-center">
           <Button asChild>
-            <Link href="#dining">View All Dining Options</Link>
+            <Link href="#dining">{translations[locale].places.viewAll}</Link>
           </Button>
         </div>
       </div>
