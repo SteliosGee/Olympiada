@@ -213,50 +213,50 @@ export default function DiningSection() {
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {places.map((place) => (
-            <div key={place} className="rounded-lg border bg-card shadow-sm">
-              <div className="relative h-48 overflow-hidden rounded-t-lg">
-                <Image
-                  src={`/assets/dining/${place.toLowerCase()}/primer.jpg`}
-                  alt={place}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold">{place}</h3>
-                <p className="mt-2 text-muted-foreground">
-                  {place === "Perroquet"
-                    ? "Cozy beach bar with a relaxed atmosphere and delicious cocktails"
-                    : place === "Molos"
-                    ? "Trendy pizza and pasta restaurant with a vibrant atmosphere"
-                    : "Traditional Greek taverna serving fresh seafood and local specialties"}
-                </p>
-                <div className="mt-4 flex items-center gap-1">
-                  <span className="text-yellow-500">★★★★★</span>
-                  <span className="text-sm text-muted-foreground">
-                    (
-                    {place === "Perroquet"
-                      ? "425"
-                      : place === "Molos"
-                      ? "80"
-                      : "380"}{" "}
-                    {translations[locale].common.reviews})
-                  </span>
-                </div>
-                <div className="mt-4">
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => setSelectedMenu(place)}
-                  >
-                    View Menu
-                  </Button>
-                </div>
-              </div>
-            </div>
-          ))}
+  {places.map((place) => (
+    <div key={place} className="rounded-lg border bg-card shadow-sm flex flex-col">
+      <div className="relative h-48 overflow-hidden rounded-t-lg">
+        <Image
+          src={`/assets/dining/${place.toLowerCase()}/primer.jpg`}
+          alt={place}
+          fill
+          className="object-cover"
+        />
+      </div>
+      <div className="p-6 flex flex-col flex-grow">
+        <h3 className="text-xl font-bold">{place}</h3>
+        <p className="mt-2 text-muted-foreground">
+          {place === "Perroquet"
+            ? "Cozy beach bar with a relaxed atmosphere and delicious cocktails"
+            : place === "Molos"
+            ? "Trendy pizza and pasta restaurant with a vibrant atmosphere"
+            : "Traditional Greek taverna serving fresh seafood and local specialties"}
+        </p>
+        <div className="mt-4 flex items-center gap-1">
+          <span className="text-yellow-500">★★★★★</span>
+          <span className="text-sm text-muted-foreground">
+            (
+            {place === "Perroquet"
+              ? "425"
+              : place === "Molos"
+              ? "80"
+              : "380"}{" "}
+            {translations[locale].common.reviews})
+          </span>
         </div>
+        <div className="mt-auto pt-4">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => setSelectedMenu(place)}
+          >
+            View Menu
+          </Button>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
         <div className="mt-8 text-center">
           <Button asChild>
             <Link href="#dining">View All Dining Options</Link>
