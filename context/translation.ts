@@ -372,27 +372,27 @@ export const translations = {
           tagline: "Known for amazing cocktails & sunsets",
           menu: {
             "Cocktails": [
-              "Mojito - $8",
-              "Pina Colada - $9",
-              "Aperol Spritz - $10",
-              "Negroni - $10",
+              "Mojito - 8€",
+              "Pina Colada - 9€",
+              "Aperol Spritz - 10€",
+              "Negroni - 10€"
             ],
             "Coffees": [
-              "Espresso - $3",
-              "Cappuccino - $4",
-              "Freddo Espresso - $5",
-              "Greek Coffee - $3.50",
+              "Espresso - 3€",
+              "Cappuccino - 4€",
+              "Freddo Espresso - 5€",
+              "Greek Coffee - 3.50€"
             ],
             "Juices": [
-              "Fresh Orange - $6",
-              "Watermelon - $5",
-              "Mixed Berries - $7",
+              "Fresh Orange - 6€",
+              "Watermelon - 5€",
+              "Mixed Berries - 7€"
             ],
             "Snacks": [
-              "Greek Salad - $7",
-              "Club Sandwich - $8",
-              "Bruschetta - $6",
-            ],
+              "Greek Salad - 7€",
+              "Club Sandwich - 8€",
+              "Bruschetta - 6€"
+            ]
           }
         },
         "Molos": {
@@ -401,26 +401,26 @@ export const translations = {
           tagline: "Famous for authentic Italian cuisine",
           menu: {
             "Pizza": [
-              "Margherita Pizza - $12",
-              "Pepperoni - $14",
-              "Greek Special - $15",
-              "Seafood - $16",
+              "Margherita Pizza - 12€",
+              "Pepperoni - 14€",
+              "Greek Special - 15€",
+              "Seafood - 16€"
             ],
             "Pasta": [
-              "Spaghetti Carbonara - $14",
-              "Penne Arrabiata - $12",
-              "Seafood Linguine - $16",
+              "Spaghetti Carbonara - 14€",
+              "Penne Arrabiata - 12€",
+              "Seafood Linguine - 16€"
             ],
             "Salads": [
-              "Caesar Salad - $10",
-              "Greek Salad - $9",
-              "Rocket & Parmesan - $8",
+              "Caesar Salad - 10€",
+              "Greek Salad - 9€",
+              "Rocket & Parmesan - 8€"
             ],
             "Desserts": [
-              "Tiramisu - $7",
-              "Panna Cotta - $6",
-              "Ice Cream - $5",
-            ],
+              "Tiramisu - 7€",
+              "Panna Cotta - 6€",
+              "Ice Cream - 5€"
+            ]
           }
         },
         "Akroyali": {
@@ -429,31 +429,31 @@ export const translations = {
           tagline: "Best seafood in Olympiada",
           menu: {
             "Seafood": [
-              "Grilled Octopus - $16",
-              "Fried Calamari - $14",
-              "Fresh Fish (daily catch) - $18",
-              "Shrimp Saganaki - $15",
+              "Grilled Octopus - 16€",
+              "Fried Calamari - 14€",
+              "Fresh Fish (daily catch) - 18€",
+              "Shrimp Saganaki - 15€"
             ],
             "Main Dishes": [
-              "Moussaka - $14",
-              "Lamb Kleftiko - $16",
-              "Souvlaki Plate - $13",
-              "Beef Stifado - $15",
+              "Moussaka - 14€",
+              "Lamb Kleftiko - 16€",
+              "Souvlaki Plate - 13€",
+              "Beef Stifado - 15€"
             ],
             "Appetizers": [
-              "Tzatziki - $5",
-              "Taramasalata - $5",
-              "Dolmades - $7",
-              "Grilled Halloumi - $8",
+              "Tzatziki - 5€",
+              "Taramasalata - 5€",
+              "Dolmades - 7€",
+              "Grilled Halloumi - 8€"
             ],
             "Desserts": [
-              "Baklava - $6",
-              "Galaktoboureko - $6",
-              "Greek Yogurt with Honey - $5",
-            ],
+              "Baklava - 6€",
+              "Galaktoboureko - 6€",
+              "Greek Yogurt with Honey - 5€"
+            ]
           }
         }
-  },
+      },      
   footer: {
     author: "Created by SteliosGee",
   }
