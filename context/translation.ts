@@ -1,3 +1,5 @@
+import { title } from "process";
+
 // translations.ts
 export const translations = {
   en: {
@@ -356,7 +358,8 @@ export const translations = {
       ]
     },
     stay: {
-      test: "test"
+      title: "Where to Stay",
+      description: "Find the perfect accommodation for your stay in Olympiada",
     },
     places: {
       title: "Seaside Bites & Drinks",
@@ -814,7 +817,8 @@ items: [
 ]
 },
 stay: {
-test: "test"
+title: "Διαμονή",
+description: "Ανακαλύψτε την τέλεια διαμονή για τις διακοπές σας στην Ολυμπιάδα",
 },
 places: {
   title: "Παραθαλάσσια Φαγητά & Ροφήματα",

@@ -23,6 +23,7 @@ import DiningSection from "@/components/DiningSection";
 import OlympiadaMap from "@/components/Map";
 import AccommodationsSection from  "@/components/AccommodationsSection";
 import ActivitiesSection from "@/components/ActivitiesSection";
+import CalendarSection from "@/components/CalendarSection";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -212,8 +213,11 @@ export default function Home() {
         {/* Map Section */}
         <OlympiadaMap />
 
+        {/* Calendar Section */}
+        <CalendarSection />
+
         {/* Gallery Section */}
-        <section id="gallery" className="py-16 md:py-24">
+        <section id="gallery" className="py-16 md:py-24 bg-slate-50">
           <div className="container mx-auto">
             <div className="mx-auto max-w-3xl text-center">
               <Camera className="mx-auto h-10 w-10 text-blue-600" />
