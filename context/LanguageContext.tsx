@@ -1,12 +1,12 @@
 "use client";
 
 import { createContext, useState, useContext, useEffect, ReactNode } from 'react';
-import { translations } from './translation';
+import { translations, TranslationsType, LocaleType } from './translations';
 
 type LanguageContextType = {
-  locale: string;
+  locale: LocaleType;
   t: (key: string) => string;
-  changeLanguage: (locale: string) => void;
+  changeLanguage: (locale: LocaleType) => void;
 };
 
 const LanguageContext = createContext<LanguageContextType>({
@@ -16,11 +16,11 @@ const LanguageContext = createContext<LanguageContextType>({
 });
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  const [locale, setLocale] = useState('en');
+  const [locale, setLocale] = useState<LocaleType>('en');
 
   const t = (key: string): string => {
     const keys = key.split('.');
-    let value: any = translations[locale as keyof typeof translations];
+    let value: any = translations[locale];
     
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {
@@ -33,7 +33,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
     return typeof value === 'string' ? value : key;
   };
 
-  const changeLanguage = (newLocale: string) => {
+  const changeLanguage = (newLocale: LocaleType) => {
     setLocale(newLocale);
     document.documentElement.lang = newLocale;
     localStorage.setItem('locale', newLocale);
@@ -41,7 +41,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 
   // Initialize from localStorage
   useEffect(() => {
-    const savedLocale = localStorage.getItem('locale');
+    const savedLocale = localStorage.getItem('locale') as LocaleType;
     if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
       setLocale(savedLocale);
       document.documentElement.lang = savedLocale;

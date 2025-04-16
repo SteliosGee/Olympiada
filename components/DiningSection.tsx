@@ -9,7 +9,8 @@ import { MenuModal } from "./RestaurantCard";
 
 export default function DiningSection() {
   const { locale, changeLanguage } = useLanguage() as { locale: 'en' | 'el'; changeLanguage: (lang: 'en' | 'el') => void };
-  const [selectedMenu, setSelectedMenu] = useState<"Perroquet" | "Molos" | "Akroyali" | null>(null);
+  const [selectedMenu, setSelectedMenu] = useState<"Perroquet" | "Molos" | "Akroyali" | "Apoplous" | null>(null);
+  const [showMorePlaces, setShowMorePlaces] = useState(false);
 
   useEffect(() => {
     const savedLocale = localStorage.getItem('locale');
@@ -19,7 +20,63 @@ export default function DiningSection() {
   }, [changeLanguage]);
 
   // Get restaurant names from translations
-  const places = Object.keys(translations[locale].places.restaurants);
+  const allPlaces = Object.keys(translations[locale].places.restaurants);
+  
+  // Split places into initial and additional sets
+  const initialPlaces = allPlaces.slice(0, 3);
+  const additionalPlaces = allPlaces.slice(3);
+
+  // Function to render restaurant card
+  // Function to render restaurant card
+  const renderRestaurantCard = (place: string) => {
+    const restaurantData = translations[locale].places.restaurants[place as keyof typeof translations["en"]["places"]["restaurants"]];
+    
+    // Default rating is 5, but you can customize per restaurant
+    const rating = place === "Apoplous" ? 4 : 5;
+    
+    return (
+      <div key={place} className="rounded-lg border bg-card shadow-sm flex flex-col h-full">
+        <div className="relative h-48 overflow-hidden rounded-t-lg">
+          <Image
+            src={`/assets/dining/${place.toLowerCase()}/primer.jpg`}
+            alt={place}
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="p-6 flex flex-col flex-grow">
+          <h3 className="text-xl font-bold">{place}</h3>
+          <p className="mt-2 text-muted-foreground">
+            {restaurantData.description}
+          </p>
+          <div className="mt-4 flex items-center gap-1">
+            <div className="flex" aria-label={`${rating} out of 5 stars`}>
+              {[...Array(5)].map((_, i) => (
+                <span 
+                  key={i}
+                  className={`text-yellow-500 ${i >= rating ? "opacity-30" : ""}`}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+            <span className="text-sm text-muted-foreground">
+              ({restaurantData.reviews} {translations[locale].common.reviews})
+            </span>
+          </div>
+          <div className="mt-auto pt-4">
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => setSelectedMenu(place as typeof selectedMenu)}
+            >
+              {translations[locale].places.viewMenu}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <section id="dining" className="py-16 md:py-24">
@@ -34,47 +91,28 @@ export default function DiningSection() {
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {places.map((place) => {
-            const restaurantData = translations[locale].places.restaurants[place as keyof typeof translations["en"]["places"]["restaurants"]];
-            return (
-              <div key={place} className="rounded-lg border bg-card shadow-sm flex flex-col h-full">
-                <div className="relative h-48 overflow-hidden rounded-t-lg">
-                  <Image
-                    src={`/assets/dining/${place.toLowerCase()}/primer.jpg`}
-                    alt={place}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-bold">{place}</h3>
-                  <p className="mt-2 text-muted-foreground">
-                    {restaurantData.description}
-                  </p>
-                  <div className="mt-4 flex items-center gap-1">
-                    <span className="text-yellow-500">★★★★★</span>
-                    <span className="text-sm text-muted-foreground">
-                      ({restaurantData.reviews} {translations[locale].common.reviews})
-                    </span>
-                  </div>
-                  <div className="mt-auto pt-4">
-                    <Button
-                      variant="outline"
-                      className="w-full"
-                      onClick={() => setSelectedMenu(place as "Perroquet" | "Molos" | "Akroyali")}
-                    >
-                      {translations[locale].places.viewMenu}
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {initialPlaces.map(renderRestaurantCard)}
         </div>
-        <div className="mt-8 text-center">
-          <Button asChild>
-            <Link href="#dining">{translations[locale].places.viewAll}</Link>
-          </Button>
+        
+        {/* Additional places shown when View More is clicked */}
+        {showMorePlaces && additionalPlaces.length > 0 && (
+          <div className="mt-8 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {additionalPlaces.map(renderRestaurantCard)}
+          </div>
+        )}
+        
+        <div className="mt-8 text-center flex justify-center gap-4">
+          {additionalPlaces.length > 0 && (
+            <Button 
+              variant="outline" 
+              onClick={() => setShowMorePlaces(!showMorePlaces)}
+            >
+              {showMorePlaces ? 
+                (locale === 'en' ? "Show Less" : "Προβολή Λιγότερων") : 
+                (locale === 'en' ? "View More" : "Προβολή Περισσότερων")
+              }
+            </Button>
+          )}
         </div>
       </div>
       {selectedMenu && (

@@ -5,7 +5,6 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { History } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { translations } from "@/context/translation";
 import {
   Dialog,
   DialogContent,
@@ -22,30 +21,36 @@ import {
 } from "@/components/ui/accordion";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-// History section content type
+// Define type for historical period
 type HistoricalPeriod = {
   title: string;
   shortDescription: string;
   fullDescription: string;
   image: string;
-  facts: string[]; // Array of strings representing historical facts
+  facts: string[];
 };
 
-type PeriodKey = keyof typeof translations["en"]["history"]["periods"];
+// Define type for timeline event
+type TimelineEvent = {
+  year: string;
+  description: string;
+  position: "left" | "right";
+};
 
 export default function HistorySection() {
-  const { locale, changeLanguage } = useLanguage() as { locale: 'en' | 'el'; changeLanguage: (lang: 'en' | 'el') => void };
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   // Add state to track section open/closed state
-const [openSections, setOpenSections] = useState<{ timeline: boolean }>({
-  timeline: false,
-});
+  const [openSections, setOpenSections] = useState<{ timeline: boolean }>({
+    timeline: false,
+  });
+
+  const { locale, t, changeLanguage } = useLanguage();
 
   useEffect(() => {
     const savedLocale = localStorage.getItem('locale');
     if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
-      changeLanguage(savedLocale as 'en' | 'el');
+      changeLanguage(savedLocale as 'en' | 'el');  
     }
   }, [changeLanguage]);
 
@@ -65,9 +70,11 @@ const [openSections, setOpenSections] = useState<{ timeline: boolean }>({
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
-  // Convert the translations periods object to an array for rendering
-  const historicalPeriods = Object.keys(translations[locale].history.periods || {})
-    .map(key => translations[locale].history.periods[key as PeriodKey]);
+  // Get the historical periods from translations
+  const periods = t('history.periods');
+  const historicalPeriods = periods ? 
+    Object.keys(periods).map(key => periods[key as keyof typeof periods]) as HistoricalPeriod[] : 
+    [];
 
   return (
     <section id="history" className="bg-slate-50 py-16 md:py-24">
@@ -75,37 +82,37 @@ const [openSections, setOpenSections] = useState<{ timeline: boolean }>({
         <div className="mx-auto max-w-3xl text-center mb-12">
           <History className="mx-auto h-10 w-10 text-blue-600" />
           <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            {translations[locale].history.title}
+            {t("history.title")}
           </h2>
           <p className="mt-4 text-muted-foreground">
-            {translations[locale].history.description}
+            {t("history.description")}
           </p>
         </div>
         
         <div className="mt-12 grid gap-8 md:grid-cols-3">
           <div className="rounded-lg border bg-card p-6 shadow-sm">
-            <h3 className="text-xl font-bold">{translations[locale].history.block1_title}</h3>
+            <h3 className="text-xl font-bold">{t("history.block1_title")}</h3>
             <p className="mt-2 text-muted-foreground">
-              {translations[locale].history.block1_text}
+              {t('history.block1_text')}
             </p>
           </div>
           <div className="rounded-lg border bg-card p-6 shadow-sm">
-            <h3 className="text-xl font-bold">{translations[locale].history.block2_title}</h3>
+            <h3 className="text-xl font-bold">{t("history.block2_title")}</h3>
             <p className="mt-2 text-muted-foreground">
-              {translations[locale].history.block2_text}
+              {t("history.block2_text")}
             </p>
           </div>
           <div className="rounded-lg border bg-card p-6 shadow-sm">
-            <h3 className="text-xl font-bold">{translations[locale].history.block3_title}</h3>
+            <h3 className="text-xl font-bold">{t("history.block3_title")}</h3>
             <p className="mt-2 text-muted-foreground">
-              {translations[locale].history.block3_text}
+              {t("history.block3_text")}
             </p>
           </div>
         </div>
         
         <div className="mt-8 text-center">
           <Button variant="outline" onClick={() => setIsDialogOpen(true)}>
-            {translations[locale].history.button}
+            {t("history.button")}
           </Button>
         </div>
       </div>
@@ -114,9 +121,9 @@ const [openSections, setOpenSections] = useState<{ timeline: boolean }>({
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-2xl">{translations[locale].history.title}</DialogTitle>
+            <DialogTitle className="text-2xl">{t("history.title")}</DialogTitle>
             <DialogDescription>
-              {translations[locale].history.description}
+              {t("history.description")}
             </DialogDescription>
           </DialogHeader>
 
@@ -148,7 +155,7 @@ const [openSections, setOpenSections] = useState<{ timeline: boolean }>({
                       
                       {period.facts && period.facts.length > 0 && (
                         <div className="mt-4">
-                          <h4 className="font-medium">{translations[locale].history.keyFacts}</h4>
+                          <h4 className="font-medium">{t("history.keyFacts")}</h4>
                           <ul className="list-disc pl-5 mt-2 space-y-1">
                             {period.facts.map((fact: string, factIndex: number) => (
                               <li key={factIndex}>{fact}</li>
@@ -163,68 +170,67 @@ const [openSections, setOpenSections] = useState<{ timeline: boolean }>({
             </Accordion>
           </div>
 
+          <div className="mt-6 border-t pt-6">
+            <div className="rounded-md border overflow-hidden">
+              <button
+                onClick={() =>
+                  setOpenSections({
+                    ...openSections,
+                    timeline: !openSections.timeline,
+                  })
+                }
+                className="w-full p-4 flex justify-between items-center text-left bg-gray-50 hover:bg-gray-100"
+              >
+                <h3 className="text-lg font-medium">{t("history.timeline.title")}</h3>
+                {openSections.timeline ? (
+                  <ChevronUp className="h-5 w-5 flex-shrink-0" />
+                ) : (
+                  <ChevronDown className="h-5 w-5 flex-shrink-0" />
+                )}
+              </button>
 
-<div className="mt-6 border-t pt-6">
-  <div className="rounded-md border overflow-hidden">
-    <button
-      onClick={() =>
-        setOpenSections({
-          ...openSections,
-          timeline: !openSections.timeline,
-        })
-      }
-      className="w-full p-4 flex justify-between items-center text-left bg-gray-50 hover:bg-gray-100"
-    >
-      <h3 className="text-lg font-medium">{translations[locale].history.timeline.title}</h3>
-      {openSections.timeline ? (
-        <ChevronUp className="h-5 w-5 flex-shrink-0" />
-      ) : (
-        <ChevronDown className="h-5 w-5 flex-shrink-0" />
-      )}
-    </button>
+              {openSections.timeline && (
+                <div className="p-4 border-t">
+                  <div className="space-y-8 relative">
+                    <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-[2px] bg-blue-200 transform md:translate-x-[-1px]"></div>
 
-    {openSections.timeline && (
-      <div className="p-4 border-t">
-        <div className="space-y-8 relative">
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-[2px] bg-blue-200 transform md:translate-x-[-1px]"></div>
-
-          {translations[locale].history.timeline.events.map((event, index) => (
-            <div key={index} className="flex flex-col md:flex-row">
-              {event.position === "left" ? (
-                <>
-                  <div className="md:w-1/2 md:pr-8 md:text-right mb-4 md:mb-0">
-                    <div className="font-bold">{event.year}</div>
-                    <p className="text-sm text-muted-foreground">
-                      {event.description}
-                    </p>
+                    {t("history.timeline.events").map((event: TimelineEvent, index: number) => (
+                      <div key={index} className="flex flex-col md:flex-row">
+                        {event.position === "left" ? (
+                          <>
+                            <div className="md:w-1/2 md:pr-8 md:text-right mb-4 md:mb-0">
+                              <div className="font-bold">{event.year}</div>
+                              <p className="text-sm text-muted-foreground">
+                                {event.description}
+                              </p>
+                            </div>
+                            <div className="md:w-1/2 md:pl-8 relative">
+                              <div className="absolute left-[-9px] md:left-[-9px] top-0 h-4 w-4 rounded-full bg-blue-600 shadow"></div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="md:w-1/2 md:pr-8 hidden md:block"></div>
+                            <div className="md:w-1/2 md:pl-8 relative">
+                              <div className="absolute left-[-9px] md:left-[-9px] top-0 h-4 w-4 rounded-full bg-blue-600 shadow"></div>
+                              <div className="font-bold">{event.year}</div>
+                              <p className="text-sm text-muted-foreground">
+                                {event.description}
+                              </p>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                  <div className="md:w-1/2 md:pl-8 relative">
-                    <div className="absolute left-[-9px] md:left-[-9px] top-0 h-4 w-4 rounded-full bg-blue-600 shadow"></div>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="md:w-1/2 md:pr-8 hidden md:block"></div>
-                  <div className="md:w-1/2 md:pl-8 relative">
-                    <div className="absolute left-[-9px] md:left-[-9px] top-0 h-4 w-4 rounded-full bg-blue-600 shadow"></div>
-                    <div className="font-bold">{event.year}</div>
-                    <p className="text-sm text-muted-foreground">
-                      {event.description}
-                    </p>
-                  </div>
-                </>
+                </div>
               )}
             </div>
-          ))}
-        </div>
-      </div>
-    )}
-  </div>
-</div>
+          </div>
           
           <div className="flex justify-end">
             <Button onClick={() => setIsDialogOpen(false)}>
-              {translations[locale].common?.close || "Close"}
+              {t("common.close")}
             </Button>
           </div>
         </DialogContent>
