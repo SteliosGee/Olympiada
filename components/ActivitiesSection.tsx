@@ -145,13 +145,6 @@ export default function ActivitiesSection() {
                 <p className="text-muted-foreground">{selectedActivity.fullDescription}</p>
               </div>
 
-              {selectedActivity.pricing && (
-                <div>
-                  <h4 className="font-medium text-blue-600">{t('activities.pricing')}</h4>
-                  <p>{selectedActivity.pricing}</p>
-                </div>
-              )}
-
               {selectedActivity.details && selectedActivity.details.length > 0 && (
                 <div>
                   <h4 className="font-medium text-blue-600">{t('activities.whatToExpect')}</h4>
@@ -166,21 +159,13 @@ export default function ActivitiesSection() {
                 </div>
               )}
 
-              <div className={isMobile ? "space-y-4" : "grid grid-cols-2 gap-4"}>
-                {selectedActivity.season && (
-                  <div>
-                    <h4 className="font-medium text-blue-600">{t('activities.bestSeason')}</h4>
-                    <p className="text-sm">{selectedActivity.season}</p>
-                  </div>
-                )}
 
-                {selectedActivity.location && (
-                  <div>
-                    <h4 className="font-medium text-blue-600">{t('activities.location')}</h4>
-                    <p className="text-sm">{selectedActivity.location}</p>
-                  </div>
-                )}
-              </div>
+              {selectedActivity.location && (
+                <div className="pt-2">
+                  <h4 className="font-medium text-blue-600">{t('activities.location')}</h4>
+                  <p className="text-sm">{selectedActivity.location}</p>
+                </div>
+              )}
 
               {selectedActivity.contactInfo && (
                 <div className="pt-2">
@@ -190,18 +175,13 @@ export default function ActivitiesSection() {
               )}
             </div>
 
-            <DialogFooter className={`${isMobile ? "flex-col gap-2" : "flex-row"} mt-4`}>
+            <DialogFooter className="mt-4">
               <Button
-                onClick={() => setSelectedActivity(null)}
                 variant="outline"
-                className={isMobile ? "w-full" : ""}
+                onClick={() => setSelectedActivity(null)}
+                className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white"
               >
-                {t('activities.close') || t('common.close') || "Close"}
-              </Button>
-              <Button
-                className={`bg-blue-600 hover:bg-blue-700 ${isMobile ? "w-full" : ""}`}
-              >
-                {t('activities.addToItinerary')}
+                {t('activities.close')}
               </Button>
             </DialogFooter>
           </DialogContent>
