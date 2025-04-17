@@ -4,6 +4,8 @@ export const navigation = {
     history: "History",
     activities: "Activities",
     stay: "Stay",
-    gallery: "Gallery",
     dining: "Dining",
+    map: "Map",
+    events: "Events",
+    gallery: "Gallery",
 }

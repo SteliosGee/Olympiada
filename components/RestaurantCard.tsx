@@ -10,23 +10,28 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/context/LanguageContext";
-import { translations } from "@/context/translation";
 
 export function MenuModal({
     name,
     isOpen,
     onClose,
   }: {
-    name: keyof typeof translations["en"]["places"]["restaurants"];
+    name: string; // Changed the type to be more flexible
     isOpen: boolean;
     onClose: () => void;
   }) {
-    const { locale } = useLanguage() as { locale: 'en' | 'el' };
-    const restaurantData = translations[locale].places.restaurants[name];
+    const { locale, t } = useLanguage();
     
-    if (!restaurantData) return null;
+    // Get restaurant data using t() function
+    const restaurantPath = `places.restaurants.${name}`;
+    const tagline = t(`${restaurantPath}.tagline`);
     
-    const menuData: Record<string, string[]> = restaurantData.menu;
+    // For menu data, we need to access categories
+    const menuPath = `${restaurantPath}.menu`;
+    const menuData = t(menuPath);
+    
+    if (!menuData || typeof menuData !== 'object') return null;
+    
     const categories = Object.keys(menuData);
     const [activeCategory, setActiveCategory] = useState(categories[0]);
     
@@ -81,13 +86,13 @@ export function MenuModal({
             </Tabs>
             
             <div className="mt-4 text-sm text-muted-foreground text-center">
-              <p>{translations[locale].places.menuNote}</p>
+              <p>{t('places.menuNote')}</p>
             </div>
           </div>
           
           <div className="flex items-center justify-between mt-4">
             <p className="text-sm text-muted-foreground italic">
-              {restaurantData.tagline}
+              {tagline}
             </p>
             <DialogClose asChild>
               <Button 
@@ -96,7 +101,7 @@ export function MenuModal({
                 className="border-blue-600 text-blue-600 hover:bg-blue-50"
                 onClick={onClose}
               >
-                {translations[locale].places.close}
+                {t('places.close')}
               </Button>
             </DialogClose>
           </div>

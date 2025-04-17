@@ -101,7 +101,7 @@ export default function Home() {
               {t('navigation.about')}
             </Link>
             <Link
-              href="/pages/history"
+              href="#history"
               className="text-sm font-medium hover:underline underline-offset-4"
             >
               {t('navigation.history')}
@@ -119,16 +119,28 @@ export default function Home() {
               {t('navigation.stay')}
             </Link>
             <Link
-              href="#gallery"
-              className="text-sm font-medium hover:underline underline-offset-4"
-            >
-              {t('navigation.gallery')}
-            </Link>
-            <Link
               href="#dining"
               className="text-sm font-medium hover:underline underline-offset-4"
             >
               {t('navigation.dining')}
+            </Link>
+            <Link
+              href="#map"
+              className="text-sm font-medium hover:underline underline-offset-4"
+            >
+              {t('navigation.map')}
+            </Link>
+            <Link
+              href="#events"
+              className="text-sm font-medium hover:underline underline-offset-4"
+            >
+              {t('navigation.events')}
+            </Link>
+            <Link
+              href="#gallery"
+              className="text-sm font-medium hover:underline underline-offset-4"
+            >
+              {t('navigation.gallery')}
             </Link>
           </nav>
           

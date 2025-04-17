@@ -4,11 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { Utensils } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
-import { translations } from "@/context/translation";
 import { MenuModal } from "./RestaurantCard";
 
 export default function DiningSection() {
-  const { locale, changeLanguage } = useLanguage() as { locale: 'en' | 'el'; changeLanguage: (lang: 'en' | 'el') => void };
+  const { locale, t, changeLanguage } = useLanguage();
   const [selectedMenu, setSelectedMenu] = useState<"Perroquet" | "Molos" | "Akroyali" | "Apoplous" | null>(null);
   const [showMorePlaces, setShowMorePlaces] = useState(false);
 
@@ -19,17 +18,23 @@ export default function DiningSection() {
     }
   }, [changeLanguage]);
 
-  // Get restaurant names from translations
-  const allPlaces = Object.keys(translations[locale].places.restaurants);
+  // Get restaurant names - we need to handle this differently since we need to access keys
+  // This assumes your t() function can return the nested places.restaurants object
+  const restaurantsObj = t('places.restaurants');
+  const allPlaces = restaurantsObj && typeof restaurantsObj === 'object' 
+    ? Object.keys(restaurantsObj) 
+    : [];
   
   // Split places into initial and additional sets
   const initialPlaces = allPlaces.slice(0, 3);
   const additionalPlaces = allPlaces.slice(3);
 
   // Function to render restaurant card
-  // Function to render restaurant card
   const renderRestaurantCard = (place: string) => {
-    const restaurantData = translations[locale].places.restaurants[place as keyof typeof translations["en"]["places"]["restaurants"]];
+    // Access the specific restaurant data via the t() function with full path
+    const restaurantPath = `places.restaurants.${place}`;
+    const description = t(`${restaurantPath}.description`);
+    const reviews = t(`${restaurantPath}.reviews`);
     
     // Default rating is 5, but you can customize per restaurant
     const rating = place === "Apoplous" ? 4 : 5;
@@ -47,7 +52,7 @@ export default function DiningSection() {
         <div className="p-6 flex flex-col flex-grow">
           <h3 className="text-xl font-bold">{place}</h3>
           <p className="mt-2 text-muted-foreground">
-            {restaurantData.description}
+            {description}
           </p>
           <div className="mt-4 flex items-center gap-1">
             <div className="flex" aria-label={`${rating} out of 5 stars`}>
@@ -61,7 +66,7 @@ export default function DiningSection() {
               ))}
             </div>
             <span className="text-sm text-muted-foreground">
-              ({restaurantData.reviews} {translations[locale].common.reviews})
+              ({reviews} {t('common.reviews')})
             </span>
           </div>
           <div className="mt-auto pt-4">
@@ -70,7 +75,7 @@ export default function DiningSection() {
               className="w-full"
               onClick={() => setSelectedMenu(place as typeof selectedMenu)}
             >
-              {translations[locale].places.viewMenu}
+              {t('places.viewMenu')}
             </Button>
           </div>
         </div>
@@ -84,10 +89,10 @@ export default function DiningSection() {
         <div className="mx-auto max-w-3xl text-center">
           <Utensils className="mx-auto h-10 w-10 text-blue-600" />
           <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            {translations[locale].places.title}
+            {t('places.title')}
           </h2>
           <p className="mt-4 text-muted-foreground">
-            {translations[locale].places.description}
+            {t('places.description')}
           </p>
         </div>
         <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">

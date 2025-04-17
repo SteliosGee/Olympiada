@@ -6,7 +6,7 @@ export const activities = {
         whatToExpect: "Τι να περιμένετε",
         bestSeason: "Καλύτερη Περίοδος",
         location: "Τοποθεσία",
-        howToBook: "Πώς να κάνετε κράτηση",
+        contact: "Επικοινωνία",
         close: "Κλείσιμο",
         addToItinerary: "Προσθήκη στο πρόγραμμα",
         items: [

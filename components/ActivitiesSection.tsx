@@ -6,10 +6,11 @@ import { SailboatIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { useLanguage } from "@/context/LanguageContext";
-import { translations } from "@/context/translation";
 
-// Define the Activity type
+// Define the Activity type (ensure this matches your translation structure)
 type Activity = {
+  // Add an optional id if your data might have one, useful for keys
+  id?: string | number;
   title: string;
   shortDescription: string;
   fullDescription: string;
@@ -21,39 +22,48 @@ type Activity = {
   location?: string;
 };
 
-type ActivityKey = keyof typeof translations["en"]["activities"]["items"];
-
 export default function ActivitiesSection() {
-  const { locale, changeLanguage } = useLanguage() as { locale: 'en' | 'el'; changeLanguage: (lang: 'en' | 'el') => void };
+  const { locale, t, changeLanguage } = useLanguage();
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const savedLocale = localStorage.getItem('locale');
-    if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
-      changeLanguage(savedLocale as 'en' | 'el');
+    // Client-side check for localStorage
+    if (typeof window !== 'undefined') {
+        const savedLocale = localStorage.getItem('locale');
+        if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
+          changeLanguage(savedLocale as 'en' | 'el');
+        }
     }
   }, [changeLanguage]);
 
-  // Detect if user is on mobile
+  // Detect if user is on mobile (client-side)
   useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    // Check initially
-    checkIfMobile();
-    
-    // Add event listener for window resize
-    window.addEventListener('resize', checkIfMobile);
-    
-    // Cleanup
-    return () => window.removeEventListener('resize', checkIfMobile);
+    if (typeof window !== 'undefined') {
+        const checkIfMobile = () => {
+          setIsMobile(window.innerWidth < 768);
+        };
+        checkIfMobile(); // Initial check
+        window.addEventListener('resize', checkIfMobile);
+        return () => window.removeEventListener('resize', checkIfMobile); // Cleanup
+    }
   }, []);
 
-  // Convert the translations activities items object to an array for rendering
-  const activities: Activity[] = Object.keys(translations[locale].activities.items || {})
-    .map(key => translations[locale].activities.items[key as ActivityKey] as Activity);
+  // Directly get activities using the t function.
+  // Type assertion might be needed if 'any' isn't specific enough,
+  // but '|| []' helps ensure it's at least an array.
+  const activities: Activity[] = (t('activities.items') as Activity[]) || [];
+
+  // Optional: Keep console log for debugging during development
+  useEffect(() => {
+    console.log(`Activities for locale '${locale}':`, activities);
+    // You might still want a warning if it's not an array at runtime
+    if (!Array.isArray(activities)) {
+        console.warn(`Warning: t('activities.items') did not return an array for locale '${locale}'. Received:`, activities);
+    }
+  }, [locale, activities]);
+
+  // Removed the explicit error block before return
 
   return (
     <section id="activities" className="py-16 md:py-24">
@@ -61,16 +71,18 @@ export default function ActivitiesSection() {
         <div className="mx-auto max-w-3xl text-center">
           <SailboatIcon className="mx-auto h-10 w-10 text-blue-600" />
           <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            {translations[locale].activities.title}
+            {t('activities.title')}
           </h2>
           <p className="mt-4 text-muted-foreground">
-            {translations[locale].activities.description}
+            {t('activities.description')}
           </p>
         </div>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {activities.map((activity, index) => (
-            <div 
-              key={index} 
+          {/* Keep Array.isArray check here for runtime safety before mapping */}
+          {Array.isArray(activities) && activities.map((activity, index) => (
+            <div
+              // Use a unique ID from the activity if available, otherwise fallback to index
+              key={activity.id || index}
               className="group relative overflow-hidden rounded-lg cursor-pointer transition-transform hover:scale-[1.02]"
               onClick={() => setSelectedActivity(activity)}
             >
@@ -87,25 +99,29 @@ export default function ActivitiesSection() {
                 <p className="mt-2">
                   {activity.shortDescription}
                 </p>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <Button
+                  variant="outline"
+                  size="sm"
                   className="mt-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm border-white/40 text-white"
                 >
-                  {translations[locale].activities.learnMore}
+                  {t('activities.learnMore')}
                 </Button>
               </div>
             </div>
           ))}
+          {/* Optional: Render a message if activities is not an array */}
+          {!Array.isArray(activities) && (
+              <p className="col-span-full text-center text-muted-foreground">Loading activities or none available...</p>
+          )}
         </div>
       </div>
 
-      {/* Activity Details Dialog - Responsive width based on device */}
+      {/* Activity Details Dialog */}
       <Dialog open={!!selectedActivity} onOpenChange={(open) => !open && setSelectedActivity(null)}>
         {selectedActivity && (
-          <DialogContent 
-            className={isMobile 
-              ? "sm:max-w-[90%] max-h-[85vh] overflow-y-auto" 
+          <DialogContent
+            className={isMobile
+              ? "sm:max-w-[90%] max-h-[85vh] overflow-y-auto"
               : "sm:max-w-[800px] md:max-w-[900px] max-h-[80vh] overflow-y-auto"}
           >
             <DialogHeader>
@@ -114,7 +130,7 @@ export default function ActivitiesSection() {
                 {selectedActivity.shortDescription}
               </DialogDescription>
             </DialogHeader>
-            
+
             <div className={`relative ${isMobile ? "h-48" : "h-72"} w-full my-4`}>
               <Image
                 src={selectedActivity.image}
@@ -123,22 +139,22 @@ export default function ActivitiesSection() {
                 className="object-cover rounded-md"
               />
             </div>
-            
+
             <div className="space-y-4">
               <div>
                 <p className="text-muted-foreground">{selectedActivity.fullDescription}</p>
               </div>
-              
+
               {selectedActivity.pricing && (
                 <div>
-                  <h4 className="font-medium text-blue-600">{translations[locale].activities.pricing}</h4>
+                  <h4 className="font-medium text-blue-600">{t('activities.pricing')}</h4>
                   <p>{selectedActivity.pricing}</p>
                 </div>
               )}
-              
+
               {selectedActivity.details && selectedActivity.details.length > 0 && (
                 <div>
-                  <h4 className="font-medium text-blue-600">{translations[locale].activities.whatToExpect}</h4>
+                  <h4 className="font-medium text-blue-600">{t('activities.whatToExpect')}</h4>
                   <ul className="mt-2 space-y-1">
                     {selectedActivity.details.map((detail, i) => (
                       <li key={i} className="flex items-start">
@@ -149,43 +165,43 @@ export default function ActivitiesSection() {
                   </ul>
                 </div>
               )}
-              
+
               <div className={isMobile ? "space-y-4" : "grid grid-cols-2 gap-4"}>
                 {selectedActivity.season && (
                   <div>
-                    <h4 className="font-medium text-blue-600">{translations[locale].activities.bestSeason}</h4>
+                    <h4 className="font-medium text-blue-600">{t('activities.bestSeason')}</h4>
                     <p className="text-sm">{selectedActivity.season}</p>
                   </div>
                 )}
-                
+
                 {selectedActivity.location && (
                   <div>
-                    <h4 className="font-medium text-blue-600">{translations[locale].activities.location}</h4>
+                    <h4 className="font-medium text-blue-600">{t('activities.location')}</h4>
                     <p className="text-sm">{selectedActivity.location}</p>
                   </div>
                 )}
               </div>
-              
+
               {selectedActivity.contactInfo && (
                 <div className="pt-2">
-                  <h4 className="font-medium text-blue-600">{translations[locale].activities.howToBook}</h4>
+                  <h4 className="font-medium text-blue-600">{t('activities.contact')}</h4>
                   <p className="text-sm">{selectedActivity.contactInfo}</p>
                 </div>
               )}
             </div>
-            
+
             <DialogFooter className={`${isMobile ? "flex-col gap-2" : "flex-row"} mt-4`}>
-              <Button 
+              <Button
                 onClick={() => setSelectedActivity(null)}
                 variant="outline"
                 className={isMobile ? "w-full" : ""}
               >
-                {translations[locale].activities.close || translations[locale].common?.close || "Close"}
+                {t('activities.close') || t('common.close') || "Close"}
               </Button>
-              <Button 
+              <Button
                 className={`bg-blue-600 hover:bg-blue-700 ${isMobile ? "w-full" : ""}`}
               >
-                {translations[locale].activities.addToItinerary}
+                {t('activities.addToItinerary')}
               </Button>
             </DialogFooter>
           </DialogContent>

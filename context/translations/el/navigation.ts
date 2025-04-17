@@ -4,6 +4,8 @@ export const navigation = {
     history: "Ιστορία",
     activities: "Δραστηριότητες",
     stay: "Διαμονή",
-    gallery: "Γκαλερί",
     dining: "Φαγητό",
+    map: "Χάρτης",
+    events: "Εκδηλώσεις",
+    gallery: "Γκαλερί",
 }

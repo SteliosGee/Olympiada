@@ -6,7 +6,7 @@ export const activities = {
       whatToExpect: "What to expect",
       bestSeason: "Best Season",
       location: "Location",
-      howToBook: "How to Book",
+      contact: "Contact",
       close: "Close",
       addToItinerary: "Add to Itinerary",
       items: [
