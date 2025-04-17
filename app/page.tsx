@@ -1,17 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Anchor,
-  SailboatIcon as Boat,
-  Calendar,
-  Camera,
-  History,
   MapPin,
   Menu,
-  X,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState, useEffect } from "react";
@@ -25,6 +19,7 @@ import OlympiadaMap from "@/components/Map";
 import AccommodationsSection from  "@/components/AccommodationsSection";
 import ActivitiesSection from "@/components/ActivitiesSection";
 import CalendarSection from "@/components/CalendarSection";
+import GallerySection from "@/components/GallerySection";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
@@ -39,49 +34,13 @@ export default function Home() {
     }
   }, [changeLanguage]);
 
-  const galleryImages = [
-    "/assets/gallery/image1.jpg",
-    "/assets/gallery/image2.jpg",
-    "/assets/gallery/image3.jpg",
-    "/assets/gallery/image4.jpg",
-  ];
-
-
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   
 
   return (
     <div className="flex min-h-screen flex-col items-center">
       {/* Lightbox */}
-      {lightboxImage && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-2 sm:p-4"
-          onClick={() => setLightboxImage(null)}
-        >
-          <div className="relative max-h-[95vh] max-w-[95vw] sm:max-h-[90vh] sm:max-w-[90vw]">
-            <div className="relative h-auto w-auto">
-              <Image
-                src={lightboxImage}
-                alt="Gallery image"
-                width={800}
-                height={600}
-                className="max-h-[85vh] rounded-md object-contain"
-              />
-            </div>
-            <button
-              className="absolute -right-2 -top-2 sm:-right-4 sm:-top-4 rounded-full bg-white p-1 sm:p-2 shadow-lg"
-              onClick={(e) => {
-                e.stopPropagation();
-                setLightboxImage(null);
-              }}
-            >
-              <X className="h-4 w-4 sm:h-6 sm:w-6" />
-              <span className="sr-only">Close</span>
-            </button>
-          </div>
-        </div>
-      )}
+
 
 <header className="sticky top-0 z-50 bg-white shadow-sm w-full bg-opacity-80">
         <div className="container mx-auto flex items-center justify-between py-4 px-4 md:px-8">
@@ -203,41 +162,7 @@ export default function Home() {
         <CalendarSection />
 
         {/* Gallery Section */}
-        <section id="gallery" className="py-16 md:py-24 bg-slate-50">
-          <div className="container mx-auto">
-            <div className="mx-auto max-w-3xl text-center">
-              <Camera className="mx-auto h-10 w-10 text-blue-600" />
-              <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Gallery
-              </h2>
-              <p className="mt-4 text-muted-foreground">
-                Explore the beauty of Olympiada through our photo gallery
-              </p>
-            </div>
-            <div className="mt-10 md:mt-12 grid grid-cols-2 gap-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
-              {galleryImages.map((image, index) => (
-                <div
-                  key={index}
-                  className="group relative aspect-square overflow-hidden rounded-lg cursor-pointer"
-                  onClick={() => setLightboxImage(image)}
-                >
-                  <Image
-                    src={image}
-                    alt={`Gallery Image ${index + 1}`}
-                    fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                </div>
-              ))}
-            </div>
-            <div className="mt-8 text-center">
-              <Button asChild>
-                <Link href="#gallery">View Full Gallery</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
+        <GallerySection />
 
         {/* CTA Section */}
         <section className="bg-blue-600 py-16 text-white md:py-24">

@@ -5,6 +5,10 @@ import { navigation } from './navigation'
 import { history } from './history'
 import { places } from './places';
 import { activities } from './activities';
+import { events } from './events';
+import { gallery } from './gallery';
+import { stay } from './stay';
+import { map } from './map';
 // Import other modules
 // import { navigation } from './navigation';
 // import { history } from './history';
@@ -18,5 +22,9 @@ export const el = {
     history,
     places,
     activities,
+    events,
+    gallery,
+    stay,
+    map,
   // Add other sections
 };

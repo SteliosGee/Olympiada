@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar } from "lucide-react";
@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { link } from "fs";
+import { useLanguage } from "@/context/LanguageContext";
+
 
 // Define the accommodation type
 type Accommodation = {
@@ -22,6 +24,14 @@ type Accommodation = {
 export default function AccommodationsSection() {
   const [showMoreAccommodations, setShowMoreAccommodations] = useState(false);
   const [selectedAccommodation, setSelectedAccommodation] = useState<Accommodation | null>(null);
+    const { locale, t, changeLanguage } = useLanguage();
+  
+    useEffect(() => {
+      const savedLocale = localStorage.getItem('locale');
+      if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
+        changeLanguage(savedLocale as 'en' | 'el');  
+      }
+    }, [changeLanguage]);
   
   // Define all accommodations
   const accommodations = [
@@ -93,7 +103,7 @@ export default function AccommodationsSection() {
         <div className="mx-auto max-w-3xl text-center mb-12">
           <Calendar className="mx-auto h-10 w-10 text-blue-600" />
           <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Where to Stay
+            {t('stay.title')}
           </h2>
           <p className="mt-4 text-muted-foreground">
             From traditional guesthouses to beachfront villas, find your perfect accommodation

@@ -11,6 +11,7 @@ import {
     FaMapMarkerAlt,
 } from 'react-icons/fa';
 import { renderToString } from 'react-dom/server';
+import { useLanguage } from "@/context/LanguageContext";
 
 // Dynamically import the map components to avoid SSR issues
 const MapContainer = dynamic(
@@ -33,6 +34,14 @@ const Popup = dynamic(
 export default function OlympiadaMap() {
   const [isMounted, setIsMounted] = useState(false);
   const [icons, setIcons] = useState<{[key: string]: any}>({});
+    const { locale, t, changeLanguage } = useLanguage();
+  
+    useEffect(() => {
+      const savedLocale = localStorage.getItem('locale');
+      if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
+        changeLanguage(savedLocale as 'en' | 'el');  
+      }
+    }, [changeLanguage]);
 
   useEffect(() => {
     // Import leaflet and its CSS on client-side only
@@ -199,7 +208,7 @@ export default function OlympiadaMap() {
         <div className="mx-auto max-w-3xl text-center mb-8">
           <MapPin className="mx-auto h-10 w-10 text-blue-600" />
           <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            Explore Olympiada
+            {t('map.title')}
           </h2>
           <p className="mt-4 text-muted-foreground">
             Find the best beaches, restaurants, and attractions in our village
