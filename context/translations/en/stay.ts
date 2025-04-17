@@ -25,17 +25,17 @@ export const stay = {
             description: "Comfortable apartment with all modern amenities in the center of Olympiada.",
             amenities: ["Free parking", "Free WiFi", "Non-smoking rooms", "Room service"]
         },
-        seaside: {
-            description: "Cozy bungalow just steps from the shoreline with panoramic views.",
-            amenities: ["Beach access", "Kitchenette", "Terrace"]
+        alpe: {
+            description: "Luxury villa with a pool and stunning sea views.",
+            amenities: ["Free parking", "Free WiFi", "Non-smoking rooms", "Room service"]
         },
-        family: {
-            description: "Spacious suite perfect for families, with separate bedrooms and living area.",
-            amenities: ["Two bedrooms", "Children's play area", "Large balcony"]
+        dimar: {
+            description: "Comfortable apartments with all amenities and sea views.",
+            amenities: ["Free parking", "Beachfront", "Large balcony"]
         },
-        budget: {
-            description: "Affordable studio apartment with all the essentials for a comfortable stay.",
-            amenities: ["Kitchenette", "Free WiFi", "Air conditioning"]
+        aristoteliagi: {
+            description: "Luxury villa with a pool and stunning sea views.",
+            amenities: ["Free parking", "Free WiFi", "Non-smoking rooms", "Room service"]
         }
     }
 }

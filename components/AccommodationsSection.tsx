@@ -54,29 +54,29 @@ export default function AccommodationsSection() {
       id: "yanna",
       title: "Villa Yanna",
       image: "/assets/accommodations/yanna/primer.jpg",
-      price: "€62",
+      price: "62€",
       link: "https://www.booking.com/hotel/gr/villa-yanna.en-gb.html"
     },
     {
-      id: "seaside",
-      title: "Seaside Bungalow",
-      image: "/assets/accommodations/bungalow.jpg",
-      price: "€95",
-      link: "https://www.booking.com/hotel/gr/seaside-bungalow.en-gb.html"
+      id: "alpe",
+      title: "Alpe Luxury",
+      image: "/assets/accommodations/alpe/primer.jpg",
+      price: "172€",
+      link: "https://www.booking.com/hotel/gr/alpe-luxury-accommodation-penelope-collection.en-gb.html"
     },
     {
-      id: "family",
-      title: "Family Suite",
-      image: "/assets/accommodations/family.jpg",
-      price: "€120",
-      link: "" // Assuming no link for this one
+      id: "dimar",
+      title: "Dimar Apartments",
+      image: "/assets/accommodations/dimar/primer.jpg",
+      price: "73€",
+      link: "https://www.booking.com/hotel/gr/dimar-apartments.en-gb.html" // Assuming no link for this one
     },
     {
-      id: "budget",
-      title: "Budget Studio",
-      image: "/assets/accommodations/studio.jpg",
-      price: "€45",
-      link: "" // Assuming no link for this one
+      id: "aristoteliagi",
+      title: "Aristotelia Gi - Panorama",
+      image: "/assets/accommodations/aristoteliagi/primer.jpg",
+      price: "122€",
+      link: "https://www.booking.com/hotel/gr/aristotelia-gi-panorama.en-gb.html" // Assuming no link for this one
     },
   ];
 
