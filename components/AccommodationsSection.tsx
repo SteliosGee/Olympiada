@@ -2,22 +2,23 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
+// Removed Link import as it's not used directly for navigation here
 import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { link } from "fs";
+// Removed fs import as it's not used
 import { useLanguage } from "@/context/LanguageContext";
 
 
 // Define the accommodation type
 type Accommodation = {
+  id: string; // Added ID for translation key lookup
   title: string;
-  description: string;
+  // description: string; // Description will come from translations
   image: string;
   price: string;
-  amenities: string[];
+  // amenities: string[]; // Amenities will come from translations
   link: string;
 };
 
@@ -25,77 +26,109 @@ export default function AccommodationsSection() {
   const [showMoreAccommodations, setShowMoreAccommodations] = useState(false);
   const [selectedAccommodation, setSelectedAccommodation] = useState<Accommodation | null>(null);
     const { locale, t, changeLanguage } = useLanguage();
-  
+
     useEffect(() => {
       const savedLocale = localStorage.getItem('locale');
       if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
-        changeLanguage(savedLocale as 'en' | 'el');  
+        changeLanguage(savedLocale as 'en' | 'el');
       }
     }, [changeLanguage]);
-  
-  // Define all accommodations
-  const accommodations = [
+
+  // Define all accommodations data (without translatable text)
+  const accommodationsData: Accommodation[] = [
     {
+      id: "liotopi",
       title: "Liotopi",
-      description: "Experience authentic Greek hospitality in our traditional stone guesthouse.",
       image: "/assets/accommodations/liotopi/primer.jpg",
       price: "146€",
-      amenities: ["Free WiFi", "Breakfast included", "Beachfront", "Airport shuttle", "Room service", "Non-smoking rooms",
-        "Restaurant", "Family rooms", "Bar"
-      ],
       link: "https://www.booking.com/hotel/gr/liotopi.en-gb.html"
     },
     {
+      id: "evelyn",
       title: "Evelyn Rooms",
-      description: "Luxury villa with direct access to the beach and stunning sea views.",
       image: "/assets/accommodations/evelyn/primer.jpg",
       price: "77€",
-      amenities: ["Free parking", "Free WiFi"],
       link: "https://www.booking.com/hotel/gr/evelyn-studios.en-gb.html"
     },
     {
+      id: "yanna",
       title: "Villa Yanna",
-      description: "Comfortable apartment with all modern amenities in the center of Olympiada.",
       image: "/assets/accommodations/yanna/primer.jpg",
       price: "€62",
-      amenities: ["Free parking", "Free WiFi", "Non-smoking rooms", "Room service"],
       link: "https://www.booking.com/hotel/gr/villa-yanna.en-gb.html"
     },
     {
+      id: "seaside",
       title: "Seaside Bungalow",
-      description: "Cozy bungalow just steps from the shoreline with panoramic views.",
       image: "/assets/accommodations/bungalow.jpg",
       price: "€95",
-      amenities: ["Beach access", "Kitchenette", "Terrace"],
       link: "https://www.booking.com/hotel/gr/seaside-bungalow.en-gb.html"
     },
     {
+      id: "family",
       title: "Family Suite",
-      description: "Spacious suite perfect for families, with separate bedrooms and living area.",
       image: "/assets/accommodations/family.jpg",
       price: "€120",
-      amenities: ["Two bedrooms", "Children's play area", "Large balcony"],
-      link: ""
+      link: "" // Assuming no link for this one
     },
     {
+      id: "budget",
       title: "Budget Studio",
-      description: "Affordable studio apartment with all the essentials for a comfortable stay.",
       image: "/assets/accommodations/studio.jpg",
       price: "€45",
-      amenities: ["Kitchenette", "Free WiFi", "Air conditioning"],
-      link: ""
+      link: "" // Assuming no link for this one
     },
   ];
 
   // Initial accommodations to show
-  const initialAccommodations = accommodations.slice(0, 3);
+  const initialAccommodations = accommodationsData.slice(0, 3);
   // Additional accommodations to show when "View More" is clicked
-  const additionalAccommodations = accommodations.slice(3, 6);
-  
+  const additionalAccommodations = accommodationsData.slice(3, 6);
+
   // Function to handle opening details
   const openAccommodationDetails = (accommodation: Accommodation) => {
     setSelectedAccommodation(accommodation);
   };
+
+  // Helper function to render an accommodation card
+  const renderAccommodationCard = (accommodation: Accommodation, key: string) => (
+    <div key={key} className="rounded-lg border bg-white overflow-hidden flex flex-col">
+      <div className="relative h-48 w-full">
+        <Image
+          src={accommodation.image}
+          alt={accommodation.title} // Alt text remains the title
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Added sizes prop for optimization
+          className="object-cover"
+        />
+      </div>
+      <div className="p-6 flex flex-col flex-grow">
+        <h3 className="text-xl font-bold">{accommodation.title}</h3>
+        <p className="mt-2 text-muted-foreground flex-grow">
+          {t(`stay.accommodations.${accommodation.id}.description`)}
+        </p>
+        <div className="mt-4 flex items-center justify-between">
+          <p className="font-bold">{t('stay.pricePrefix')} {accommodation.price} {t('stay.priceSuffix')}</p>
+          <div className="flex gap-2">
+          <Button
+              variant="outline"
+              onClick={() => openAccommodationDetails(accommodation)}
+            >
+              {t('stay.detailsButton')}
+            </Button>
+            {accommodation.link && (
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white" variant="default" asChild>
+                {/* Use asChild to make the Button render an anchor tag */}
+                <a href={accommodation.link} target="_blank" rel="noopener noreferrer">
+                  {t('stay.bookNowButton')}
+                </a>
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <section id="accommodations" className="bg-slate-50 py-16 md:py-24 w-full">
@@ -106,99 +139,34 @@ export default function AccommodationsSection() {
             {t('stay.title')}
           </h2>
           <p className="mt-4 text-muted-foreground">
-            From traditional guesthouses to beachfront villas, find your perfect accommodation
+            {t('stay.subtitle')}
           </p>
         </div>
-        
+
         <div className="grid gap-6 md:grid-cols-3">
           {/* Initial accommodations */}
-{initialAccommodations.map((accommodation, index) => (
-  <div key={`accommodation-${index}`} className="rounded-lg border bg-white overflow-hidden">
-    <div className="relative h-48">
-      <Image
-        src={accommodation.image}
-        alt={accommodation.title}
-        fill
-        className="object-cover"
-      />
-    </div>
-    <div className="p-6">
-      <h3 className="text-xl font-bold">{accommodation.title}</h3>
-      <p className="mt-2 text-muted-foreground">{accommodation.description}</p>
-      <div className="mt-4 flex items-center justify-between">
-        <p className="font-bold">From {accommodation.price} / night</p>
-        <div className="flex gap-2">
-        <Button 
-            variant="outline"
-            onClick={() => openAccommodationDetails(accommodation)}
-          >
-            Details
-          </Button>
-          {accommodation.link && (
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white" variant="default">
-              <a href={accommodation.link} target="_blank" rel="noopener noreferrer">
-                Book Now
-              </a>
-            </Button>
-          )}
+          {initialAccommodations.map((acc, index) => renderAccommodationCard(acc, `initial-acc-${index}`))}
+        </div>
 
-        </div>
-      </div>
-    </div>
-  </div>
-))}
-        </div>
-        
         {/* Additional accommodations when "View More" is clicked */}
         {showMoreAccommodations && (
           <div className="grid gap-6 md:grid-cols-3 mt-8">
-            {additionalAccommodations.map((accommodation, index) => (
-              <div key={`accommodation-${index + 3}`} className="rounded-lg border bg-white overflow-hidden">
-                <div className="relative h-48">
-                  <Image
-                    src={accommodation.image}
-                    alt={accommodation.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold">{accommodation.title}</h3>
-                  <p className="mt-2 text-muted-foreground">{accommodation.description}</p>
-                  <div className="mt-4 flex items-center justify-between">
-                    <p className="font-bold">From {accommodation.price} / night</p>
-                    <div className="flex gap-2">
-                      <Button 
-                        variant="outline"
-                        onClick={() => openAccommodationDetails(accommodation)}
-                      >
-                        Details
-                      </Button>
-                      {accommodation.link && (
-                        <Button className="bg-blue-600 hover:bg-blue-700 text-white" variant="default">
-                          <a href={accommodation.link} target="_blank" rel="noopener noreferrer">
-                            Book Now
-                          </a>
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+            {additionalAccommodations.map((acc, index) => renderAccommodationCard(acc, `additional-acc-${index}`))}
           </div>
         )}
-        
+
         {/* View More button */}
-        <div className="mt-8 text-center">
-          <Button 
-            onClick={() => setShowMoreAccommodations(!showMoreAccommodations)}
-            variant="outline"
-            className="mx-auto"
-          >
-            {showMoreAccommodations ? "Show Less" : "View More Accommodations"}
-          </Button>
-        </div>
+        {accommodationsData.length > 3 && ( // Only show button if there are more accommodations
+            <div className="mt-8 text-center">
+            <Button
+                onClick={() => setShowMoreAccommodations(!showMoreAccommodations)}
+                variant="outline"
+                className="mx-auto"
+            >
+                {showMoreAccommodations ? t('stay.showLessButton') : t('stay.viewMoreButton')}
+            </Button>
+            </div>
+        )}
       </div>
 
       {/* Accommodation Details Dialog */}
@@ -208,29 +176,30 @@ export default function AccommodationsSection() {
             <DialogHeader>
               <DialogTitle>{selectedAccommodation.title}</DialogTitle>
               <DialogDescription>
-                {selectedAccommodation.description}
+                {t(`stay.accommodations.${selectedAccommodation.id}.description`)}
               </DialogDescription>
             </DialogHeader>
-            
+
             <div className="relative h-64 w-full my-4">
               <Image
                 src={selectedAccommodation.image}
                 alt={selectedAccommodation.title}
                 fill
+                sizes="(max-width: 640px) 90vw, 600px" // Adjusted sizes for dialog
                 className="object-cover rounded-md"
               />
             </div>
-            
+
             <div className="space-y-4">
               <div>
-                <h4 className="font-medium text-lg">Starting from</h4>
-                <p className="text-xl font-bold">{selectedAccommodation.price} / night</p>
+                <h4 className="font-medium text-lg">{t('stay.dialog.startingFrom')}</h4>
+                <p className="text-xl font-bold">{selectedAccommodation.price} {t('stay.priceSuffix')}</p>
               </div>
-              
+
               <div>
-                <h4 className="font-medium text-lg">Amenities</h4>
+                <h4 className="font-medium text-lg">{t('stay.dialog.amenities')}</h4>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  {selectedAccommodation.amenities.map((amenity, i) => (
+                  {(t(`stay.accommodations.${selectedAccommodation.id}.amenities`) as string[]).map((amenity: string, i: number) => (
                     <Badge key={i} variant="outline" className="text-sm">
                       {amenity}
                     </Badge>
@@ -238,14 +207,16 @@ export default function AccommodationsSection() {
                 </div>
               </div>
             </div>
-            
+
             <DialogFooter>
-              <Button onClick={() => setSelectedAccommodation(null)}>Close</Button>
-              <Button variant="default" className="bg-blue-600 hover:bg-blue-700">
-                <a href={selectedAccommodation.link} target="_blank" rel="noopener noreferrer">
-                  Book Now
-                </a>
-              </Button>
+              <Button variant="outline" onClick={() => setSelectedAccommodation(null)}>{t('stay.dialog.closeButton')}</Button>
+              {selectedAccommodation.link && (
+                <Button variant="default" className="bg-blue-600 hover:bg-blue-700" asChild>
+                  <a href={selectedAccommodation.link} target="_blank" rel="noopener noreferrer">
+                    {t('stay.bookNowButton')}
+                  </a>
+                </Button>
+              )}
             </DialogFooter>
           </DialogContent>
         )}

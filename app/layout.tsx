@@ -3,12 +3,12 @@ import { LanguageProvider } from '@/context/LanguageContext';
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Olympiada Village | Beautiful Coastal Destination in Greece",
+  title: "Olympiada Village",
   description: "Discover Olympiada, a charming coastal village in Halkidiki, Greece. Enjoy pristine beaches, authentic Greek cuisine, and rich historical sites.",
   keywords: "Olympiada, Greece, Halkidiki, beach, vacation, ancient Stagira, Greek village",
   metadataBase: new URL("https://olympiada-village.com"),
   openGraph: {
-    title: "Olympiada Village | Beautiful Coastal Destination in Greece",
+    title: "Olympiada Village",
     description: "Discover Olympiada, a charming coastal village in Halkidiki, Greece. Enjoy pristine beaches, authentic Greek cuisine, and rich historical sites.",
     images: ['/assets/banner.jpg'],
     type: 'website',

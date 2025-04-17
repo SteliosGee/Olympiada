@@ -1,62 +1,62 @@
 import { useState, useEffect } from 'react';
-import { Calendar as CalendarIcon } from 'lucide-react';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
+import { Calendar as CalendarIcon, MapPin } from 'lucide-react'; // Added MapPin for consistency
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
   DialogTitle,
   DialogDescription,
   DialogClose
 } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/context/LanguageContext';
-import { translations } from '@/context/translation';
+// Removed direct import of translations
 
 // Define the event type structure
 interface Event {
   id: string;
-  title: string;
+  titleKey: string; // Key for translation
+  descriptionKey: string; // Key for translation
   date: Date;
-  description: string;
-  location: string;
+  location: string; // Keep location potentially non-translatable or handle separately
   time: string;
   category: 'cultural' | 'sports' | 'religious' | 'local';
 }
 
-// Sample events data for demonstration
+// Sample events data using translation keys
 const sampleEvents: Event[] = [
   {
     id: '1',
-    title: 'Beach Volleyball Tournament',
-    date: new Date(new Date().getFullYear(), new Date().getMonth(), 8),
-    description: 'Annual beach volleyball tournament with teams from all over Greece.',
+    titleKey: 'events.sampleEvent1Title',
+    descriptionKey: 'events.sampleEvent1Desc',
+    date: new Date(new Date().getFullYear(), 6, 8), // July 8th
     location: 'Main Beach',
     time: '10:00 - 18:00',
     category: 'sports',
   },
   {
     id: '2',
-    title: 'Cultural Evening',
-    date: new Date(new Date().getFullYear(), new Date().getMonth(), 15),
-    description: 'Traditional Greek music, dance performances and local cuisine.',
+    titleKey: 'events.sampleEvent2Title',
+    descriptionKey: 'events.sampleEvent2Desc',
+    date: new Date(new Date().getFullYear(), 7, 15), // August 15th
     location: 'Village Square',
     time: '20:00 - 23:00',
     category: 'cultural',
   },
   {
     id: '3',
-    title: 'Saint Kyriaki Celebration',
-    date: new Date(new Date().getFullYear(), new Date().getMonth(), 7),
-    description: 'Religious celebration honoring Saint Kyriaki with a special service and community gathering.',
+    titleKey: 'events.sampleEvent3Title',
+    descriptionKey: 'events.sampleEvent3Desc',
+    date: new Date(new Date().getFullYear(), 3, 7), // July 7th
     location: 'Village Church',
     time: '09:00 - 13:00',
     category: 'religious',
   },
   {
     id: '4',
-    title: 'Local Products Fair',
-    date: new Date(new Date().getFullYear(), new Date().getMonth(), 20),
-    description: 'Showcase of local products including olive oil, honey, and handcrafts.',
+    titleKey: 'events.sampleEvent4Title',
+    descriptionKey: 'events.sampleEvent4Desc',
+    date: new Date(new Date().getFullYear(), 3, 20), // August 20th
     location: 'Market Street',
     time: '09:00 - 14:00',
     category: 'local',
@@ -64,94 +64,92 @@ const sampleEvents: Event[] = [
 ];
 
 export default function CalendarSection() {
-  const { locale } = useLanguage() as { locale: 'en' | 'el' };
+  const { locale, t } = useLanguage(); // Get t function
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
-  
+
   // Function to generate calendar days
   const generateCalendarDays = () => {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
-    
-    // First day of the month
     const firstDay = new Date(year, month, 1);
-    const firstDayOfWeek = firstDay.getDay() || 7; // Adjusting Sunday to be 7 instead of 0
-    
-    // Last day of the month
+    // Ensure Sunday (0) becomes 7, Monday (1) stays 1, etc.
+    const firstDayOfWeek = firstDay.getDay() === 0 ? 7 : firstDay.getDay();
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
-    
-    // Create calendar grid including days from previous and next months
     const days = [];
-    
-    // Add days from previous month to fill the first week
-    const prevMonthDays = firstDayOfWeek - 1;
     const prevMonth = new Date(year, month, 0);
     const prevMonthDaysCount = prevMonth.getDate();
-    
-    for (let i = prevMonthDays; i > 0; i--) {
+
+    // Days from previous month
+    for (let i = firstDayOfWeek - 1; i > 0; i--) {
       days.push({
         date: new Date(year, month - 1, prevMonthDaysCount - i + 1),
         isCurrentMonth: false,
       });
     }
-    
-    // Add days of current month
+
+    // Days of current month
     for (let i = 1; i <= daysInMonth; i++) {
       days.push({
         date: new Date(year, month, i),
         isCurrentMonth: true,
       });
     }
-    
-    // Add days from next month to complete the last week
-    const totalDaysAfterLastDay = 42 - days.length; // 6 rows * 7 cols = 42 cells total
-    
-    for (let i = 1; i <= totalDaysAfterLastDay; i++) {
+
+    // Days from next month (ensure 6 rows total = 42 cells)
+    const totalDays = days.length;
+    const daysToAdd = totalDays <= 35 ? 42 - totalDays : 35 - totalDays; // Handle 5 or 6 row months
+
+    for (let i = 1; i <= daysToAdd; i++) {
       days.push({
         date: new Date(year, month + 1, i),
         isCurrentMonth: false,
       });
     }
-    
+
     return days;
   };
-  
+
   const calendarDays = generateCalendarDays();
-  
+
+  // Use built-in localization for month name
   const getMonthName = (date: Date) => {
     return date.toLocaleString(locale === 'el' ? 'el-GR' : 'en-US', { month: 'long' });
   };
-  
+
   const handlePreviousMonth = () => {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
   };
-  
+
   const handleNextMonth = () => {
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
   };
-  
+
   const getEventsForDate = (date: Date) => {
-    return sampleEvents.filter(event => 
-      event.date.getDate() === date.getDate() && 
-      event.date.getMonth() === date.getMonth() && 
+    return sampleEvents.filter(event =>
+      event.date.getDate() === date.getDate() &&
+      event.date.getMonth() === date.getMonth() &&
       event.date.getFullYear() === date.getFullYear()
     );
   };
-  
+
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
     const events = getEventsForDate(date);
+    // If only one event, open it directly. If multiple, maybe just highlight the day?
     if (events.length === 1) {
       setSelectedEvent(events[0]);
+    } else {
+        setSelectedEvent(null); // Clear selection if multiple or none
     }
   };
-  
+
   const handleEventClick = (event: Event) => {
     setSelectedEvent(event);
   };
-  
+
   const getCategoryColor = (category: string) => {
     switch(category) {
       case 'cultural': return 'bg-pink-500';
@@ -161,170 +159,176 @@ export default function CalendarSection() {
       default: return 'bg-gray-500';
     }
   };
-  
+
+  // Get category name using translation
   const getCategoryName = (category: string) => {
-    const categories = {
-      cultural: { en: 'Cultural', el: 'Πολιτιστικό' },
-      sports: { en: 'Sports', el: 'Αθλητισμός' },
-      religious: { en: 'Religious', el: 'Θρησκευτικό' },
-      local: { en: 'Local', el: 'Τοπικό' },
-    };
-    
-    return categories[category as keyof typeof categories]?.[locale] || category;
+    const key = `events.category${category.charAt(0).toUpperCase() + category.slice(1)}`;
+    return t(key) || category; // Fallback to raw category name
   };
-  
-  const getDayLabel = (day: number) => {
-    const days = {
-      en: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      el: ['Δευ', 'Τρι', 'Τετ', 'Πεμ', 'Παρ', 'Σαβ', 'Κυρ']
-    };
-    return days[locale][day];
+
+  // Get day label using translation
+  const getDayLabel = (dayIndex: number) => {
+    // Map index (0-6) to key suffix (Mon-Sun)
+    const dayKeys = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const key = `events.day${dayKeys[dayIndex]}`;
+    return t(key);
   };
-  
+
   const isToday = (date: Date) => {
     const today = new Date();
-    return date.getDate() === today.getDate() && 
-           date.getMonth() === today.getMonth() && 
+    return date.getDate() === today.getDate() &&
+           date.getMonth() === today.getMonth() &&
            date.getFullYear() === today.getFullYear();
   };
 
   return (
     <section id="events" className="py-16 md:py-24">
-      <div className="container mx-auto">
+      <div className="container mx-auto px-4"> {/* Added px-4 for padding */}
         <div className="mx-auto max-w-3xl text-center">
           <CalendarIcon className="mx-auto h-10 w-10 text-blue-600" />
           <h2 className="mt-4 text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-            {locale === 'en' ? 'Village Events Calendar' : 'Ημερολόγιο Εκδηλώσεων'}
+            {t('events.calendarTitle')} {/* Use t function */}
           </h2>
           <p className="mt-4 text-muted-foreground">
-            {locale === 'en' 
-              ? 'Discover and participate in local events happening in Olympiada'
-              : 'Ανακαλύψτε και συμμετέχετε σε τοπικές εκδηλώσεις στην Ολυμπιάδα'}
+            {t('events.calendarDescription')} {/* Use t function */}
           </p>
         </div>
-        
-        <div className="mt-10 bg-white p-4 md:p-6 rounded-lg shadow-md">
+
+        <div className="mt-10 bg-white p-4 md:p-6 rounded-lg shadow-lg"> {/* Increased shadow */}
           <div className="flex items-center justify-between mb-6">
-            <Button variant="outline" onClick={handlePreviousMonth}>&larr;</Button>
-            <h3 className="text-xl font-bold">
+            <Button variant="outline" size="icon" onClick={handlePreviousMonth}> {/* Icon size */}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </Button>
+            <h3 className="text-xl font-semibold text-center flex-grow mx-4"> {/* Semibold, centered */}
               {getMonthName(currentMonth)} {currentMonth.getFullYear()}
             </h3>
-            <Button variant="outline" onClick={handleNextMonth}>&rarr;</Button>
+            <Button variant="outline" size="icon" onClick={handleNextMonth}> {/* Icon size */}
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </Button>
           </div>
-          
+
           {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-1 mb-2">
-            {[0, 1, 2, 3, 4, 5, 6].map((day) => (
-              <div key={day} className="text-center py-2 font-medium text-sm">
-                {getDayLabel(day)}
+          <div className="grid grid-cols-7 gap-1 mb-2 border-b border-gray-200 pb-2"> {/* Added border */}
+            {[0, 1, 2, 3, 4, 5, 6].map((dayIndex) => (
+              <div key={dayIndex} className="text-center py-2 font-medium text-sm text-gray-600"> {/* Adjusted style */}
+                {getDayLabel(dayIndex)} {/* Use t function via helper */}
               </div>
             ))}
           </div>
-          
+
           <div className="grid grid-cols-7 gap-1">
             {calendarDays.map((day, index) => {
-              const events = getEventsForDate(day.date);
+              const eventsOnDate = getEventsForDate(day.date);
+              const isCurrent = day.isCurrentMonth;
+              const isTodaysDate = isToday(day.date);
+
               return (
-                <div 
+                <div
                   key={index}
-                  className={`min-h-[80px] p-1 border rounded ${
-                    day.isCurrentMonth ? 'bg-white' : 'bg-gray-100 text-gray-400'
-                  } ${isToday(day.date) ? 'border-blue-500 border-2' : 'border-gray-200'}`}
-                  onClick={() => day.isCurrentMonth && handleDateClick(day.date)}
+                  className={`relative min-h-[100px] p-1.5 border rounded-md transition-colors duration-150 ${ // Adjusted padding/rounding
+                    isCurrent ? 'bg-white hover:bg-gray-50' : 'bg-gray-50 text-gray-400'
+                  } ${isTodaysDate && isCurrent ? 'border-blue-500 border-2' : 'border-gray-200'} ${isCurrent ? 'cursor-pointer' : 'cursor-default'}`}
+                  onClick={() => isCurrent && handleDateClick(day.date)}
                 >
-                  <div className="text-right mb-1">
-                    <span className={`inline-block rounded-full w-7 h-7 text-sm ${
-                      isToday(day.date) ? 'bg-blue-500 text-white' : ''
-                    } text-center leading-7`}>
+                  <div className={`text-right mb-1 text-xs font-medium ${isCurrent ? 'text-gray-700' : 'text-gray-400'}`}> {/* Adjusted style */}
+                    <span className={`inline-flex items-center justify-center rounded-full w-6 h-6 ${ // Adjusted size/display
+                      isTodaysDate && isCurrent ? 'bg-blue-600 text-white font-semibold' : ''
+                    }`}>
                       {day.date.getDate()}
                     </span>
                   </div>
-                  
-                  {events.length > 0 && day.isCurrentMonth && (
-                    <div className="space-y-1">
-                      {events.map((event) => (
-                        <div 
+
+                  {eventsOnDate.length > 0 && isCurrent && (
+                    <div className="space-y-1 mt-1">
+                      {eventsOnDate.slice(0, 2).map((event) => ( // Limit displayed events initially
+                        <div
                           key={event.id}
-                          className={`text-xs p-1 rounded text-white truncate cursor-pointer ${getCategoryColor(event.category)}`}
+                          className={`text-xs px-1.5 py-0.5 rounded text-white truncate cursor-pointer ${getCategoryColor(event.category)} hover:opacity-80`}
                           onClick={(e) => {
-                            e.stopPropagation();
+                            e.stopPropagation(); // Prevent day click when clicking event
                             handleEventClick(event);
                           }}
+                          title={t(event.titleKey)} // Add tooltip
                         >
-                          {event.title}
+                          {t(event.titleKey)} {/* Use t function */}
                         </div>
                       ))}
+                      {eventsOnDate.length > 2 && (
+                           <div className="text-xs text-center text-blue-600 cursor-pointer hover:underline" onClick={(e) => { e.stopPropagation(); handleDateClick(day.date); }}>
+                                +{eventsOnDate.length - 2} more
+                           </div>
+                       )}
                     </div>
                   )}
                 </div>
               );
             })}
           </div>
-          
+
           {/* Calendar Legend */}
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-2"> {/* Centered legend */}
             <div className="flex items-center">
-              <span className="w-3 h-3 inline-block bg-pink-500 rounded-full mr-1"></span>
-              <span className="text-xs">{locale === 'en' ? 'Cultural' : 'Πολιτιστικά'}</span>
+              <span className={`w-3 h-3 inline-block ${getCategoryColor('cultural')} rounded-full mr-1.5`}></span>
+              <span className="text-xs text-gray-700">{t('events.legendCultural')}</span> {/* Use t */}
             </div>
             <div className="flex items-center">
-              <span className="w-3 h-3 inline-block bg-green-500 rounded-full mr-1"></span>
-              <span className="text-xs">{locale === 'en' ? 'Sports' : 'Αθλητισμός'}</span>
+              <span className={`w-3 h-3 inline-block ${getCategoryColor('sports')} rounded-full mr-1.5`}></span>
+              <span className="text-xs text-gray-700">{t('events.legendSports')}</span> {/* Use t */}
             </div>
             <div className="flex items-center">
-              <span className="w-3 h-3 inline-block bg-blue-500 rounded-full mr-1"></span>
-              <span className="text-xs">{locale === 'en' ? 'Religious' : 'Θρησκευτικά'}</span>
+              <span className={`w-3 h-3 inline-block ${getCategoryColor('religious')} rounded-full mr-1.5`}></span>
+              <span className="text-xs text-gray-700">{t('events.legendReligious')}</span> {/* Use t */}
             </div>
             <div className="flex items-center">
-              <span className="w-3 h-3 inline-block bg-amber-500 rounded-full mr-1"></span>
-              <span className="text-xs">{locale === 'en' ? 'Local' : 'Τοπικά'}</span>
+              <span className={`w-3 h-3 inline-block ${getCategoryColor('local')} rounded-full mr-1.5`}></span>
+              <span className="text-xs text-gray-700">{t('events.legendLocal')}</span> {/* Use t */}
             </div>
           </div>
         </div>
       </div>
-      
+
       {/* Event Detail Dialog */}
       {selectedEvent && (
         <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
-          <DialogContent className="sm:max-w-md">
+          <DialogContent className="sm:max-w-lg"> {/* Slightly wider dialog */}
             <DialogHeader>
-              <DialogTitle className="text-xl">{selectedEvent.title}</DialogTitle>
-              <DialogDescription className="text-sm text-muted-foreground">
-                <span className={`inline-block px-2 py-1 rounded text-white text-xs ${getCategoryColor(selectedEvent.category)}`}>
-                  {getCategoryName(selectedEvent.category)}
+              <DialogTitle className="text-xl font-semibold">{t(selectedEvent.titleKey)}</DialogTitle> {/* Use t */}
+              <DialogDescription className="pt-1"> {/* Adjusted spacing */}
+                <span className={`inline-block px-2 py-0.5 rounded text-white text-xs font-medium ${getCategoryColor(selectedEvent.category)}`}>
+                  {getCategoryName(selectedEvent.category)} {/* Use helper */}
                 </span>
               </DialogDescription>
             </DialogHeader>
-            
-            <div className="space-y-4 mt-2">
+
+            <div className="space-y-4 mt-4"> {/* Added margin top */}
               <div className="flex items-start">
-                <CalendarIcon className="w-5 h-5 mr-2 text-blue-600 mt-0.5" />
+                <CalendarIcon className="w-5 h-5 mr-3 text-blue-600 mt-1 flex-shrink-0" /> {/* Adjusted spacing/shrink */}
                 <div>
-                  <p className="font-medium">{selectedEvent.date.toLocaleDateString(locale === 'el' ? 'el-GR' : 'en-US', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
+                  <p className="font-medium text-gray-800">{selectedEvent.date.toLocaleDateString(locale === 'el' ? 'el-GR' : 'en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
                   })}</p>
                   <p className="text-sm text-muted-foreground">{selectedEvent.time}</p>
                 </div>
               </div>
-              
+
               <div className="flex items-start">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 text-blue-600 mt-0.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                <p>{selectedEvent.location}</p>
+                 <MapPin className="w-5 h-5 mr-3 text-blue-600 mt-1 flex-shrink-0" /> {/* Use MapPin icon */}
+                <p className="text-gray-800">{selectedEvent.location}</p>
               </div>
-              
+
               <div>
-                <h4 className="font-medium mb-1">{locale === 'en' ? 'Description' : 'Περιγραφή'}</h4>
-                <p className="text-muted-foreground">{selectedEvent.description}</p>
+                <h4 className="font-medium mb-1 text-gray-800">{t('events.dialogDescriptionLabel')}</h4> {/* Use t */}
+                <p className="text-muted-foreground text-sm">{t(selectedEvent.descriptionKey)}</p> {/* Use t */}
               </div>
             </div>
-            
-            <div className="mt-4 flex justify-end">
+
+            <div className="mt-6 flex justify-end"> {/* Adjusted margin top */}
               <DialogClose asChild>
                 <Button variant="outline">
-                  {locale === 'en' ? 'Close' : 'Κλείσιμο'}
+                  {t('common.close')} {/* Use common translation */}
                 </Button>
               </DialogClose>
             </div>
