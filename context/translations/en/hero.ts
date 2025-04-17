@@ -1,6 +1,6 @@
 export const hero = {
-    title: "Καλώς ήρθατε στην Ολυμπιάδα",
-    subtitle: "Ανακαλύψτε το κρυμμένο διαμάντι της Μεσογείου, όπου η ιστορία συναντά τη φυσική ομορφιά",
-    bookStay: "Κλείστε Διαμονή",
-    explore: "Εξερευνήστε"
-}
+    title: "Welcome to Olympiada",
+    subtitle: "Discover the hidden gem of the Mediterranean coast, where history meets natural beauty",
+    bookStay: "Book Your Stay",
+    explore: "Explore"
+  }

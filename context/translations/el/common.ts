@@ -1,4 +1,4 @@
 export const common = {
-        close: "Close",
-        reviews: "reviews",
+        close: "Κλείσιμο",
+        reviews: "κριτικές",
 }

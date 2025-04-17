@@ -6,7 +6,7 @@ export const translations = {
   el
 };
 
-// Define the type for translations for better TypeScript support
+// These types help TypeScript understand the structure
 export type TranslationsType = typeof translations;
 export type LocaleType = keyof TranslationsType;
-export type TranslationKeys = keyof TranslationsType['en'];
+export type TranslationKeys = keyof typeof en;
