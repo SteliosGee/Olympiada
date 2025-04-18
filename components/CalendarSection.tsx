@@ -290,45 +290,45 @@ export default function CalendarSection() {
       {/* Event Detail Dialog */}
       {selectedEvent && (
         <Dialog open={!!selectedEvent} onOpenChange={() => setSelectedEvent(null)}>
-          <DialogContent className="sm:max-w-lg"> {/* Slightly wider dialog */}
+          <DialogContent className="sm:max-w-lg p-4 sm:p-6 max-h-[85vh] overflow-y-auto"> {/* Adjusted padding & added max-height/overflow */}
             <DialogHeader>
-              <DialogTitle className="text-xl font-semibold">{t(selectedEvent.titleKey)}</DialogTitle> {/* Use t */}
-              <DialogDescription className="pt-1"> {/* Adjusted spacing */}
+              <DialogTitle className="text-lg sm:text-xl font-semibold">{t(selectedEvent.titleKey)}</DialogTitle> {/* Adjusted text size */}
+              <DialogDescription className="pt-1">
                 <span className={`inline-block px-2 py-0.5 rounded text-white text-xs font-medium ${getCategoryColor(selectedEvent.category)}`}>
-                  {getCategoryName(selectedEvent.category)} {/* Use helper */}
+                  {getCategoryName(selectedEvent.category)}
                 </span>
               </DialogDescription>
             </DialogHeader>
 
-            <div className="space-y-4 mt-4"> {/* Added margin top */}
+            <div className="space-y-3 sm:space-y-4 mt-4"> {/* Adjusted spacing */}
               <div className="flex items-start">
-                <CalendarIcon className="w-5 h-5 mr-3 text-blue-600 mt-1 flex-shrink-0" /> {/* Adjusted spacing/shrink */}
+                <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-blue-600 mt-1 flex-shrink-0" /> {/* Adjusted size/margin */}
                 <div>
-                  <p className="font-medium text-gray-800">{selectedEvent.date.toLocaleDateString(locale === 'el' ? 'el-GR' : 'en-US', {
+                  <p className="font-medium text-gray-800 text-sm sm:text-base">{selectedEvent.date.toLocaleDateString(locale === 'el' ? 'el-GR' : 'en-US', {
                     weekday: 'long',
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
                   })}</p>
-                  <p className="text-sm text-muted-foreground">{selectedEvent.time}</p>
+                  <p className="text-xs sm:text-sm text-muted-foreground">{selectedEvent.time}</p> {/* Adjusted text size */}
                 </div>
               </div>
 
               <div className="flex items-start">
-                 <MapPin className="w-5 h-5 mr-3 text-blue-600 mt-1 flex-shrink-0" /> {/* Use MapPin icon */}
-                <p className="text-gray-800">{selectedEvent.location}</p>
+                 <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-blue-600 mt-1 flex-shrink-0" /> {/* Adjusted size/margin */}
+                <p className="text-gray-800 text-sm sm:text-base">{selectedEvent.location}</p> {/* Adjusted text size */}
               </div>
 
               <div>
-                <h4 className="font-medium mb-1 text-gray-800">{t('events.dialogDescriptionLabel')}</h4> {/* Use t */}
-                <p className="text-muted-foreground text-sm">{t(selectedEvent.descriptionKey)}</p> {/* Use t */}
+                <h4 className="font-medium mb-1 text-gray-800 text-sm sm:text-base">{t('events.dialogDescriptionLabel')}</h4> {/* Adjusted text size */}
+                <p className="text-muted-foreground text-xs sm:text-sm">{t(selectedEvent.descriptionKey)}</p> {/* Adjusted text size */}
               </div>
             </div>
 
-            <div className="mt-6 flex justify-end"> {/* Adjusted margin top */}
+            <div className="mt-5 sm:mt-6 flex justify-end"> {/* Adjusted margin top */}
               <DialogClose asChild>
-                <Button variant="outline">
-                  {t('common.close')} {/* Use common translation */}
+                <Button variant="outline" size="sm" className="w-full sm:w-auto"> {/* Full width on mobile, adjusted size */}
+                  {t('common.close')}
                 </Button>
               </DialogClose>
             </div>

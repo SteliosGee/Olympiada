@@ -23,19 +23,18 @@ export const activities = {
           location: "Main Beach, Olympiada",
         },
         {
-          title: "Hiking & Nature Walks",
-          shortDescription: "Explore scenic trails through olive groves and coastal paths",
-          fullDescription: "Discover the natural beauty of Olympiada and its surroundings through our network of well-maintained hiking trails. From easy coastal walks to more challenging mountain paths, there's a route for everyone.",
+          title: "Hiking to the Waterfalls",
+          shortDescription: "Explore scenic trails and discover hidden waterfalls",
+          fullDescription: "Discover the beauty of nature with a hike to the waterfalls near Olympiada. Follow marked trails that lead you to hidden waterfalls and swimming holes, perfect for a refreshing dip and relaxation.",
           image: "/assets/hiking/primer.jpg",
           details: [
-            "Maps available at the tourist office",
-            "Guided tours with local experts",
             "Various difficulty levels",
-            "Rich biodiversity and stunning vistas",
-            "Ancient ruins along several routes"
+            "Marked trails",
+            "High mountains and lush forests",
+            "Waterfalls and swimming holes",
+            "Relaxing experience in nature"
           ],
-          contactInfo: "Inquire at Village Information Center or call +30 23760 51234",
-          location: "Various trailheads around Olympiada"
+          location: "Varvara Waterfalls, 10km from Olympiada",
         },
         {
           title: "Island Visit",
@@ -49,7 +48,6 @@ export const activities = {
             "Swimming in crystal clear waters",
             "Uninhabited island exploration"
           ],
-          contactInfo: "Book at the harbor or call Captain Yannis at +30 694 523 7891",
           location: "Departures from Olympiada Harbor"
         },
         {
@@ -64,8 +62,7 @@ export const activities = {
             "Archaeological museum nearby",
             "Combined tickets available for multiple sites"
           ],
-          contactInfo: "Tours start at the Archaeological Museum or call +30 23760 51234",
-          location: "2km from Olympiada village center"
+          location: "1km from Olympiada village center"
         },
         {
           title: "Rental Boats",
@@ -94,7 +91,6 @@ export const activities = {
             "Religious processions",
             "Annual Sardine Festival in July"
           ],
-          contactInfo: "Check event schedule at Village Information Center",
           location: "Village square and beach area"
         }
       ]
