@@ -9,6 +9,7 @@ import { events } from './events';
 import { gallery } from './gallery';
 import { stay } from './stay';
 import { map } from './map';
+import { footer } from './footer'
 // Import other modules
 // import { navigation } from './navigation';
 // import { history } from './history';
@@ -26,5 +27,6 @@ export const en = {
     gallery,
     stay,
     map,
+    footer,
   // Add other sections
 };

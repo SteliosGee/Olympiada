@@ -6,6 +6,7 @@ import {
   Anchor,
   MapPin,
   Menu,
+  Mail
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState, useEffect } from "react";
@@ -186,7 +187,7 @@ export default function Home() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="border-white text-white hover:bg-blue-700"
+                className="bg-white text-blue-600 hover:bg-blue-50"
               >
                 <Link href="#contact">Contact Us</Link>
               </Button>
@@ -194,129 +195,33 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <footer className="border-t bg-slate-50 py-12">
-        <div className="container">
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            <div>
-              <Link
-                href="/"
-                className="flex items-center gap-2 text-xl font-bold"
-              >
-                <Anchor className="h-6 w-6" />
-                <span>Olympiada</span>
+      <footer className="border-t bg-slate-50 py-12 px-4 sm:px-6">
+        <div className="container mx-auto">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-slate-500">
+                Made by {t('footer.author')}
+              </span>
+            </div>
+            <div className="flex items-center gap-6">
+              <Link href="mailto:stelios.galegalidis@gmail.com" target="_blank" className="inline-flex items-center justify-center" aria-label="Email">
+                <Mail className="h-5 w-5 text-blue-600 hover:text-blue-800" />
               </Link>
-              <p className="mt-4 text-sm text-muted-foreground">
-                A charming coastal village in Halkidiki, Greece, offering
-                natural beauty, rich history, and authentic experiences.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">Quick Links</h3>
-              <ul className="mt-4 space-y-2">
-                <li>
-                  <Link
-                    href="#about"
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    About
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#history"
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    History
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#activities"
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    Activities
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#accommodations"
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    Stay
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#gallery"
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    Gallery
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="#dining"
-                    className="text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    Dining
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">Contact</h3>
-              <ul className="mt-4 space-y-2">
-                <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <MapPin className="h-4 w-4" />
-                  <span>Olympiada, Halkidiki, Greece</span>
-                </li>
-                <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span className="h-4 w-4">✉️</span>
-                  <span>info@olympiada-village.gr</span>
-                </li>
-                <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <span className="h-4 w-4">📞</span>
-                  <span>+30 23760 51234</span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold">{t("footer.author")}</h3>
-              <div className="mt-4 flex gap-4">
-                <Link
-                  href="https://www.facebook.com/steliosgee"
-                  className="rounded-full p-2 hover:bg-slate-300"
-                >
-                  <span className="sr-only">Facebook</span>
-                  <FontAwesomeIcon icon={faFacebook} className="h-5 w-5" />
-                </Link>
-                <Link
-                  href="https://www.instagram.com/_stelios.g_/"
-                  className="rounded-full p-2 hover:bg-slate-300"
-                >
-                  <span className="sr-only">Instagram</span>
-                  <FontAwesomeIcon icon={faInstagram} className="h-5 w-5" />
-        
-                </Link>
-                <Link
-                  href="https://github.com/SteliosGee"
-                  className="rounded-full p-2 hover:bg-slate-300"
-                >
-                  <span className="sr-only">Github</span>
-                  <FontAwesomeIcon icon={faGithub} className="h-5 w-5" />
-                </Link>
-              </div>
-              <div className="mt-4">
-                <Button asChild variant="outline" className="w-full">
-                  <Link href="#newsletter">Subscribe to Newsletter</Link>
-                </Button>
-              </div>
+              <Link href="https://www.instagram.com" target="_blank" className="inline-flex items-center justify-center" aria-label="Instagram">
+                <FontAwesomeIcon icon={faInstagram} className="h-5 w-5 text-blue-600 hover:text-blue-800" style={{ verticalAlign: 'middle' }} />
+              </Link>
+              <Link href="https://www.facebook.com" target="_blank" className="inline-flex items-center justify-center" aria-label="Facebook">
+                <FontAwesomeIcon icon={faFacebook} className="h-5 w-5 text-blue-600 hover:text-blue-800" style={{ verticalAlign: 'middle' }} />
+              </Link>
+              <Link href="https://github.com" target="_blank" className="inline-flex items-center justify-center" aria-label="GitHub">
+                <FontAwesomeIcon icon={faGithub} className="h-5 w-5 text-blue-600 hover:text-blue-800" style={{ verticalAlign: 'middle' }} />
+              </Link>
             </div>
           </div>
-          <div className="mt-8 border-t pt-8 text-center">
-            <p className="text-sm text-muted-foreground">
-              &copy; {new Date().getFullYear()} Olympiada Village. All rights
-              reserved.
+          <div className="my-4 border-t border-slate-200 w-full"></div>
+          <div className="mt-4 text-sm text-slate-500 text-center">
+            <p>
+              &copy; {new Date().getFullYear()} Olympiada. All rights reserved.
             </p>
           </div>
         </div>
