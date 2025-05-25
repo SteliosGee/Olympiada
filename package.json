@@ -2,11 +2,14 @@
   "name": "my-v0-project",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://SteliosGee.github.io/Olympiada",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+      "predeploy": "npm run build",
+  "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -47,6 +50,7 @@
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
     "framer-motion": "^12.5.0",
+    "gh-pages": "^6.3.0",
     "input-otp": "1.4.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.454.0",
