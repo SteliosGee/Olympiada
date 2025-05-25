@@ -169,11 +169,10 @@ export default function Home() {
         <section className="bg-blue-600 py-16 text-white md:py-24">
           <div className="container text-center mx-auto">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Plan Your Visit to Olympiada
+              {t('footer.title')}
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-blue-100">
-              Experience the magic of our coastal village. Book your stay now
-              and create memories that will last a lifetime.
+              {t('footer.description')}
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               <Button
@@ -181,15 +180,7 @@ export default function Home() {
                 size="lg"
                 className="bg-white text-blue-600 hover:bg-blue-50"
               >
-                <Link href="#accommodations">Book Accommodation</Link>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="bg-white text-blue-600 hover:bg-blue-50"
-              >
-                <Link href="#contact">Contact Us</Link>
+                <Link href="#accommodations">{t('footer.bookAccommodation')}</Link>
               </Button>
             </div>
           </div>
