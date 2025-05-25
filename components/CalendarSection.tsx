@@ -47,7 +47,7 @@ const sampleEvents: Event[] = [
     id: '3',
     titleKey: 'events.sampleEvent3Title',
     descriptionKey: 'events.sampleEvent3Desc',
-    date: new Date(new Date().getFullYear(), 3, 7), // July 7th
+    date: new Date(new Date().getFullYear(), 5, 7), // July 7th
     location: 'Village Church',
     time: '09:00 - 13:00',
     category: 'religious',
@@ -56,7 +56,7 @@ const sampleEvents: Event[] = [
     id: '4',
     titleKey: 'events.sampleEvent4Title',
     descriptionKey: 'events.sampleEvent4Desc',
-    date: new Date(new Date().getFullYear(), 3, 20), // August 20th
+    date: new Date(new Date().getFullYear(), 4, 28), // August 20th
     location: 'Market Street',
     time: '09:00 - 14:00',
     category: 'local',
