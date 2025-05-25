@@ -21,6 +21,7 @@ const nextConfig = {
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
   },
+  output: 'export', // ✅ THIS LINE IS CRUCIAL FOR STATIC EXPORT
 }
 
 mergeConfig(nextConfig, userConfig)
