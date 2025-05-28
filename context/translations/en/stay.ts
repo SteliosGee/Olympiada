@@ -1,3 +1,5 @@
+import { clear } from "console";
+
 export const stay = {
     title: "Where to stay",
     subtitle: "From traditional guesthouses to beachfront villas, find your perfect accommodation",
@@ -37,5 +39,20 @@ export const stay = {
             description: "Luxury villa with a pool and stunning sea views.",
             amenities: ["Free parking", "Free WiFi", "Non-smoking rooms", "Room service"]
         }
-    }
+    },
+    search: "Search accommodations",
+    priceRange: "Price range",
+    sortBy: "Sort by",
+    searchPlaceholder: "Search by name or location",
+    allPrices: "All prices",
+    sortByName: "Name",
+    sortByPrice: "Price",
+    showingResults: "Showing results for",
+    noResults: "No results found",
+    loading: "Loading accommodations...",
+    error: "Error loading accommodations. Please try again later.",
+    clearFilters: "Clear filters",
+    budget: "Budget",
+    midRange: "Mid-range",
+    luxury: "Luxury",
 }

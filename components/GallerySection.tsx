@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useLanguage } from "@/context/LanguageContext";
-import { Camera, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Camera, X, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 const galleryImages = [
@@ -18,13 +18,11 @@ const galleryImages = [
 ];
 
 export default function GallerySection() {
+    const { t, changeLanguage } = useLanguage();
     const [lightboxImage, setLightboxImage] = useState<string | null>(null);
     const [showFullGallery, setShowFullGallery] = useState(false);
-    const { locale, t, changeLanguage } = useLanguage();
-    
-    // Determine how many images to show in the first row based on screen size
-    // We'll show 2 on mobile, 3 on medium screens, 4 on large screens
-    const firstRowCount = 4; // This will adapt based on grid-cols classes
+    const [imageLoadStates, setImageLoadStates] = useState<Record<string, boolean>>({});
+    const [currentLightboxIndex, setCurrentLightboxIndex] = useState(0);
 
     useEffect(() => {
       const savedLocale = localStorage.getItem('locale');
@@ -32,6 +30,24 @@ export default function GallerySection() {
         changeLanguage(savedLocale as 'en' | 'el');  
       }
     }, [changeLanguage]);
+
+    const handleImageLoad = (src: string) => {
+        setImageLoadStates(prev => ({ ...prev, [src]: true }));
+    };
+
+    const navigateLightbox = (direction: 'prev' | 'next') => {
+        const currentIndex = galleryImages.indexOf(lightboxImage!);
+        let newIndex;
+        
+        if (direction === 'prev') {
+          newIndex = currentIndex > 0 ? currentIndex - 1 : galleryImages.length - 1;
+        } else {
+          newIndex = currentIndex < galleryImages.length - 1 ? currentIndex + 1 : 0;
+        }
+        
+        setLightboxImage(galleryImages[newIndex]);
+        setCurrentLightboxIndex(newIndex);
+    };
 
     // Toggle full gallery display
     const toggleFullGallery = () => {
@@ -51,36 +67,75 @@ export default function GallerySection() {
     // Get visible images based on current state
     const visibleImages = showFullGallery 
         ? galleryImages 
-        : galleryImages.slice(0, firstRowCount);
+        : galleryImages.slice(0, 4);
+
+    const ImageCard = ({ src, index }: { src: string; index: number }) => (
+        <div 
+          className="group relative aspect-square overflow-hidden rounded-lg cursor-pointer"
+          onClick={() => {
+            setLightboxImage(src);
+            setCurrentLightboxIndex(index);
+          }}
+        >
+          {!imageLoadStates[src] && (
+            <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+          )}
+          <Image
+            src={src}
+            alt={`Gallery image ${index + 1}`}
+            fill
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+            className={`object-cover transition-all duration-500 group-hover:scale-110 ${
+              imageLoadStates[src] ? 'opacity-100' : 'opacity-0'
+            }`}
+            onLoad={() => handleImageLoad(src)}
+            loading={index < 4 ? 'eager' : 'lazy'}
+          />
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+          <div className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm rounded-full p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <Camera className="h-4 w-4" />
+          </div>
+        </div>
+      );
 
     return (
         <>
             {lightboxImage && (
-                <div
-                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-2 sm:p-4"
-                    onClick={() => setLightboxImage(null)}
-                >
-                    <div className="relative max-h-[95vh] max-w-[95vw] sm:max-h-[90vh] sm:max-w-[90vw]">
-                        <div className="relative h-auto w-auto">
-                            <Image
-                                src={lightboxImage}
-                                alt="Gallery image"
-                                width={800}
-                                height={600}
-                                className="max-h-[85vh] rounded-md object-contain"
-                            />
-                        </div>
-                        <button
-                            className="absolute -right-2 -top-2 sm:-right-4 sm:-top-4 rounded-full bg-white p-1 sm:p-2 shadow-lg"
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setLightboxImage(null);
-                            }}
-                        >
-                            <X className="h-4 w-4 sm:h-6 sm:w-6" />
-                            <span className="sr-only">Close</span>
-                        </button>
+                <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4">
+                    <button
+                        onClick={() => setLightboxImage(null)}
+                        className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
+                    >
+                        <X className="h-8 w-8" />
+                    </button>
+                    
+                    {/* Navigation arrows */}
+                    <button
+                        onClick={() => navigateLightbox('prev')}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 z-10"
+                    >
+                        <ChevronLeft className="h-12 w-12" />
+                    </button>
+                    
+                    <button
+                        onClick={() => navigateLightbox('next')}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 z-10"
+                    >
+                        <ChevronRight className="h-12 w-12" />
+                    </button>
+
+                    {/* Image counter */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm">
+                        {currentLightboxIndex + 1} / {galleryImages.length}
                     </div>
+                    
+                    <Image
+                        src={lightboxImage}
+                        alt="Gallery image"
+                        width={1200}
+                        height={800}
+                        className="max-w-full max-h-full object-contain"
+                    />
                 </div>
             )}
             
@@ -115,24 +170,24 @@ export default function GallerySection() {
                     </div>
                     
                     <div className="mt-8 flex justify-center">
-    <Button 
-        onClick={toggleFullGallery}
-        className="flex items-center gap-2"
-        variant="outline"
-    >
-        {showFullGallery ? (
-            <>
-                {t('gallery.showLess') || "Show Less"} 
-                <ChevronUp className="h-4 w-4" />
-            </>
-        ) : (
-            <>
-                {t('gallery.viewFullGallery') || "View Full Gallery"} 
-                <ChevronDown className="h-4 w-4" />
-            </>
-        )}
-    </Button>
-</div>
+                        <Button 
+                            onClick={toggleFullGallery}
+                            className="flex items-center gap-2"
+                            variant="outline"
+                        >
+                            {showFullGallery ? (
+                                <>
+                                    {t('gallery.showLess') || "Show Less"} 
+                                    <ChevronUp className="h-4 w-4" />
+                                </>
+                            ) : (
+                                <>
+                                    {t('gallery.viewFullGallery') || "View Full Gallery"} 
+                                    <ChevronDown className="h-4 w-4" />
+                                </>
+                            )}
+                        </Button>
+                    </div>
                 </div>
             </section>
         </>

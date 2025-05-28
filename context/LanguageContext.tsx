@@ -1,62 +1,70 @@
 "use client";
 
-import { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import { createContext, useState, useContext, useEffect, ReactNode, useCallback } from 'react';
 import { translations, TranslationsType, LocaleType } from './translations';
 
 type LanguageContextType = {
   locale: LocaleType;
-  t: (key: string) => any; // Changed return type from string to any
+  t: (key: string, fallback?: string, variables?: Record<string, any>) => any;
   changeLanguage: (locale: LocaleType) => void;
+  isLoading: boolean;
 };
 
 const LanguageContext = createContext<LanguageContextType>({
   locale: 'en',
   t: () => '', // Default still returns string, but type allows more
   changeLanguage: () => {},
+  isLoading: true,
 });
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   const [locale, setLocale] = useState<LocaleType>('en');
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Adjust the function implementation return type and logic slightly
-  const t = (key: string): any => { // Changed return type from string to any
-    const keys = key.split('.');
-    let value: any = translations[locale];
-
-    for (const k of keys) {
-      if (value && typeof value === 'object' && k in value) {
-        value = value[k as keyof typeof value];
-      } else {
-        // Return the key itself if not found
-        // console.warn(`Translation key "${key}" not found for locale "${locale}"`);
-        return key;
-      }
-    }
-
-    // Return the found value (could be string, array, object, etc.)
-    return value;
-  };
-
-  const changeLanguage = (newLocale: LocaleType) => {
-    setLocale(newLocale);
-    // Ensure document object exists (client-side only)
-    if (typeof window !== 'undefined') {
-        document.documentElement.lang = newLocale;
-        localStorage.setItem('locale', newLocale);
-    }
-  };
-
-  // Initialize from localStorage on the client side
   useEffect(() => {
+    // Load saved language preference
     const savedLocale = localStorage.getItem('locale') as LocaleType;
-    if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
+    if (savedLocale && ['en', 'el'].includes(savedLocale)) {
       setLocale(savedLocale);
-      document.documentElement.lang = savedLocale;
     }
+    setIsLoading(false);
+  }, []);
+
+  const t = useCallback((key: string, fallback?: string, variables?: Record<string, any>) => {
+    try {
+      const keys = key.split('.');
+      let value: any = translations[locale];
+      
+      for (const k of keys) {
+        if (value && typeof value === 'object' && k in value) {
+          value = value[k];
+        } else {
+          throw new Error(`Translation key not found: ${key}`);
+        }
+      }
+
+      // Handle variable substitution
+      if (typeof value === 'string' && variables) {
+        return value.replace(/\{\{(\w+)\}\}/g, (match, varName) => {
+          return variables[varName] || match;
+        });
+      }
+
+      return value;
+    } catch (error) {
+      console.warn(`Translation missing for key: ${key}`, error);
+      return fallback || key.split('.').pop() || key;
+    }
+  }, [locale]);
+
+  const changeLanguage = useCallback((newLocale: LocaleType) => {
+    setLocale(newLocale);
+    localStorage.setItem('locale', newLocale);
+    document.documentElement.lang = newLocale;
   }, []);
 
   return (
-    <LanguageContext.Provider value={{ locale, t, changeLanguage }}>
+    <LanguageContext.Provider value={{ locale, t, changeLanguage, isLoading }}>
       {children}
     </LanguageContext.Provider>
   );

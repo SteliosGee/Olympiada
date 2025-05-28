@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 // Removed Link import as it's not used directly for navigation here
 import { Calendar } from "lucide-react";
@@ -25,14 +25,17 @@ type Accommodation = {
 export default function AccommodationsSection() {
   const [showMoreAccommodations, setShowMoreAccommodations] = useState(false);
   const [selectedAccommodation, setSelectedAccommodation] = useState<Accommodation | null>(null);
-    const { locale, t, changeLanguage } = useLanguage();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [priceFilter, setPriceFilter] = useState<'all' | 'budget' | 'mid' | 'luxury'>('all');
+  const [sortBy, setSortBy] = useState<'price' | 'name' | 'rating'>('name');
+  const { locale, t, changeLanguage } = useLanguage();
 
-    useEffect(() => {
-      const savedLocale = localStorage.getItem('locale');
-      if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
-        changeLanguage(savedLocale as 'en' | 'el');
-      }
-    }, [changeLanguage]);
+  useEffect(() => {
+    const savedLocale = localStorage.getItem('locale');
+    if (savedLocale && (savedLocale === 'en' || savedLocale === 'el')) {
+      changeLanguage(savedLocale as 'en' | 'el');
+    }
+  }, [changeLanguage]);
 
   // Define all accommodations data (without translatable text)
   const accommodationsData: Accommodation[] = [
@@ -130,6 +133,33 @@ export default function AccommodationsSection() {
     </div>
   );
 
+  const filteredAndSortedAccommodations = useMemo(() => {
+    let filtered = accommodationsData.filter(acc => {
+      const matchesSearch = acc.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        t(`stay.accommodations.${acc.id}.description`).toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const price = parseInt(acc.price);
+      const matchesPrice = priceFilter === 'all' || 
+        (priceFilter === 'budget' && price < 80) ||
+        (priceFilter === 'mid' && price >= 80 && price < 150) ||
+        (priceFilter === 'luxury' && price >= 150);
+      
+      return matchesSearch && matchesPrice;
+    });
+
+    // Sort accommodations
+    return filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'price':
+          return parseInt(a.price) - parseInt(b.price);
+        case 'name':
+          return a.title.localeCompare(b.title);
+        default:
+          return 0;
+      }
+    });
+  }, [accommodationsData, searchTerm, priceFilter, sortBy, t]);
+
   return (
     <section id="accommodations" className="bg-slate-50 py-16 md:py-24 w-full">
       <div className="container mx-auto px-4">
@@ -143,9 +173,72 @@ export default function AccommodationsSection() {
           </p>
         </div>
 
+        {/* Search and Filter Controls */}
+        <div className="mb-8 bg-white p-6 rounded-lg shadow-sm">
+          <div className="grid gap-4 md:grid-cols-3">
+            <div>
+              <label className="block text-sm font-medium mb-2">{t('stay.search')}</label>
+              <input
+                type="text"
+                placeholder={t('stay.searchPlaceholder')}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium mb-2">{t('stay.priceRange')}</label>
+              <select
+                value={priceFilter}
+                onChange={(e) => setPriceFilter(e.target.value as typeof priceFilter)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="all">{t('stay.allPrices')}</option>
+                <option value="budget">{t('stay.budget')} (&lt;80€)</option>
+                <option value="mid">{t('stay.midRange')} (80-150€)</option>
+                <option value="luxury">{t('stay.luxury')} (&gt;150€)</option>
+              </select>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium mb-2">{t('stay.sortBy')}</label>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="name">{t('stay.sortByName')}</option>
+                <option value="price">{t('stay.sortByPrice')}</option>
+              </select>
+            </div>
+          </div>
+          
+          {/* Results count */}
+          <div className="mt-4 text-sm text-gray-600">
+            {`${t('stay.showingResults')} ${filteredAndSortedAccommodations.length}`}
+          </div>
+        </div>
+
         <div className="grid gap-6 md:grid-cols-3">
-          {/* Initial accommodations */}
-          {initialAccommodations.map((acc, index) => renderAccommodationCard(acc, `initial-acc-${index}`))}
+          {filteredAndSortedAccommodations.length > 0 ? (
+            filteredAndSortedAccommodations.map((acc, index) => renderAccommodationCard(acc, `filtered-acc-${index}`))
+          ) : (
+            <div className="col-span-full text-center py-12">
+              <div className="text-gray-500 mb-4">🔍</div>
+              <p className="text-gray-600">{t('stay.noResults')}</p>
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  setSearchTerm('');
+                  setPriceFilter('all');
+                }}
+                className="mt-4"
+              >
+                {t('stay.clearFilters')}
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Additional accommodations when "View More" is clicked */}

@@ -68,6 +68,8 @@ export default function CalendarSection() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [isCalendarAnimating, setIsCalendarAnimating] = useState(false);
+  const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
 
   // Function to generate calendar days
   const generateCalendarDays = () => {
@@ -181,6 +183,18 @@ export default function CalendarSection() {
            date.getFullYear() === today.getFullYear();
   };
 
+  const handleMonthChange = (direction: 'prev' | 'next') => {
+    setIsCalendarAnimating(true);
+    setTimeout(() => {
+      if (direction === 'prev') {
+        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
+      } else {
+        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1));
+      }
+      setIsCalendarAnimating(false);
+    }, 150);
+  };
+
   return (
     <section id="events" className="py-16 md:py-24">
       <div className="container mx-auto px-4"> {/* Added px-4 for padding */}
@@ -194,45 +208,65 @@ export default function CalendarSection() {
           </p>
         </div>
 
-        <div className="mt-10 bg-white p-4 md:p-6 rounded-lg shadow-lg"> {/* Increased shadow */}
+        <div className="mt-10 bg-white p-4 md:p-6 rounded-lg shadow-lg">
           <div className="flex items-center justify-between mb-6">
-            <Button variant="outline" size="icon" onClick={handlePreviousMonth}> {/* Icon size */}
+            <Button 
+              variant="outline" 
+              size="icon" 
+              onClick={() => handleMonthChange('prev')}
+              className="hover:bg-blue-50 transition-colors"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </Button>
-            <h3 className="text-xl font-semibold text-center flex-grow mx-4"> {/* Semibold, centered */}
+            
+            <h3 className={`text-xl font-semibold transition-opacity duration-150 ${
+              isCalendarAnimating ? 'opacity-50' : 'opacity-100'
+            }`}>
               {getMonthName(currentMonth)} {currentMonth.getFullYear()}
             </h3>
-            <Button variant="outline" size="icon" onClick={handleNextMonth}> {/* Icon size */}
+            
+            <Button 
+              variant="outline" 
+              size="icon" 
+              onClick={() => handleMonthChange('next')}
+              className="hover:bg-blue-50 transition-colors"
+            >
              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </Button>
           </div>
 
-          {/* Calendar Grid */}
-          <div className="grid grid-cols-7 gap-1 mb-2 border-b border-gray-200 pb-2"> {/* Added border */}
-            {[0, 1, 2, 3, 4, 5, 6].map((dayIndex) => (
-              <div key={dayIndex} className="text-center py-2 font-medium text-sm text-gray-600"> {/* Adjusted style */}
-                {getDayLabel(dayIndex)} {/* Use t function via helper */}
+          {/* Enhanced calendar grid with hover effects */}
+          <div className={`grid grid-cols-7 gap-2 transition-opacity duration-150 ${
+            isCalendarAnimating ? 'opacity-50' : 'opacity-100'
+          }`}>
+            {/* Day headers */}
+            {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((day) => (
+              <div key={day} className="p-2 text-center font-medium text-gray-500 text-sm">
+                {getDayLabel(Number(day))}
               </div>
             ))}
-          </div>
-
-          <div className="grid grid-cols-7 gap-1">
+            
+            {/* Calendar days with enhanced interactions */}
             {calendarDays.map((day, index) => {
               const eventsOnDate = getEventsForDate(day.date);
-              const isCurrent = day.isCurrentMonth;
-              const isTodaysDate = isToday(day.date);
-
+              const isCurrent = day.date.getMonth() === currentMonth.getMonth();
+              const isHovered = hoveredDate?.toDateString() === day.date.toDateString();
+              
               return (
                 <div
                   key={index}
-                  className={`relative min-h-[100px] p-1.5 border rounded-md transition-colors duration-150 ${ // Adjusted padding/rounding
-                    isCurrent ? 'bg-white hover:bg-gray-50' : 'bg-gray-50 text-gray-400'
-                  } ${isTodaysDate && isCurrent ? 'border-blue-500 border-2' : 'border-gray-200'} ${isCurrent ? 'cursor-pointer' : 'cursor-default'}`}
+                  className={`min-h-[80px] p-2 border rounded-lg transition-all duration-200 ${
+                    isCurrent 
+                      ? 'bg-white hover:bg-blue-50 border-gray-200 hover:border-blue-300 cursor-pointer' 
+                      : 'bg-gray-50 border-gray-100'
+                  } ${isHovered ? 'shadow-md scale-105' : ''}`}
+                  onMouseEnter={() => isCurrent && setHoveredDate(day.date)}
+                  onMouseLeave={() => setHoveredDate(null)}
                   onClick={() => isCurrent && handleDateClick(day.date)}
                 >
                   <div className={`text-right mb-1 text-xs font-medium ${isCurrent ? 'text-gray-700' : 'text-gray-400'}`}> {/* Adjusted style */}
                     <span className={`inline-flex items-center justify-center rounded-full w-6 h-6 ${ // Adjusted size/display
-                      isTodaysDate && isCurrent ? 'bg-blue-600 text-white font-semibold' : ''
+                      isToday(day.date) && isCurrent ? 'bg-blue-600 text-white font-semibold' : ''
                     }`}>
                       {day.date.getDate()}
                     </span>

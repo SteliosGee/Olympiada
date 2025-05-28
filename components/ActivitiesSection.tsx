@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { SailboatIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -26,6 +26,8 @@ export default function ActivitiesSection() {
   const { locale, t, changeLanguage } = useLanguage();
   const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Client-side check for localStorage
@@ -49,10 +51,34 @@ export default function ActivitiesSection() {
     }
   }, []);
 
-  // Directly get activities using the t function.
-  // Type assertion might be needed if 'any' isn't specific enough,
-  // but '|| []' helps ensure it's at least an array.
-  const activities: Activity[] = (t('activities.items') as Activity[]) || [];
+  // Enhanced activities loading with error handling
+  const activities: Activity[] = useMemo(() => {
+    try {
+      setIsLoading(true);
+      const data = t('activities.items') as Activity[];
+      if (!Array.isArray(data)) {
+        throw new Error(`Expected array, got ${typeof data}`);
+      }
+      setError(null);
+      return data;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load activities');
+      return [];
+    } finally {
+      setIsLoading(false);
+    }
+  }, [t]);
+
+  // Loading skeleton component
+  const ActivitySkeleton = () => (
+    <div className="group relative overflow-hidden rounded-lg animate-pulse">
+      <div className="h-64 w-full bg-gray-300" />
+      <div className="absolute bottom-0 p-4 w-full">
+        <div className="h-6 bg-gray-400 rounded mb-2" />
+        <div className="h-4 bg-gray-400 rounded w-3/4" />
+      </div>
+    </div>
+  );
 
   // Optional: Keep console log for debugging during development
   useEffect(() => {
@@ -62,8 +88,6 @@ export default function ActivitiesSection() {
         console.warn(`Warning: t('activities.items') did not return an array for locale '${locale}'. Received:`, activities);
     }
   }, [locale, activities]);
-
-  // Removed the explicit error block before return
 
   return (
     <section id="activities" className="py-16 md:py-24">
@@ -78,40 +102,46 @@ export default function ActivitiesSection() {
           </p>
         </div>
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Keep Array.isArray check here for runtime safety before mapping */}
-          {Array.isArray(activities) && activities.map((activity, index) => (
-            <div
-              // Use a unique ID from the activity if available, otherwise fallback to index
-              key={activity.id || index}
-              className="group relative overflow-hidden rounded-lg cursor-pointer transition-transform hover:scale-[1.02]"
-              onClick={() => setSelectedActivity(activity)}
-            >
-              <Image
-                src={activity.image}
-                alt={activity.title}
-                width={600}
-                height={400}
-                className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-              <div className="absolute bottom-0 p-4 text-white">
-                <h3 className="text-xl font-bold">{activity.title}</h3>
-                <p className="mt-2">
-                  {activity.shortDescription}
-                </p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="mt-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm border-white/40 text-white"
-                >
-                  {t('activities.learnMore')}
-                </Button>
-              </div>
+          {isLoading ? (
+            Array.from({ length: 6 }).map((_, i) => <ActivitySkeleton key={i} />)
+          ) : error ? (
+            <div className="col-span-full text-center p-8">
+              <div className="text-red-500 mb-4">⚠️ {error}</div>
+              <Button onClick={() => window.location.reload()}>
+                {t('common.retry', 'Try Again')}
+              </Button>
             </div>
-          ))}
-          {/* Optional: Render a message if activities is not an array */}
-          {!Array.isArray(activities) && (
-              <p className="col-span-full text-center text-muted-foreground">Loading activities or none available...</p>
+          ) : (
+            activities.map((activity, index) => (
+              <div
+                // Use a unique ID from the activity if available, otherwise fallback to index
+                key={activity.id || index}
+                className="group relative overflow-hidden rounded-lg cursor-pointer transition-transform hover:scale-[1.02]"
+                onClick={() => setSelectedActivity(activity)}
+              >
+                <Image
+                  src={activity.image}
+                  alt={activity.title}
+                  width={600}
+                  height={400}
+                  className="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                <div className="absolute bottom-0 p-4 text-white">
+                  <h3 className="text-xl font-bold">{activity.title}</h3>
+                  <p className="mt-2">
+                    {activity.shortDescription}
+                  </p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm border-white/40 text-white"
+                  >
+                    {t('activities.learnMore')}
+                  </Button>
+                </div>
+              </div>
+            ))
           )}
         </div>
       </div>
