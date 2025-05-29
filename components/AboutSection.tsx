@@ -36,7 +36,7 @@ export default function AboutSection() {
           </div>
           <div className="relative h-[400px] overflow-hidden rounded-lg">
             <Image
-              src="/assets/olympiada.jpg"
+              src="/assets/test.jpg"
               alt="Olympiada Village View"
               fill
               className="object-cover border-[5px] rounded-lg border-black"

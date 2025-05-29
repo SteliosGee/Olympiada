@@ -1,34 +1,34 @@
 export const events = {
-    calendarTitle: "Ημερολόγιο Εκδηλώσεων Χωριού",
-    calendarDescription: "Ανακαλύψτε και συμμετέχετε σε τοπικές εκδηλώσεις που συμβαίνουν στην Ολυμπιάδα",
-    // Day labels (short)
-    dayMon: "Δευ",
-    dayTue: "Τρι",
-    dayWed: "Τετ",
-    dayThu: "Πεμ",
-    dayFri: "Παρ",
-    daySat: "Σαβ",
-    daySun: "Κυρ",
-    // Category names
-    categoryCultural: "Πολιτιστικό",
-    categorySports: "Αθλητικό",
-    categoryReligious: "Θρησκευτικό",
-    categoryLocal: "Τοπικό",
-    // Legend labels
-    legendCultural: "Πολιτιστικά",
-    legendSports: "Αθλητικά",
-    legendReligious: "Θρησκευτικά",
-    legendLocal: "Τοπικά",
-    // Dialog labels
-    dialogDescriptionLabel: "Περιγραφή",
-    // Note: 'Close' button text can use the common translation: t('common.close')
-    // Event details (Sample - Ideally this comes from a translatable data source)
-    sampleEvent1Title: "Τουρνουά Beach Volley",
-    sampleEvent1Desc: "Ετήσιο τουρνουά beach volley με ομάδες από όλη την Ελλάδα.",
-    sampleEvent2Title: "Πολιτιστική Βραδιά",
-    sampleEvent2Desc: "Παραδοσιακή ελληνική μουσική, χορευτικές παραστάσεις και τοπική κουζίνα.",
-    sampleEvent3Title: "Εορτή Αγίας Κυριακής",
-    sampleEvent3Desc: "Θρησκευτική εορτή προς τιμήν της Αγίας Κυριακής με ειδική λειτουργία και συγκέντρωση της κοινότητας.",
-    sampleEvent4Title: "Έκθεση Τοπικών Προϊόντων",
-    sampleEvent4Desc: "Παρουσίαση τοπικών προϊόντων όπως ελαιόλαδο, μέλι και χειροτεχνήματα.",
+  calendarTitle: "Ημερολόγιο Εκδηλώσεων",
+  calendarDescription: "Ανακαλύψτε προσεχείς εκδηλώσεις και δραστηριότητες στην Ολυμπιάδα",
+  // Day labels (short)
+  dayMon: "Δευ",
+  dayTue: "Τρί",
+  dayWed: "Τετ", 
+  dayThu: "Πέμ",
+  dayFri: "Παρ",
+  daySat: "Σάβ",
+  daySun: "Κυρ",
+  // Category names
+  categoryCultural: "Πολιτιστικές",
+  categorySports: "Αθλητικές",
+  categoryReligious: "Θρησκευτικές", 
+  categoryLocal: "Τοπικές",
+  // Legend labels
+  legendCultural: "Πολιτιστικές Εκδηλώσεις",
+  legendSports: "Αθλητικές Δραστηριότητες",
+  legendReligious: "Θρησκευτικές Εκδηλώσεις",
+  legendLocal: "Τοπικές Εκδηλώσεις",
+  // Dialog labels
+  dialogDescriptionLabel: "Περιγραφή",
+  // Note: 'Close' button text can use the common translation: t('common.close')
+  // Event details (Sample - Ideally this comes from a translatable data source)
+  sampleEvent1Title: "Τουρνουά Beach Volleyball",
+  sampleEvent1Desc: "Ετήσιος διαγωνισμός beach volleyball για όλα τα επίπεδα",
+  sampleEvent2Title: "Παραδοσιακή Ελληνική Βραδιά",
+  sampleEvent2Desc: "Ζήστε την αυθεντική ελληνική κουλτούρα με μουσική, χορό και τοπική κουζίνα",
+  sampleEvent3Title: "Κυριακάτικη Λειτουργία",
+  sampleEvent3Desc: "Εβδομαδιαία θρησκευτική λειτουργία στην εκκλησία του χωριού",
+  sampleEvent4Title: "Τοπική Αγορά",
+  sampleEvent4Desc: "Φρέσκα προϊόντα και χειροποίητα είδη από τοπικούς παραγωγούς"
 };

@@ -169,11 +169,20 @@ export default function CalendarSection() {
   };
 
   // Get day label using translation
-  const getDayLabel = (dayIndex: number) => {
-    // Map index (0-6) to key suffix (Mon-Sun)
-    const dayKeys = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const key = `events.day${dayKeys[dayIndex]}`;
-    return t(key);
+  const getDayLabel = (day: string) => {
+    // Map day abbreviations to translation keys
+    const dayKeyMap: Record<string, string> = {
+      'Su': 'events.daySun',
+      'Mo': 'events.dayMon', 
+      'Tu': 'events.dayTue',
+      'We': 'events.dayWed',
+      'Th': 'events.dayThu',
+      'Fr': 'events.dayFri',
+      'Sa': 'events.daySat'
+    };
+    
+    const key = dayKeyMap[day];
+    return t(key, day); // Fallback to the original abbreviation if translation missing
   };
 
   const isToday = (date: Date) => {
@@ -242,7 +251,7 @@ export default function CalendarSection() {
             {/* Day headers */}
             {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map((day) => (
               <div key={day} className="p-2 text-center font-medium text-gray-500 text-sm">
-                {getDayLabel(Number(day))}
+                {getDayLabel(day)}
               </div>
             ))}
             

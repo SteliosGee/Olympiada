@@ -15,6 +15,10 @@ const galleryImages = [
     "/assets/gallery/image6.jpg",
     "/assets/gallery/image7.jpg",
     "/assets/gallery/image8.jpg",
+    "/assets/gallery/image9.jpg",
+    "/assets/gallery/image10.jpg",
+    "/assets/gallery/image11.jpg",
+    "/assets/gallery/image12.jpg",
 ];
 
 export default function GallerySection() {
