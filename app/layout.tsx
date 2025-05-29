@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { LanguageProvider } from '@/context/LanguageContext';
 import Script from "next/script";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
   title: "Olympiada Village",
@@ -46,6 +47,7 @@ export default function RootLayout({
       <body>
         <LanguageProvider>
           {children}
+          <Analytics />
         </LanguageProvider>
       </body>
     </html>
